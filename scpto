@@ -1,0 +1,2 @@
+#!/bin/bash
+scp $1 jintack@jintack.cs.columbia.edu:~/$2

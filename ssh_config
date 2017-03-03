@@ -1,0 +1,33 @@
+Host s2r
+HostName seattle2.cs.columbia.edu
+User root
+ServerAliveInterval 100
+
+Host s2
+HostName seattle2.cs.columbia.edu
+User jintack
+ServerAliveInterval 100
+
+Host s2u
+HostName seattle2u.cs.columbia.edu
+User root
+
+Host s1
+HostName seattle.cs.columbia.edu
+User jintack
+ServerAliveInterval 100
+
+Host st
+HostName libation.cs.columbia.edu
+User soccertack
+ServerAliveInterval 100
+
+Host cubi
+HostName cubi.cs.columbia.edu
+User root
+ServerAliveInterval 100
+
+Host cubiu
+HostName cubiu.cs.columbia.edu
+User root
+ServerAliveInterval 100

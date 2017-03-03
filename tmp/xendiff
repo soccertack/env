@@ -1,0 +1,155 @@
+diff --git a/tools/libxl/libxlu_cfg_l.c b/tools/libxl/libxlu_cfg_l.c
+index 450863a..df352aa 100644
+--- a/tools/libxl/libxlu_cfg_l.c
++++ b/tools/libxl/libxlu_cfg_l.c
+@@ -610,10 +610,6 @@ int xlu__cfg_yyget_lineno (yyscan_t yyscanner );
+ 
+ void xlu__cfg_yyset_lineno (int line_number ,yyscan_t yyscanner );
+ 
+-int xlu__cfg_yyget_column  (yyscan_t yyscanner );
+-
+-void xlu__cfg_yyset_column (int column_no ,yyscan_t yyscanner );
+-
+ YYSTYPE * xlu__cfg_yyget_lval (yyscan_t yyscanner );
+ 
+ void xlu__cfg_yyset_lval (YYSTYPE * yylval_param ,yyscan_t yyscanner );
+@@ -766,7 +762,7 @@ YY_DECL
+ #line 53 "libxlu_cfg_l.l"
+ 
+ 
+-#line 770 "libxlu_cfg_l.c"
++#line 766 "libxlu_cfg_l.c"
+ 
+     yylval = yylval_param;
+ 
+@@ -975,7 +971,7 @@ YY_RULE_SETUP
+ #line 104 "libxlu_cfg_l.l"
+ YY_FATAL_ERROR( "flex scanner jammed" );
+ 	YY_BREAK
+-#line 979 "libxlu_cfg_l.c"
++#line 975 "libxlu_cfg_l.c"
+ case YY_STATE_EOF(INITIAL):
+ case YY_STATE_EOF(lexerr):
+ 	yyterminate();
+diff --git a/tools/libxl/libxlu_cfg_l.h b/tools/libxl/libxlu_cfg_l.h
+index 151064e..4078302 100644
+--- a/tools/libxl/libxlu_cfg_l.h
++++ b/tools/libxl/libxlu_cfg_l.h
+@@ -276,10 +276,6 @@ int xlu__cfg_yyget_lineno (yyscan_t yyscanner );
+ 
+ void xlu__cfg_yyset_lineno (int line_number ,yyscan_t yyscanner );
+ 
+-int xlu__cfg_yyget_column  (yyscan_t yyscanner );
+-
+-void xlu__cfg_yyset_column (int column_no ,yyscan_t yyscanner );
+-
+ YYSTYPE * xlu__cfg_yyget_lval (yyscan_t yyscanner );
+ 
+ void xlu__cfg_yyset_lval (YYSTYPE * yylval_param ,yyscan_t yyscanner );
+@@ -356,6 +352,6 @@ extern int xlu__cfg_yylex \
+ 
+ #line 104 "libxlu_cfg_l.l"
+ 
+-#line 360 "libxlu_cfg_l.h"
++#line 356 "libxlu_cfg_l.h"
+ #undef xlu__cfg_yyIN_HEADER
+ #endif /* xlu__cfg_yyHEADER_H */
+diff --git a/xen/arch/x86/x86_64/entry.S b/xen/arch/x86/x86_64/entry.S
+index b3d6e32..ede3fde 100644
+--- a/xen/arch/x86/x86_64/entry.S
++++ b/xen/arch/x86/x86_64/entry.S
+@@ -52,6 +52,15 @@ restore_all_guest:
+         movq  8(%rsp),%rcx            # RIP
+         movq  24(%rsp),%r11           # RFLAGS
+         movq  32(%rsp),%rsp           # RSP
++
++        cmp  $135792468, %rax		# if this is dummy hvc
++	jne orig_out
++	rdtsc
++	shl  $0x20, %rdx
++	or   %rax, %rdx
++	movq $135792469, %rax
++
++orig_out:
+         je    1f
+         sysretq
+ 1:      sysretl
+@@ -120,6 +129,14 @@ restore_all_xen:
+  * the space left by the trampoline.
+  */
+ ENTRY(syscall_enter)
++        cmp  $39, %rax		# if this is dummy hvc
++	jne orig_syscall_enter 
++	rdtsc
++	shl  $0x20, %rdx
++	or   %rax, %rdx
++	movq $39, %rax
++
++orig_syscall_enter:
+         sti
+         movl  $FLAT_KERNEL_SS,24(%rsp)
+         pushq %rcx
+@@ -772,6 +789,7 @@ ENTRY(hypercall_table)
+         .quad do_domctl
+         .quad do_kexec_op
+         .quad do_tmem_op
++	.quad do_dummy_hyp          /* 39 */
+         .rept __HYPERVISOR_arch_0-((.-hypercall_table)/8)
+         .quad do_ni_hypercall
+         .endr
+@@ -821,6 +839,7 @@ ENTRY(hypercall_args_table)
+         .byte 1 /* do_domctl            */
+         .byte 2 /* do_kexec             */
+         .byte 1 /* do_tmem_op           */
++        .byte 0 /* do_dummy_hyp		*/
+         .rept __HYPERVISOR_arch_0-(.-hypercall_args_table)
+         .byte 0 /* do_ni_hypercall      */
+         .endr
+@@ -876,4 +895,3 @@ autogen_stubs: /* Automatically generated stubs. */
+         .endr
+ 
+         .section .init.rodata
+-        .size autogen_entrypoints, . - autogen_entrypoints
+diff --git a/xen/common/kernel.c b/xen/common/kernel.c
+index d23c422..b336d71 100644
+--- a/xen/common/kernel.c
++++ b/xen/common/kernel.c
+@@ -224,6 +224,10 @@ void __init do_initcalls(void)
+ 
+ #endif
+ 
++DO(dummy_hyp)(void)
++{
++	return 135792468;
++}
+ /*
+  * Simple hypercalls.
+  */
+diff --git a/xen/include/public/xen.h b/xen/include/public/xen.h
+index a6a2092..51c05f4 100644
+--- a/xen/include/public/xen.h
++++ b/xen/include/public/xen.h
+@@ -100,7 +100,8 @@ DEFINE_XEN_GUEST_HANDLE(xen_ulong_t);
+ #define __HYPERVISOR_domctl               36
+ #define __HYPERVISOR_kexec_op             37
+ #define __HYPERVISOR_tmem_op              38
+-#define __HYPERVISOR_xc_reserved_op       39 /* reserved for XenClient */
++#define __HYPERVISOR_dummy_hyp		  39
++#define __HYPERVISOR_xc_reserved_op       40 /* reserved for XenClient */
+ 
+ /* Architecture-specific hypercall definitions. */
+ #define __HYPERVISOR_arch_0               48
+diff --git a/xen/include/xen/hypercall.h b/xen/include/xen/hypercall.h
+index 8c55779..1dafaba 100644
+--- a/xen/include/xen/hypercall.h
++++ b/xen/include/xen/hypercall.h
+@@ -18,6 +18,9 @@
+ #include <xsm/xsm.h>
+ 
+ extern long
++do_dummy_hyp(void);
++
++extern long
+ do_ni_hypercall(
+     void);
+ 
