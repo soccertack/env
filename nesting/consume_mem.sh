@@ -1,6 +1,7 @@
 #!/bin/bash
 
-TOTAL_RAM=64342
+TOTAL_RAM_KB=`cat /proc/meminfo | grep MemTotal | awk '{print $2}'`
+TOTAL_RAM=$(($TOTAL_RAM_KB/1024))
 SETUP_RAM=${1:-12}
 CONSUME_RAM=$((TOTAL_RAM-SETUP_RAM*1024))
 RAMDISK=/mnt/ramdisk
