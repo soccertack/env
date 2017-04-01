@@ -8,3 +8,9 @@ alias dgrep="dmesg | grep"
 alias kg="pgrep qemu | xargs sudo kill -9"
 alias gl="git log --oneline --decorate -n 10"
 alias r="./run.sh"
+
+# This is to set the title of the terminal.
+# e.g. $ title ML
+function title {
+    echo -ne "\033]0;"$*"\007"
+}
