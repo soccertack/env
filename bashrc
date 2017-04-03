@@ -1,5 +1,5 @@
 EXP_NO='$(uname -a | grep -o 'jintackl-qv[0-9]*' | grep -o '[0-9]*')'
-PS1="\e[38;5;208m[\h $EXP_NO \w]\e[38;5;147m\[\$(__git_ps1)$\[\033[0m\]"
+PS1="\e[38;5;208m[\h $EXP_NO \w]\e[38;5;147m\[\$(__git_ps1)\n$\[\033[0m\]"
 # More colors
 # http://misc.flogisoft.com/bash/tip_colors_and_formatting
 
