@@ -24,7 +24,6 @@ def setup_vim():
 
 def setup_bash():
 	os.system("cat "+BASHRC_SRC+" >> "+BASHRC_DEST)
-	os.system("source ~/.bashrc")
 
 def setup_git():
 	os.system("git config --global user.email jintack@cs.columbia.edu")
