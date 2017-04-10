@@ -7,6 +7,7 @@ alias grep="grep --color --exclude=cscope*"
 alias dgrep="dmesg | grep"
 alias kg="pgrep qemu | xargs sudo kill -9"
 alias gl="git log --oneline --decorate -n 10"
+alias gs="git status"
 alias r="./run.sh"
 
 # This is to set the title of the terminal.
