@@ -17,6 +17,7 @@ def gen_sshkey():
 	os.system("cat ~/.ssh/id_rsa.pub")
 
 def setup_packages():
+	os.system("sudo apt-get update")
 	os.system("sudo apt-get -y install vim exuberant-ctags git cscope pastebinit python-pexpect screen")
 
 def setup_vim():
