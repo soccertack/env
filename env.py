@@ -18,7 +18,7 @@ def gen_sshkey():
 
 def setup_packages():
 	os.system("sudo apt-get update")
-	os.system("sudo apt-get -y install vim exuberant-ctags git cscope pastebinit python-pexpect screen")
+	os.system("sudo apt-get -y install vim exuberant-ctags git cscope pastebinit python-pexpect screen expect")
 
 def setup_vim():
 	os.system("cat "+VIMRC_SRC+" >> "+VIMRC_DEST)
