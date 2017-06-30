@@ -43,3 +43,11 @@ function InsertIfEmpty()
 endfunction
 
 au VimEnter * call InsertIfEmpty()
+
+highlight OverLength ctermbg=red ctermfg=white guibg=#592929
+match OverLength /\%81v.\+/
+
+au FileType gitcommit set tw=72
+au FileType c set cc=80
+au FileType h set cc=80
+au FileType patch set cc=80
