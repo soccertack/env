@@ -39,6 +39,7 @@ def setup_git():
 	os.system("git config --global alias.f 'commit --fixup'")
 	os.system("git config --global alias.no 'notes add'")
 	os.system("git config --global rerere.enabled true")
+	os.system("git config --global alias.cp cherry-pick")
 
 def install_cscope():
 	os.system("wget http://cscope.sourceforge.net/cscope_maps.vim -P ~/.vim/plugin")
