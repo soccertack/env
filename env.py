@@ -36,6 +36,8 @@ def setup_git():
 	os.system("git config --global notes.rewrite.amend true")
 	os.system("git config --global notes.rewriteRef refs/notes/commits")
 	os.system("git config --global core.pager 'less -+F'")
+	os.system("git config --global alias.f 'commit --fixup'")
+	os.system("git config --global alias.no 'notes add'")
 
 def install_cscope():
 	os.system("wget http://cscope.sourceforge.net/cscope_maps.vim -P ~/.vim/plugin")
