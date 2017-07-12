@@ -40,6 +40,7 @@ def setup_git():
 	os.system("git config --global alias.no 'notes add'")
 	os.system("git config --global rerere.enabled true")
 	os.system("git config --global alias.cp cherry-pick")
+	os.system("echo 'set show-id = true' >> ~/.tigrc")
 
 def install_cscope():
 	os.system("wget http://cscope.sourceforge.net/cscope_maps.vim -P ~/.vim/plugin")
