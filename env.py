@@ -18,7 +18,7 @@ def gen_sshkey():
 
 def setup_packages():
 	os.system("sudo apt-get update")
-	os.system("sudo apt-get -y install vim exuberant-ctags git cscope pastebinit python-pexpect screen expect libncurses5-dev libncursesw5-dev")
+	os.system("sudo apt-get -y install vim exuberant-ctags git cscope pastebinit python-pexpect screen expect libncurses5-dev libncursesw5-dev u-boot-tools device-tree-compiler tig htop")
 
 def setup_vim():
 	os.system("cat "+VIMRC_SRC+" >> "+VIMRC_DEST)
@@ -35,6 +35,12 @@ def setup_git():
 	os.system("git config --global notes.rewrite.rebase true")
 	os.system("git config --global notes.rewrite.amend true")
 	os.system("git config --global notes.rewriteRef refs/notes/commits")
+	os.system("git config --global core.pager 'less -+F'")
+	os.system("git config --global alias.f 'commit --fixup'")
+	os.system("git config --global alias.no 'notes add'")
+	os.system("git config --global rerere.enabled true")
+	os.system("git config --global alias.cp cherry-pick")
+	os.system("echo 'set show-id = true' >> ~/.tigrc")
 
 def install_cscope():
 	os.system("wget http://cscope.sourceforge.net/cscope_maps.vim -P ~/.vim/plugin")
