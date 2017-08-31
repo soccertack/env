@@ -18,10 +18,11 @@ def main():
 	os.system("umount /mnt_l2")
 	os.system("umount /mnt")
 
-	os.system("cp /proj/kvmarm-PG0/jintack/scripts/run.sh /users/jintackl")
-	os.system("cp /proj/kvmarm-PG0/jintack/scripts/trap_count.sh /users/jintackl")
-	os.system("cp /proj/kvmarm-PG0/jintack/nested/consume_mem.sh /users/jintackl")
-	os.system("cp /proj/kvmarm-PG0/jintack/scripts/kvm_trace.sh /users/jintackl")
+	os.system("cp nesting/run.sh /users/jintackl")
+	os.system("cp nesting/trap_count.sh /users/jintackl")
+	os.system("cp nesting/consume_mem.sh /users/jintackl")
+	os.system("cp nesting/kvm_trace.sh /users/jintackl")
+	os.system("cp nesting/copy-ssh-key.sh /users/jintackl")
 	sys.exit(1)
 
 if __name__ == '__main__':
