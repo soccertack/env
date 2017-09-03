@@ -23,6 +23,7 @@ def main():
 	os.system("cp nesting/consume_mem.sh /users/jintackl")
 	os.system("cp nesting/kvm_trace.sh /users/jintackl")
 	os.system("cp nesting/copy-ssh-key.sh /users/jintackl")
+	os.system("cp nesting/pin_vcpus_all.sh /users/jintackl")
 	sys.exit(1)
 
 if __name__ == '__main__':
