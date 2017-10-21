@@ -20,3 +20,4 @@ function title {
 PATH=$PATH:/mydata/gcc-linaro/bin/:/mydata/gcc-linaro-arm32/bin/
 
 set formatoptions=cro
+export TERM=screen-256color
