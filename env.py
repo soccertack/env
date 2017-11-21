@@ -69,6 +69,9 @@ def main():
 	parser.add_argument("-a", "--all", help="setup all", action='store_true')
 	args = parser.parse_args()
 
+	# Set LANG
+	os.system("sudo update-locale LANG=en_US.UTF-8")
+	
 	setup_packages()
 	if args.all:
 		setup_vim()
