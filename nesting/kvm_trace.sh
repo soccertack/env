@@ -8,15 +8,22 @@ cmd=["Quit", "KVM All"]
 def show_traces():
 	i = 1
 	print "----------------------------------"
-	print '{:02}'.format(1)+".[-] "+cmd[i]
+	prev_item = '{:02}'.format(1)+".[-] "+cmd[i]
 	i +=1
 	for dirname in os.walk(KVM_TRACE_PATH).next()[1]:
 		f = open(KVM_TRACE_PATH+"/"+dirname+"/enable", "r")
-		text = f.read()
+		trace_on = f.read()
 		f.close()
-		text = text.rstrip('\r\n')
+		trace_on = trace_on.rstrip('\r\n')
 		cmd.append(dirname)
-		print '{:02}'.format(i)+".["+text+"] "+dirname
+		item = '{:02}'.format(i)+".["+trace_on+"] "+dirname
+
+		# Print two columns
+		if i%2 == 0:
+			print '{0:40}  {1}'.format(prev_item, item)
+		else:
+			prev_item = item
+
 		i += 1
 	print "----------------------------------"
 
