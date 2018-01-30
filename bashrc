@@ -10,6 +10,7 @@ alias gl="git log --oneline --decorate -n 30"
 alias gs="git status"
 alias grc="git rebase --continue"
 alias ifc="ifconfig | grep inet"
+alias mk="./make.sh"
 
 # This is to set the title of the terminal.
 # e.g. $ title ML
