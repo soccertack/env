@@ -1,9 +1,8 @@
 #!/bin/bash
 
-source ~/.cloudlab_ip.sh
+IP=${1:-"128.110.152.17"}
 
 OUT=.
-
 md5sum $OUT/arch/arm64/boot/Image
 echo $IP
 scp $OUT/arch/arm64/boot/Image jintackl@$IP:~
