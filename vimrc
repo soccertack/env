@@ -1,3 +1,4 @@
+" <---- start of my vimrc
 syn on
 map `u :MRU<CR>
 map `r :MRU<CR>
@@ -58,3 +59,5 @@ set list listchars=tab:▸\ ,trail:•,extends:»,precedes:«
 
 set formatoptions+=croq
 set cino+=(0
+
+" end of my vimrc ---->
