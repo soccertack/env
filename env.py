@@ -40,6 +40,7 @@ def setup_git():
 	os.system("git config --global alias.no 'notes add'")
 	os.system("git config --global rerere.enabled true")
 	os.system("git config --global alias.cp cherry-pick")
+	os.system("git config --global alias.cpc 'cherry-pick --continue'")
 	os.system("echo 'set show-id = true' >> ~/.tigrc")
 
 def install_cscope():
