@@ -7,7 +7,8 @@ def main():
 	if not os.geteuid() == 0:
     		sys.exit('Script must be run as root')
 
-	os.system("cp /proj/kvmarm-PG0/jintack/nested/vfio.img /vmdata/linaro-trusty.img")
+	os.system("cp /proj/kvmarm-PG0/jintack/nested/v4.15.img.bz2 /vmdata/")
+	os.system("pbzip -dk v4.15.img.bz2")
 
 	# Add host public key to guest
 	os.system("mount -o loop /vmdata/linaro-trusty.img /mnt")
