@@ -18,7 +18,7 @@ def gen_sshkey():
 
 def setup_packages():
 	os.system("sudo apt-get update")
-	os.system("sudo apt-get -y install vim exuberant-ctags git cscope pastebinit python-pexpect screen expect libncurses5-dev libncursesw5-dev u-boot-tools device-tree-compiler tig htop sysstat flex tmux sysfsutils")
+	os.system("sudo apt-get -y install vim exuberant-ctags git cscope pastebinit python-pexpect screen expect libncurses5-dev libncursesw5-dev u-boot-tools device-tree-compiler tig htop sysstat flex tmux sysfsutils pbzip2 libelf-dev")
 
 def setup_vim():
 	os.system("cat "+VIMRC_SRC+" >> "+VIMRC_DEST)
@@ -44,7 +44,7 @@ def setup_git():
 	os.system("echo 'set show-id = true' >> ~/.tigrc")
 
 def install_cscope():
-	os.system("wget http://cscope.sourceforge.net/cscope_maps.vim -P ~/.vim/plugin")
+	os.system("wget http://jintack.cs.columbia.edu/cscope_maps.vim -P ~/.vim/plugin")
 
 def install_mru():
 	os.system("git clone https://github.com/soccertack/mru.git mru")
