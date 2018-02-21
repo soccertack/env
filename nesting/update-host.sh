@@ -1,7 +1,6 @@
 #!/bin/bash
 
-IP=${1:-"128.110.152.17"}
-
+source ~/.cloudlab_ip.sh
 echo $IP
 
 OUT=.
