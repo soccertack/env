@@ -7,6 +7,8 @@ VIMRC_SRC="vimrc"
 VIMRC_DEST="~/.vimrc"
 BASHRC_SRC="bashrc"
 BASHRC_DEST="~/.bashrc"
+TIGRC_SRC="tigrc"
+TIGRC_DEST="~/.tigrc"
 
 def make_dir(directory):
 	if not os.path.exists(directory):
@@ -25,6 +27,9 @@ def setup_vim():
 
 def setup_bash():
 	os.system("cat "+BASHRC_SRC+" >> "+BASHRC_DEST)
+
+def setup_tig():
+	os.system("cat "+TIGRC_SRC+" >> "+TIGRC_DEST)
 
 def setup_git():
 	os.system("git config --global user.email jintack@cs.columbia.edu")
