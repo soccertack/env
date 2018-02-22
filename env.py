@@ -44,7 +44,7 @@ def setup_git():
 	os.system("echo 'set show-id = true' >> ~/.tigrc")
 
 def install_cscope():
-	os.system("wget http://jintack.cs.columbia.edu/cscope_maps.vim -P ~/.vim/plugin")
+	os.system("wget http://cs.columbia.edu/~jintack/cscope_maps.vim -P ~/.vim/plugin")
 
 def install_mru():
 	os.system("git clone https://github.com/soccertack/mru.git mru")
