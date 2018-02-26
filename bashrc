@@ -14,6 +14,7 @@ alias grc="git rebase --continue"
 alias ifc="ifconfig | grep inet"
 alias mk="./make.sh"
 alias r="pushd ~;./run.sh;popd"
+alias v="cd /sr/vm;sudo su"
 
 # This is to set the title of the terminal.
 # e.g. $ title ML
