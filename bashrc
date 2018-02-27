@@ -1,7 +1,7 @@
 # <---- start of my bashrc
 
 EXP_NO=`uname -a | awk '{print $2}' | cut -d. -f2`
-PS1="\e[38;5;208m[\h $EXP_NO \w]\e[38;5;147m\[\$(__git_ps1)\n$\[\033[0m\]"
+PS1="\e[38;5;178m[\h $EXP_NO \w]\e[38;5;147m\[\$(__git_ps1)\n$\[\033[0m\]"
 # More colors
 # http://misc.flogisoft.com/bash/tip_colors_and_formatting
 
