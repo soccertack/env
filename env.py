@@ -2,6 +2,7 @@
 import os
 import sys
 import argparse
+import os.path
 
 HOME="~"
 
@@ -15,6 +16,10 @@ def make_dir(directory):
 
 def gen_sshkey():
 	output_file="%s/.ssh/id_rsa" % HOME
+
+	if os.path.isfile(output_file):
+		return
+
 	cmd = "ssh-keygen -f %s -t rsa -b 4096 -C \"jintack@cs.columbia.edu\" -N ''" % output_file
 	os.system(cmd)
 	os.system("cat %s/.ssh/id_rsa.pub" % HOME)
@@ -39,7 +44,7 @@ def setup_bash():
 	os.system(cmd)
 
 	cmd = 'source ' + MY_BASHRC
-	cmd = "echo '%s'" % cmd
+	cmd = "echo '%s' >> %s" % (cmd, BASHRC_DEST)
 	os.system(cmd)
 
 def setup_tig():
@@ -47,6 +52,7 @@ def setup_tig():
 	TIGRC_DEST=HOME+"/.tigrc"
 
 	cmd = 'cp %s %s' % (TIGRC_SRC, TIGRC_DEST)
+	os.system(cmd)
 
 def setup_git():
 	os.system("git config --global user.email jintack@cs.columbia.edu")
@@ -109,6 +115,7 @@ def main():
 		setup_git()
 		setup_scp()
 		gen_sshkey()
+		setup_tig()
 		sys.exit(0)
 	if args.mru:
 		install_mru()
