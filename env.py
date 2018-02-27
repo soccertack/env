@@ -7,6 +7,7 @@ VIMRC_SRC="vimrc"
 VIMRC_DEST="~/.vimrc"
 BASHRC_SRC="bashrc"
 BASHRC_DEST="~/.bashrc"
+MY_BASHRC="~/.mybashrc"
 TIGRC_SRC="tigrc"
 TIGRC_DEST="~/.tigrc"
 
@@ -26,7 +27,12 @@ def setup_vim():
 	os.system("cat "+VIMRC_SRC+" >> "+VIMRC_DEST)
 
 def setup_bash():
-	os.system("cat "+BASHRC_SRC+" >> "+BASHRC_DEST)
+	cmd = 'cp %s %s' % (BASHRC_SRC, MY_BASHRC)
+	os.system(cmd)
+
+	cmd = 'source ' + MY_BASHRC
+	cmd = "echo '%s'" % cmd
+	os.system(cmd)
 
 def setup_tig():
 	os.system("cat "+TIGRC_SRC+" >> "+TIGRC_DEST)
