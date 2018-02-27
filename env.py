@@ -3,31 +3,34 @@ import os
 import sys
 import argparse
 
-VIMRC_SRC="vimrc"
-VIMRC_DEST="~/.vimrc"
-BASHRC_SRC="bashrc"
-BASHRC_DEST="~/.bashrc"
-MY_BASHRC="~/.mybashrc"
-TIGRC_SRC="tigrc"
-TIGRC_DEST="~/.tigrc"
+HOME="~"
 
 def make_dir(directory):
 	if not os.path.exists(directory):
 	    os.makedirs(directory)
 
 def gen_sshkey():
-	os.system("ssh-keygen -f \"${HOME}/.ssh/id_rsa\"  -t rsa -b 4096 -C \"jintack@cs.columbia.edu\" -N ''")
-	os.system("cat ~/.ssh/id_rsa.pub")
+	output_file="%s/.ssh/id_rsa" % HOME
+	cmd = "ssh-keygen -f %s -t rsa -b 4096 -C \"jintack@cs.columbia.edu\" -N ''" % output_file
+	os.system(cmd)
+	os.system("cat %s/.ssh/id_rsa.pub" % HOME)
 
 def setup_packages():
 	os.system("sudo apt-get update")
 	os.system("sudo apt-get -y install vim exuberant-ctags git cscope pastebinit python-pexpect screen expect libncurses5-dev libncursesw5-dev u-boot-tools device-tree-compiler tig htop sysstat flex tmux sysfsutils pbzip2 libelf-dev sipcalc")
 
 def setup_vim():
+	VIMRC_SRC="vimrc"
+	VIMRC_DEST=HOME+"/.vimrc"
+
 	cmd = 'cp %s %s' % (VIMRC_SRC, VIMRC_DEST)
 	os.system(cmd)
 
 def setup_bash():
+	BASHRC_SRC="bashrc"
+	BASHRC_DEST=HOME+"/.bashrc"
+	MY_BASHRC=HOME+"/.mybashrc"
+
 	cmd = 'cp %s %s' % (BASHRC_SRC, MY_BASHRC)
 	os.system(cmd)
 
@@ -36,6 +39,9 @@ def setup_bash():
 	os.system(cmd)
 
 def setup_tig():
+	TIGRC_SRC="tigrc"
+	TIGRC_DEST=HOME+"/.tigrc"
+
 	cmd = 'cp %s %s' % (TIGRC_SRC, TIGRC_DEST)
 
 def setup_git():
@@ -53,21 +59,20 @@ def setup_git():
 	os.system("git config --global rerere.enabled true")
 	os.system("git config --global alias.cp cherry-pick")
 	os.system("git config --global alias.cpc 'cherry-pick --continue'")
-	os.system("echo 'set show-id = true' >> ~/.tigrc")
 
 def install_cscope():
-	os.system("wget http://cs.columbia.edu/~jintack/cscope_maps.vim -P ~/.vim/plugin")
+	os.system("wget http://cs.columbia.edu/~jintack/cscope_maps.vim -P %s/.vim/plugin" % HOME)
 
 def install_mru():
 	os.system("git clone https://github.com/soccertack/mru.git mru")
 
-	vim_config_dir = os.path.join(os.path.expanduser("~"), ".vim")
+	vim_config_dir = os.path.join(os.path.expanduser(HOME), ".vim")
 	make_dir(vim_config_dir)
 
-	plugin_dir = os.path.join(os.path.expanduser("~"), ".vim/plugin")
+	plugin_dir = os.path.join(os.path.expanduser(HOME), ".vim/plugin")
 	make_dir(plugin_dir)
 
-	os.system("cp mru/plugin/mru.vim ~/.vim/plugin/mru.vim")
+	os.system("cp mru/plugin/mru.vim %s/.vim/plugin/mru.vim" % HOME)
 	os.system("rm -rf mru")
 
 def setup_scp():
@@ -79,7 +84,8 @@ def main():
 	parser.add_argument("-v", "--vim", help="setup vim", action='store_true')
 	parser.add_argument("-b", "--bash", help="setup bash", action='store_true')
 	parser.add_argument("-g", "--git", help="setup git", action='store_true')
-	parser.add_argument("-p", "--pakage", help="install packages", action='store_true')
+	parser.add_argument("-p", "--package", help="install packages", action='store_true')
+	parser.add_argument("-k", "--sshkey", help="generate ssh key", action='store_true')
 	parser.add_argument("-a", "--all", help="setup all", action='store_true')
 	args = parser.parse_args()
 
@@ -104,8 +110,10 @@ def main():
 		setup_git()
 	if args.bash:
 		setup_bash()
-	if args.pakage:
+	if args.package:
 		setup_packages()
+	if args.sshkey:
+		gen_sshkey()
 
 	sys.exit(1)
 
