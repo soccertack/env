@@ -1,7 +1,15 @@
 # <---- start of my bashrc
 
+if [[ "`whoami`" == "root" ]]; then
+	COLOR=178
+	SHELL_CHAR="#"
+else
+	COLOR=208
+	SHELL_CHAR="$"
+fi
+	
 EXP_NO=`uname -a | awk '{print $2}' | cut -d. -f2`
-PS1="\e[38;5;178m[\h $EXP_NO \w]\e[38;5;147m\[\$(__git_ps1)\n$\[\033[0m\]"
+PS1="\e[38;5;${COLOR}m[\h $EXP_NO \w]\e[38;5;147m\[\$(__git_ps1)\n${SHELL_CHAR}\[\033[0m\]"
 # More colors
 # http://misc.flogisoft.com/bash/tip_colors_and_formatting
 
@@ -14,7 +22,7 @@ alias grc="git rebase --continue"
 alias ifc="ifconfig | grep inet"
 alias mk="./make.sh"
 alias r="pushd ~;./run.sh;popd"
-alias v="cd /sr/vm;sudo su"
+alias v="cd /srv/vm;sudo su"
 
 # This is to set the title of the terminal.
 # e.g. $ title ML
