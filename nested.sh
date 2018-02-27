@@ -1,5 +1,7 @@
 #!/bin/bash
 
+HOME=${1:-$HOME}
+
 SRC_BZ=/proj/kvmarm-PG0/jintack/nested/v4.15.img.bz2
 BZ=`echo ${SRC_BZ##*/}`
 IMG=`echo ${BZ%.*}`
