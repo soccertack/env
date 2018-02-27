@@ -101,7 +101,7 @@ def main():
 		setup_git()
 		setup_scp()
 		gen_sshkey()
-		sys.exit(1)
+		sys.exit(0)
 	if args.mru:
 		install_mru()
 	if args.vim:
@@ -115,7 +115,7 @@ def main():
 	if args.sshkey:
 		gen_sshkey()
 
-	sys.exit(1)
+	sys.exit(0)
 
 if __name__ == '__main__':
 	main()
