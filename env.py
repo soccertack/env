@@ -72,14 +72,15 @@ def main():
 	parser.add_argument("-v", "--vim", help="setup vim", action='store_true')
 	parser.add_argument("-b", "--bash", help="setup bash", action='store_true')
 	parser.add_argument("-g", "--git", help="setup git", action='store_true')
+	parser.add_argument("-p", "--pakage", help="install packages", action='store_true')
 	parser.add_argument("-a", "--all", help="setup all", action='store_true')
 	args = parser.parse_args()
 
 	# Set LANG
 	os.system("sudo update-locale LANG=en_US.UTF-8")
 	
-	setup_packages()
 	if args.all:
+		setup_packages()
 		setup_vim()
 		install_mru()
 		install_cscope()
@@ -96,6 +97,8 @@ def main():
 		setup_git()
 	if args.bash:
 		setup_bash()
+	if args.pakage:
+		setup_packages()
 
 	sys.exit(1)
 
