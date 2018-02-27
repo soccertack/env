@@ -24,7 +24,8 @@ def setup_packages():
 	os.system("sudo apt-get -y install vim exuberant-ctags git cscope pastebinit python-pexpect screen expect libncurses5-dev libncursesw5-dev u-boot-tools device-tree-compiler tig htop sysstat flex tmux sysfsutils pbzip2 libelf-dev sipcalc")
 
 def setup_vim():
-	os.system("cat "+VIMRC_SRC+" >> "+VIMRC_DEST)
+	cmd = 'cp %s %s' % (VIMRC_SRC, VIMRC_DEST)
+	os.system(cmd)
 
 def setup_bash():
 	cmd = 'cp %s %s' % (BASHRC_SRC, MY_BASHRC)
@@ -35,7 +36,7 @@ def setup_bash():
 	os.system(cmd)
 
 def setup_tig():
-	os.system("cat "+TIGRC_SRC+" >> "+TIGRC_DEST)
+	cmd = 'cp %s %s' % (TIGRC_SRC, TIGRC_DEST)
 
 def setup_git():
 	os.system("git config --global user.email jintack@cs.columbia.edu")
