@@ -5,6 +5,10 @@ import argparse
 
 HOME="~"
 
+def setup_directories_root():
+	global HOME
+	HOME = "/root"
+
 def make_dir(directory):
 	if not os.path.exists(directory):
 	    os.makedirs(directory)
@@ -80,6 +84,7 @@ def setup_scp():
 
 def main():
 	parser = argparse.ArgumentParser()
+	parser.add_argument("-u", "--user", help="setup user")
 	parser.add_argument("-m", "--mru", help="install mru", action='store_true')
 	parser.add_argument("-v", "--vim", help="setup vim", action='store_true')
 	parser.add_argument("-b", "--bash", help="setup bash", action='store_true')
@@ -91,6 +96,9 @@ def main():
 
 	# Set LANG
 	os.system("sudo update-locale LANG=en_US.UTF-8")
+	
+	if args.user and args.user =="root":
+		setup_directories_root()
 	
 	if args.all:
 		setup_packages()
