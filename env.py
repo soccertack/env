@@ -52,7 +52,7 @@ def setup_vim():
 	os.system(cmd)
 
 	if USER != "":
-		os.system("chown %s:kvmarm-PG0 %s %s" % (USER, VIMRC_DEST))
+		os.system("chown %s:kvmarm-PG0 %s" % (USER, VIMRC_DEST))
 
 def setup_bash():
 	BASHRC_SRC="bashrc"
@@ -67,7 +67,7 @@ def setup_bash():
 	os.system(cmd)
 
 	if USER != "":
-		os.system("chown %s:kvmarm-PG0 %s %s" % (USER, MY_BASHRC))
+		os.system("chown %s:kvmarm-PG0 %s" % (USER, MY_BASHRC))
 
 def setup_tig():
 	TIGRC_SRC="tigrc"
@@ -77,7 +77,7 @@ def setup_tig():
 	os.system(cmd)
 
 	if USER != "":
-		os.system("chown %s:kvmarm-PG0 %s %s" % (USER, TIGRC_DEST))
+		os.system("chown %s:kvmarm-PG0 %s" % (USER, TIGRC_DEST))
 
 def setup_git():
 	os.system("git config --global user.email jintack@cs.columbia.edu")
