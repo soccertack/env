@@ -15,12 +15,14 @@ def make_dir(directory):
 	    os.makedirs(directory)
 
 def gen_sshkey():
-	output_file="%s/.ssh/id_rsa" % HOME
+	priv_file="%s/.ssh/id_rsa" % HOME
+	pub_file=priv_file+".pub"
 
-	if os.path.isfile(output_file):
+	if os.path.isfile(pub_file):
+		print ("%s already exists\n" % pub_file)
 		return
 
-	cmd = "ssh-keygen -f %s -t rsa -b 4096 -C \"jintack@cs.columbia.edu\" -N ''" % output_file
+	cmd = "ssh-keygen -f %s -t rsa -b 4096 -C \"jintack@cs.columbia.edu\" -N ''" % priv_file
 	os.system(cmd)
 	os.system("cat %s/.ssh/id_rsa.pub" % HOME)
 
