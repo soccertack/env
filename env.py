@@ -22,9 +22,14 @@ def gen_sshkey():
 		print ("%s already exists\n" % pub_file)
 		return
 
+	# Sometimes we only have priv file, but no pub file.
+	# Delete priv file and start over!
+	os.system("rm %s" % priv_file)
+
 	cmd = "ssh-keygen -f %s -t rsa -b 4096 -C \"jintack@cs.columbia.edu\" -N ''" % priv_file
 	os.system(cmd)
-	os.system("cat %s/.ssh/id_rsa.pub" % HOME)
+
+	os.system("cat %s" % pub_file)
 
 def setup_packages():
 	os.system("sudo apt-get update")
