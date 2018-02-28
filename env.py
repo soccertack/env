@@ -5,10 +5,15 @@ import argparse
 import os.path
 
 HOME="~"
+USER=""
 
-def setup_directories_root():
+def setup_home_dir(user):
 	global HOME
-	HOME = "/root"
+
+	if user == "root":
+		HOME = "/root"
+	else:
+		HOME = "/users/"+user
 
 def make_dir(directory):
 	if not os.path.exists(directory):
@@ -30,6 +35,10 @@ def gen_sshkey():
 	os.system(cmd)
 
 	os.system("cat %s" % pub_file)
+
+	# If we generated keys with root, change permissions to the specified user
+	if USER != "":
+		os.system("chown %s:kvmarm-PG0 %s %s" % (USER, priv_file, pub_file))
 
 def setup_packages():
 	os.system("sudo apt-get update")
@@ -110,8 +119,10 @@ def main():
 	# Set LANG
 	os.system("sudo update-locale LANG=en_US.UTF-8")
 	
-	if args.user and args.user =="root":
-		setup_directories_root()
+	if args.user:
+		global USER 
+		USER = args.user
+		setup_home_dir(args.user)
 	
 	if args.all:
 		setup_packages()
