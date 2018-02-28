@@ -1,0 +1,22 @@
+[user]
+	email = jintack@cs.columbia.edu
+	name = Jintack Lim
+[core]
+	editor = vim
+	pager = less -+F
+[push]
+	default = simple
+[rebase]
+	autosquash = true
+[notes "rewrite"]
+	rebase = true
+	amend = true
+[notes]
+	rewriteRef = refs/notes/commits
+[alias]
+	f = commit --fixup
+	no = notes add
+	cp = cherry-pick
+	cpc = cherry-pick --continue
+[rerere]
+	enabled = true

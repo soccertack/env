@@ -80,20 +80,14 @@ def setup_tig():
 		os.system("chown %s:kvmarm-PG0 %s" % (USER, TIGRC_DEST))
 
 def setup_git():
-	os.system("git config --global user.email jintack@cs.columbia.edu")
-	os.system("git config --global user.name 'Jintack Lim'")
-	os.system("git config --global core.editor vim")
-	os.system("git config --global push.default simple")
-	os.system("git config --global rebase.autosquash true")
-	os.system("git config --global notes.rewrite.rebase true")
-	os.system("git config --global notes.rewrite.amend true")
-	os.system("git config --global notes.rewriteRef refs/notes/commits")
-	os.system("git config --global core.pager 'less -+F'")
-	os.system("git config --global alias.f 'commit --fixup'")
-	os.system("git config --global alias.no 'notes add'")
-	os.system("git config --global rerere.enabled true")
-	os.system("git config --global alias.cp cherry-pick")
-	os.system("git config --global alias.cpc 'cherry-pick --continue'")
+	gitconfig_src = "gitconfig"
+	gitconfig_dest = HOME+"/.gitconfig"
+
+	cmd = 'cp %s %s' % (gitconfig_src, gitconfig_dest)
+	os.system(cmd)
+
+	if USER != "":
+		os.system("chown %s:kvmarm-PG0 %s" % (USER, gitconfig_dest))
 
 def install_cscope():
 	os.system("wget http://cs.columbia.edu/~jintack/cscope_maps.vim -P %s/.vim/plugin" % HOME)
