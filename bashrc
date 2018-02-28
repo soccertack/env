@@ -1,5 +1,9 @@
 # <---- start of my bashrc
 
+if [ -f /etc/bash_completion ] && ! shopt -oq posix; then
+    . /etc/bash_completion
+fi
+
 if [[ "`whoami`" == "root" ]]; then
 	COLOR=178
 	SHELL_CHAR="#"
