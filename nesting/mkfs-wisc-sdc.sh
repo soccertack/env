@@ -1,5 +1,10 @@
 #!/bin/bash
 
+if [[ "`whoami`" != "root" ]]; then
+	echo "Please run as root"
+	exit 1
+fi
+
 SDC=`sudo fdisk -l 2>/dev/null | grep "480103981056 bytes" | awk '{print $2}' | cut -d: -f1 | cut -d/ -f3`
 
 if [[ $SDC != "sdc" ]]; then
@@ -14,6 +19,6 @@ fi
 mount | grep /dev/sdc1 2>&1 > /dev/null
 if [[ $? != 0 ]]; then
 	mkfs.ext4 /dev/sdc1
-	mkdir -p /vm2
-	mount /dev/sdc1 /vm2
+	mkdir -p /sdc
+	mount /dev/sdc1 /sdc
 fi
