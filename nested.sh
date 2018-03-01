@@ -27,5 +27,6 @@ cp nesting/trap_count.sh $HOME
 cp nesting/consume_mem.sh $HOME
 cp nesting/kvm_trace.sh $HOME
 cp nesting/copy-ssh-key.sh $HOME
+cp nesting/copy-ssh-key-arm.sh $HOME
 cp nesting/pin_vcpus_all.sh $HOME
 cp nesting/micro-cycles.py $HOME
