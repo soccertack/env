@@ -20,5 +20,6 @@ mount | grep /dev/sdc1 2>&1 > /dev/null
 if [[ $? != 0 ]]; then
 	mkfs.ext4 /dev/sdc1
 	mkdir -p /sdc
+	chmod o+w /sdc
 	mount /dev/sdc1 /sdc
 fi
