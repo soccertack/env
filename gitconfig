@@ -18,5 +18,6 @@
 	no = notes add
 	cp = cherry-pick
 	cpc = cherry-pick --continue
+	vs = commit -vs
 [rerere]
 	enabled = true
