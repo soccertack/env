@@ -51,7 +51,6 @@ def install_tig():
 def setup_packages():
 	os.system("sudo apt-get update")
 	os.system("sudo apt-get -y install vim exuberant-ctags git cscope pastebinit python-pexpect screen expect libncurses5-dev libncursesw5-dev u-boot-tools device-tree-compiler tig htop sysstat flex tmux sysfsutils pbzip2 libelf-dev sipcalc")
-	install_tig()
 
 def setup_vim():
 	VIMRC_SRC="vimrc"
@@ -79,6 +78,7 @@ def setup_bash():
 		os.system("chown %s:kvmarm-PG0 %s" % (USER, MY_BASHRC))
 
 def setup_tig():
+	install_tig()
 	TIGRC_SRC="tigrc"
 	TIGRC_DEST=HOME+"/.tigrc"
 
