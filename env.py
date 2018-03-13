@@ -40,9 +40,18 @@ def gen_sshkey():
 	if USER != "":
 		os.system("chown %s:kvmarm-PG0 %s %s" % (USER, priv_file, pub_file))
 
+def install_tig():
+	os.system("wget https://github.com/jonas/tig/releases/download/tig-2.3.3/tig-2.3.3.tar.gz ")
+	os.system("tar xvfz tig-2.3.3.tar.gz")
+	os.system("pushd tig-2.3.3")
+	os.system("make prefix=/usr/local")
+	os.system("sudo make install prefix=/usr/local")
+	os.system("popd")
+
 def setup_packages():
 	os.system("sudo apt-get update")
 	os.system("sudo apt-get -y install vim exuberant-ctags git cscope pastebinit python-pexpect screen expect libncurses5-dev libncursesw5-dev u-boot-tools device-tree-compiler tig htop sysstat flex tmux sysfsutils pbzip2 libelf-dev sipcalc")
+	install_tig()
 
 def setup_vim():
 	VIMRC_SRC="vimrc"
