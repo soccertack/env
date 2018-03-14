@@ -8,7 +8,6 @@ map `c :call clearmatches()<CR>
 
 set autoindent
 set smartindent
-set paste
 
 set incsearch
 set hls 
