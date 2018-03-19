@@ -1,0 +1,8 @@
+#!/bin/bash
+
+echo "Increase buffer size"
+echo 1000000 > /sys/kernel/debug/tracing/buffer_size_kb
+echo "Start tracing"
+echo 1 > /sys/kernel/debug/tracing/tracing_on
+cat /sys/kernel/debug/tracing/tracing_on
+cat /sys/kernel/debug/tracing/trace_pipe > log
