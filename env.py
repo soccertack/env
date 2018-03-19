@@ -43,10 +43,13 @@ def gen_sshkey():
 def install_tig():
 	os.system("wget https://github.com/jonas/tig/releases/download/tig-2.3.3/tig-2.3.3.tar.gz ")
 	os.system("tar xvfz tig-2.3.3.tar.gz")
-	os.system("pushd tig-2.3.3")
-	os.system("make prefix=/usr/local")
-	os.system("sudo make install prefix=/usr/local")
-	os.system("popd")
+
+	cmd = ""
+	cmd += "cd tig-2.3.3"
+	cmd += "&&" + "make prefix=/usr/local"
+	cmd += "&&" + "sudo make install prefix=/usr/local"
+	cmd += "&&" + "cd .."
+	os.system(cmd)
 
 def setup_packages():
 	os.system("sudo apt-get update")
