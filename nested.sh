@@ -10,7 +10,7 @@ IMG_DIR=/vmdata
 
 cp $SRC_BZ $IMG_DIR
 pushd $IMG_DIR
-pbzip2 -d $BZ
+pbzip2 -kd $BZ
 mv $IMG $TARGET_IMG
 popd
 
