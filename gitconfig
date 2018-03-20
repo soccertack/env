@@ -19,5 +19,7 @@
 	cp = cherry-pick
 	cpc = cherry-pick --continue
 	vs = commit -vs
+	co = commit -vs
+	coa = commit -vs --amend
 [rerere]
 	enabled = true
