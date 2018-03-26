@@ -7,6 +7,7 @@ BZ=`echo ${SRC_BZ##*/}`
 IMG=`echo ${BZ%.*}`
 TARGET_IMG=linaro-trusty.img
 IMG_DIR=/vmdata
+SCRIPT_DIR=nesting
 
 cp $SRC_BZ $IMG_DIR
 pushd $IMG_DIR
@@ -22,13 +23,11 @@ cat $HOME/.ssh/id_rsa.pub | sudo tee -a /mnt_l2/root/.ssh/authorized_keys
 sudo umount /mnt_l2
 sudo umount /mnt
 
-cp nesting/run.sh $HOME
-cp nesting/trap_count.sh $HOME
-cp nesting/consume_mem.sh $HOME
-cp nesting/kvm_trace.sh $HOME
-cp nesting/copy-ssh-key.sh $HOME
-cp nesting/copy-ssh-key-arm.sh $HOME
-cp nesting/pin_vcpus_all.sh $HOME
-cp nesting/micro-cycles.py $HOME
+pushd $SCRIPT_DIR
+HOME_LIST="run.sh trap_count.sh consume_mem.sh copy-ssh-key.sh copy-ssh-key-arm.sh pin_vcpus_all.sh"
+cp $HOME_LIST $HOME
 
-cp nesting/ts nesting/tc /usr/local/bin
+BIN_LIST="ts tc micro-cycles.py kvm_trace.sh"
+BIN=/usr/local/bin
+cp $BIN_LIST $BIN
+popd
