@@ -1,3 +1,5 @@
+#!/usr/bin/python
+
 import pexpect
 import sys
 import os
