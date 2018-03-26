@@ -35,7 +35,7 @@ function title {
 }
 
 # This is for wisc experiments
-PATH=$PATH:/mydata/gcc-linaro/bin/:/mydata/gcc-linaro-arm32/bin/
+PATH=$PATH:/sdc/gcc/gcc-linaro/bin/:/sdc/gcc/gcc-linaro-arm32/bin/
 
 set formatoptions=cro
 export TERM=screen-256color

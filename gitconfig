@@ -21,5 +21,6 @@
 	vs = commit -vs
 	co = commit -vs
 	coa = commit -vs --amend
+	dc = diff --cached
 [rerere]
 	enabled = true
