@@ -24,10 +24,10 @@ sudo umount /mnt_l2
 sudo umount /mnt
 
 pushd $SCRIPT_DIR
-HOME_LIST="run.sh trap_count.sh consume_mem.sh copy-ssh-key.sh copy-ssh-key-arm.sh pin_vcpus_all.sh"
+HOME_LIST="run.sh trap_count.sh pin_vcpus_all.sh"
 cp $HOME_LIST $HOME
 
-BIN_LIST="ts tc micro-cycles.py kvm_trace.sh"
+BIN_LIST="ts tc micro-cycles.py kvm_trace.sh consume_mem.sh copy-ssh-key.sh copy-ssh-key-arm.sh"
 BIN=/usr/local/bin
 cp $BIN_LIST $BIN
 popd
