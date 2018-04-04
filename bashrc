@@ -26,7 +26,7 @@ alias grc="git rebase --continue"
 alias ifc="ifconfig | grep inet"
 alias mk="./make.sh"
 alias r="pushd ~;./run.sh;popd"
-alias v="cd /srv/vm;sudo su"
+alias v="cd /srv/vm"
 alias l1="ssh root@10.10.1.100"
 
 # This is to set the title of the terminal.
