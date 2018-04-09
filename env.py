@@ -19,17 +19,18 @@ def make_dir(directory):
 	if not os.path.exists(directory):
 	    os.makedirs(directory)
 
-def gen_sshkey():
+def gen_sshkey(force):
 	priv_file="%s/.ssh/id_rsa" % HOME
 	pub_file=priv_file+".pub"
 
-	if os.path.isfile(pub_file):
-		print ("%s already exists\n" % pub_file)
-		return
-
-	# Sometimes we only have priv file, but no pub file.
-	# Delete priv file and start over!
-	os.system("rm %s" % priv_file)
+	if force:
+		# Delete key files and start over!
+		os.system("rm %s" % priv_file)
+		os.system("rm %s" % pub_file)
+	else:
+		if os.path.isfile(pub_file) or os.path.isfile(priv_file):
+			print ("%s or %s already exists\n" % (pub_file, priv_file))
+			return
 
 	cmd = "ssh-keygen -f %s -t rsa -b 4096 -C \"jintack@cs.columbia.edu\" -N ''" % priv_file
 	os.system(cmd)
@@ -120,6 +121,9 @@ def setup_scp():
 	os.system("sudo cp scpto /usr/local/bin")
 
 def main():
+
+	force = False 
+
 	parser = argparse.ArgumentParser()
 	parser.add_argument("-u", "--user", help="setup user")
 	parser.add_argument("-m", "--mru", help="install mru", action='store_true')
@@ -129,6 +133,7 @@ def main():
 	parser.add_argument("-p", "--package", help="install packages", action='store_true')
 	parser.add_argument("-k", "--sshkey", help="generate ssh key", action='store_true')
 	parser.add_argument("-a", "--all", help="setup all", action='store_true')
+	parser.add_argument("-f", "--force", help="force to create a new ssh key", action='store_true')
 	args = parser.parse_args()
 
 	# Set LANG
@@ -138,6 +143,9 @@ def main():
 		global USER 
 		USER = args.user
 		setup_home_dir(args.user)
+
+	if args.force:
+		force = True 
 	
 	if args.all:
 		setup_packages()
@@ -147,7 +155,7 @@ def main():
 		setup_bash()
 		setup_git()
 		setup_scp()
-		gen_sshkey()
+		gen_sshkey(force)
 		setup_tig()
 		sys.exit(0)
 	if args.mru:
@@ -161,7 +169,7 @@ def main():
 	if args.package:
 		setup_packages()
 	if args.sshkey:
-		gen_sshkey()
+		gen_sshkey(force)
 
 	sys.exit(0)
 
