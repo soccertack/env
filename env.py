@@ -155,8 +155,8 @@ def main():
 		setup_bash()
 		setup_git()
 		setup_scp()
-		gen_sshkey(force)
 		setup_tig()
+		gen_sshkey(force)
 		sys.exit(0)
 	if args.mru:
 		install_mru()
