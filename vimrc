@@ -2,6 +2,7 @@
 syn on
 map `u :MRU<CR>
 map `r :MRU<CR>
+map `j vipgq:w<CR>
 
 map `h :exe "let m = matchadd('WildMenu','\\%" . line('.') . "l')"<CR>
 map `c :call clearmatches()<CR>
