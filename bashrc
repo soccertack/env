@@ -28,6 +28,8 @@ alias mk="./make.sh"
 alias r="pushd ~;./run.sh;popd"
 alias v="cd /srv/vm"
 alias l1="ssh root@10.10.1.100"
+alias l2="ssh root@10.10.1.101"
+alias l3="ssh root@10.10.1.102"
 
 # This is to set the title of the terminal.
 # e.g. $ title ML
