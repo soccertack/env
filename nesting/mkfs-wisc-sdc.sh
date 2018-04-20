@@ -20,6 +20,10 @@ mount | grep /dev/sdc1 2>&1 > /dev/null
 if [[ $? != 0 ]]; then
 	mkfs.ext4 /dev/sdc1
 	mkdir -p /sdc
+	echo "Before change /sdc owner"
+	ls -al /sdc
 	chown jintackl:kvmarm-PG0 /sdc
+	echo "After change /sdc owner"
+	ls -al /sdc
 	mount /dev/sdc1 /sdc
 fi
