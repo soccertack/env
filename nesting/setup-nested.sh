@@ -1,6 +1,12 @@
 #!/bin/bash
 
-BZ_FILE="/vmdata/v4.15.img.bz2"
+ARCH=`uname -m`
+
+if [[ "$ARCH" == "x86_64" ]]; then
+	BZ_FILE="/vm/v4.15.img.bz2"
+else if [[ "$ARCH" == "aarch64" ]]; then
+	BZ_FILE="/vmdata/v4.15.img.bz2"
+
 # Quit if v4.15.img.bz2 exists
 if [ -f $BZ_FILE ]; then
         echo "Initialization is already done"
