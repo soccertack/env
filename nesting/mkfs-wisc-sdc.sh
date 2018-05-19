@@ -22,8 +22,8 @@ if [[ $? != 0 ]]; then
 	mkdir -p /sdc
 	echo "Before change /sdc owner"
 	ls -al /sdc
+	mount /dev/sdc1 /sdc
 	chown jintackl:kvmarm-PG0 /sdc
 	echo "After change /sdc owner"
 	ls -al /sdc
-	mount /dev/sdc1 /sdc
 fi
