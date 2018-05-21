@@ -5,6 +5,7 @@ HOME=${1:-$HOME}
 ARCH=`uname -m`
 
 SRC_BZ=/proj/kvmarm-PG0/jintack/nested/v4.15.img.bz2
+SRC_BZ=${2:-$SRC_BZ}
 BZ=`echo ${SRC_BZ##*/}`
 IMG=`echo ${BZ%.*}`
 SCRIPT_DIR=nesting
