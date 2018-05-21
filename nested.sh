@@ -22,14 +22,24 @@ pbzip2 -kd $BZ
 mv $IMG $TARGET_IMG
 popd
 
+mkdir -p /mnt_l2
 if [[ "$ARCH" == "aarch64" ]]; then
 	sudo mount -o loop $IMG_DIR/$TARGET_IMG /mnt
-	cat $HOME/.ssh/id_rsa.pub | sudo tee -a /mnt/root/.ssh/authorized_keys
-	mkdir -p /mnt_l2
 	sudo mount -o loop /mnt/root/vm/l2.img /mnt_l2
-	cat $HOME/.ssh/id_rsa.pub | sudo tee -a /mnt_l2/root/.ssh/authorized_keys
+elif [[ "$ARCH" == "x86_64" ]]; then
+	sudo guestmount -a $IMG_DIR/$TARGET_IMG -m /dev/sda1 /mnt
+	sudo guestmount -a /mnt/vm/guest0.img -m /dev/sda1 /mnt_l2
+fi
+
+cat $HOME/.ssh/id_rsa.pub | sudo tee -a /mnt/root/.ssh/authorized_keys
+cat $HOME/.ssh/id_rsa.pub | sudo tee -a /mnt_l2/root/.ssh/authorized_keys
+
+if [[ "$ARCH" == "aarch64" ]]; then
 	sudo umount /mnt_l2
 	sudo umount /mnt
+elif [[ "$ARCH" == "x86_64" ]]; then
+	sudo guestunmount /mnt_l2
+	sudo guestunmount /mnt
 fi
 
 pushd $SCRIPT_DIR
