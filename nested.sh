@@ -30,6 +30,7 @@ if [[ "$ARCH" == "aarch64" ]]; then
 	sudo mount -o loop $IMG_DIR/$TARGET_IMG /mnt_l1
 	sudo mount -o loop /mnt_l1/root/vm/l2.img /mnt_l2
 elif [[ "$ARCH" == "x86_64" ]]; then
+	apt-get install -y libguestfs-tools
 	echo "Trying to mount L1 image"
 	sudo guestmount -a $IMG_DIR/$TARGET_IMG -m /dev/sda1 /mnt_l1
 	echo "Done."
