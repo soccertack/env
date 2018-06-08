@@ -23,6 +23,10 @@ pbzip2 -kd $BZ
 mv $IMG $TARGET_IMG
 popd
 
+echo "Trying to sync"
+time sync
+echo "Sync done"
+
 mkdir -p /mnt_l1
 mkdir -p /mnt_l2
 mkdir -p /mnt_l3
@@ -32,10 +36,10 @@ if [[ "$ARCH" == "aarch64" ]]; then
 elif [[ "$ARCH" == "x86_64" ]]; then
 	apt-get install -y libguestfs-tools
 	echo "Trying to mount L1 image"
-	sudo guestmount -a $IMG_DIR/$TARGET_IMG -m /dev/sda1 /mnt_l1
+	time sudo guestmount -a $IMG_DIR/$TARGET_IMG -m /dev/sda1 /mnt_l1
 	echo "Done."
 	echo "Trying to mount L2 image"
-	sudo guestmount -a /mnt_l1/vm/guest0.img -m /dev/sda1 /mnt_l2
+	time sudo guestmount -a /mnt_l1/vm/guest0.img -m /dev/sda1 /mnt_l2
 	echo "Done."
 	if [[ -f /mnt_l2/vm/guest.img ]]; then
 		echo "Trying to mount L3 image"
