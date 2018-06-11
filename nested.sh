@@ -17,7 +17,13 @@ else
 	IMG_DIR=/vmdata
 fi
 
-cp $SRC_BZ $IMG_DIR
+if [ -f $IMG_DIR/$BZ ]; then
+	echo "Skip copying $BZ. The file already exists"
+else
+	echo "Copying ${BZ}..."
+	cp $SRC_BZ $IMG_DIR
+	echo "Done"
+fi
 pushd $IMG_DIR
 pbzip2 -kd $BZ
 mv $IMG $TARGET_IMG
