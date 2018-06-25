@@ -12,9 +12,6 @@ SCRIPT_DIR=nesting
 if [[ "$ARCH" == "x86_64" ]]; then
 	TARGET_IMG=guest0.img
 	IMG_DIR=/vm
-
-	# Until g5 issue accessing /proj is resolved, let's do it manually
-	exit
 else
 	TARGET_IMG=linaro-trusty.img
 	IMG_DIR=/vmdata
@@ -23,6 +20,11 @@ fi
 if [ -f $IMG_DIR/$BZ ]; then
 	echo "Skip copying $BZ. The file already exists"
 else
+	if [[ "$ARCH" == "x86_64" ]]; then
+		# Until g5 issue accessing /proj is resolved, let's do it manually
+		echo "Please copy guest image manually."
+		exit
+	fi
 	echo "Copying ${BZ}..."
 	cp $SRC_BZ $IMG_DIR
 	echo "Done"
