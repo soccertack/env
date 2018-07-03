@@ -7,7 +7,13 @@ else
 	TARGET_IP="$1"
 fi
 
-KERNEL_VER=`cat include/config/kernel.release`
+RELEASE_FILE="include/config/kernel.release"
+
+if [ -f $RELEASE_FILE ]; then
+	KERNEL_VER=`cat $RELEASE_FILE`
+else
+	KERNEL_VER=`uname -r`
+fi
 
 TIME_FORMAT="\n%E real\n%U user\n%S sys\n"
 time -f "$TIME_FORMAT" rsync -av /lib/modules/$KERNEL_VER root@$TARGET_IP:/lib/modules/.
