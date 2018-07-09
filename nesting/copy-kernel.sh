@@ -12,7 +12,10 @@ RELEASE_FILE="include/config/kernel.release"
 if [ -f $RELEASE_FILE ]; then
 	KERNEL_VER=`cat $RELEASE_FILE`
 else
-	KERNEL_VER=`uname -r`
+	DEFAULT_KERNEL=`uname -r`
+	read -p "Kernel version[$DEFAULT_KERNEL]: " ver
+	KERNEL_VER=${ver:-$DEFAULT_KERNEL}
+	echo $KERNEL_VER
 fi
 
 TIME_FORMAT="\n%E real\n%U user\n%S sys\n"
