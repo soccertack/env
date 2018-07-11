@@ -60,4 +60,6 @@ set list listchars=tab:▸\ ,trail:•,extends:»,precedes:«
 set formatoptions+=croq
 set cino+=(0
 
+let MRU_Exclude_Files = '.*COMMIT_EDITMSG'
+
 " end of my vimrc ---->
