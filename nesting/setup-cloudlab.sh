@@ -2,7 +2,7 @@
 
 ENV_PATH=/tmp/env/nesting
 
-uname -a | grep -q kvm
+uname -a | grep -q kvm-
 err=$?
 if [[ $err == 0 ]]; then
 	# kvm node
