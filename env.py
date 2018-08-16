@@ -41,6 +41,14 @@ def gen_sshkey(force):
 	if USER != "":
 		os.system("chown %s:kvmarm-PG0 %s %s" % (USER, priv_file, pub_file))
 
+def install_omz():
+	zsh_dir = HOME+"/.oh-my-zsh"
+	if os.path.exists(zsh_dir):
+		return
+
+	cmd = sh -c "$(wget https://raw.githubusercontent.com/soccertack/oh-my-zsh/master/tools/install.sh -O -)"
+	os.system(cmd)
+
 def install_tig():
 	os.system("wget https://github.com/jonas/tig/releases/download/tig-2.3.3/tig-2.3.3.tar.gz ")
 	os.system("tar xvfz tig-2.3.3.tar.gz")
