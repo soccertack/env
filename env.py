@@ -46,7 +46,7 @@ def install_omz():
 	if os.path.exists(zsh_dir):
 		return
 
-	cmd = sh -c "$(wget https://raw.githubusercontent.com/soccertack/oh-my-zsh/master/tools/install.sh -O -)"
+	cmd = "sh -c \"$(wget https://raw.githubusercontent.com/soccertack/oh-my-zsh/master/tools/install.sh -O -)\""
 	os.system(cmd)
 
 def install_tig():
