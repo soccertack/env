@@ -167,6 +167,7 @@ def main():
 		setup_scp()
 		setup_tig()
 		gen_sshkey(force)
+		install_omz():
 		sys.exit(0)
 	if args.mru:
 		install_mru()
