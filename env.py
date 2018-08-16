@@ -109,6 +109,12 @@ def setup_git():
 	cmd = 'cp %s %s' % (gitconfig_src, gitconfig_dest)
 	os.system(cmd)
 
+	gitignore_src = "gitignore_global"
+	gitignore_dst = HOME+"/.gitignore_global"
+
+	cmd = 'cp %s %s' % (gitignore_src, gitignore_dst)
+	os.system(cmd)
+
 	if USER != "":
 		os.system("chown %s:kvmarm-PG0 %s" % (USER, gitconfig_dest))
 
