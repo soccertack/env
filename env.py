@@ -150,6 +150,7 @@ def main():
 	parser.add_argument("-k", "--sshkey", help="generate ssh key", action='store_true')
 	parser.add_argument("-a", "--all", help="setup all", action='store_true')
 	parser.add_argument("-f", "--force", help="force to create a new ssh key", action='store_true')
+	parser.add_argument("-z", "--zsh", help="install oh-my-zsh", action='store_true')
 	args = parser.parse_args()
 
 	# Set LANG
@@ -187,6 +188,8 @@ def main():
 		setup_packages()
 	if args.sshkey:
 		gen_sshkey(force)
+	if args.zsh:
+		install_omz()
 
 	sys.exit(0)
 
