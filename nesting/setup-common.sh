@@ -9,5 +9,5 @@ popd
 EXP_NAME=`uname -a | awk '{print $2}' | cut -d. -f2`
 
 KEY_DIR=/proj/kvmarm-PG0/jintack/keys/
-mkdir $KEY_DIR/$EXP_NAME/
-cp /users/jintack/.ssh/id_rsa.pub $KEY_DIR/$EXP_NAME/client-key
+sudo mkdir $KEY_DIR/$EXP_NAME/
+sudo cp /users/jintack/.ssh/id_rsa.pub $KEY_DIR/$EXP_NAME/client-key
