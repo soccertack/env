@@ -29,10 +29,15 @@ else
 	cp $SRC_BZ $IMG_DIR
 	echo "Done"
 fi
-pushd $IMG_DIR
-pbzip2 -kd $BZ
-mv $IMG $TARGET_IMG
-popd
+
+if [ -f $IMG_DIR/$TARGET_IMG ]; then
+	echo "Skip unzip $BZ. The target file already exists"
+else
+	pushd $IMG_DIR
+	pbzip2 -kd $BZ
+	mv $IMG $TARGET_IMG
+	popd
+fi
 
 echo "Trying to sync"
 time sync
