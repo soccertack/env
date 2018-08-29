@@ -13,7 +13,7 @@ if [ -f $BZ_FILE ]; then
         echo "Initialization is already done"
 else
         pushd /tmp/env
-        sudo ./env.py -u root -a
+        sudo ./env.py -f -u root -a
         sudo ./env.py -f -u jintackl -a
         sudo ./nested.sh /root
         popd
