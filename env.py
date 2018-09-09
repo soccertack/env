@@ -141,7 +141,7 @@ def main():
 	force = False 
 
 	parser = argparse.ArgumentParser()
-	parser.add_argument("-t", "--update", help="update environments")
+	parser.add_argument("-t", "--update", help="update environments", action='store_true')
 	parser.add_argument("-u", "--user", help="setup user")
 	parser.add_argument("-m", "--mru", help="install mru", action='store_true')
 	parser.add_argument("-v", "--vim", help="setup vim", action='store_true')
