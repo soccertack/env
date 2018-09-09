@@ -167,6 +167,7 @@ def main():
 	
 	if args.update:
 		setup_packages()
+		setup_git()
 
 	if args.all:
 		setup_packages()
