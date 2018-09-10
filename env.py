@@ -179,13 +179,13 @@ def main():
 		setup_git()
 		setup_vim()
 		install_mru()
-		install_vim_fugitive():
+		install_vim_fugitive()
 
 	if args.all:
 		setup_packages()
 		setup_vim()
 		install_mru()
-		install_vim_fugitive():
+		install_vim_fugitive()
 		install_cscope()
 		setup_bash()
 		setup_git()
