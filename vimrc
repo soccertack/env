@@ -62,4 +62,9 @@ set cino+=(0
 
 let MRU_Exclude_Files = '.*COMMIT_EDITMSG'
 
+"Quickfix related setting
+autocmd QuickFixCmdPost *grep* cwindow
+map <C-j> :cn<CR>
+map <C-k> :cp<CR>
+
 " end of my vimrc ---->
