@@ -121,6 +121,15 @@ def setup_git():
 def install_cscope():
 	os.system("wget http://cs.columbia.edu/~jintack/cscope_maps.vim -P %s/.vim/plugin" % HOME)
 
+def install_vim_fugitive():
+	os.system("git clone https://github.com/tpope/vim-fugitive.git")
+
+	vim_config_dir = os.path.join(os.path.expanduser(HOME), ".vim")
+	make_dir(vim_config_dir)
+
+	os.system("cd vim-fugitive && cp -r autoload doc ftdetect plugin  %s && cd .." % vim_config_dir)
+	os.system("rm -rf vim-fugitive")
+
 def install_mru():
 	os.system("git clone https://github.com/soccertack/mru.git mru")
 
@@ -168,11 +177,15 @@ def main():
 	if args.update:
 		setup_packages()
 		setup_git()
+		setup_vim()
+		install_mru()
+		install_vim_fugitive():
 
 	if args.all:
 		setup_packages()
 		setup_vim()
 		install_mru()
+		install_vim_fugitive():
 		install_cscope()
 		setup_bash()
 		setup_git()
