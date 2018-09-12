@@ -64,8 +64,6 @@ def setup_packages():
 	os.system("sudo apt-get update")
 	os.system("sudo apt-get -y install vim exuberant-ctags git cscope pastebinit python-pexpect screen expect libncurses5-dev libncursesw5-dev u-boot-tools device-tree-compiler tig htop sysstat flex tmux sysfsutils pbzip2 libelf-dev sipcalc python-numpy tree nfs-common nmap")
 
-
-
 def setup_vim():
 	VIMRC_SRC="vimrc"
 	VIMRC_DEST=HOME+"/.vimrc"
@@ -118,30 +116,6 @@ def setup_git():
 	if USER != "":
 		os.system("chown %s:kvmarm-PG0 %s" % (USER, gitconfig_dest))
 
-def install_cscope():
-	os.system("wget http://cs.columbia.edu/~jintack/cscope_maps.vim -P %s/.vim/plugin" % HOME)
-
-def install_vim_fugitive():
-	os.system("git clone https://github.com/tpope/vim-fugitive.git")
-
-	vim_config_dir = os.path.join(os.path.expanduser(HOME), ".vim")
-	make_dir(vim_config_dir)
-
-	os.system("cd vim-fugitive && cp -r autoload doc ftdetect plugin  %s && cd .." % vim_config_dir)
-	os.system("rm -rf vim-fugitive")
-
-def install_mru():
-	os.system("git clone https://github.com/soccertack/mru.git mru")
-
-	vim_config_dir = os.path.join(os.path.expanduser(HOME), ".vim")
-	make_dir(vim_config_dir)
-
-	plugin_dir = os.path.join(os.path.expanduser(HOME), ".vim/plugin")
-	make_dir(plugin_dir)
-
-	os.system("cp mru/plugin/mru.vim %s/.vim/plugin/mru.vim" % HOME)
-	os.system("rm -rf mru")
-
 def setup_scp():
 	os.system("sudo cp scpto /usr/local/bin")
 
@@ -152,7 +126,6 @@ def main():
 	parser = argparse.ArgumentParser()
 	parser.add_argument("-t", "--update", help="update environments", action='store_true')
 	parser.add_argument("-u", "--user", help="setup user")
-	parser.add_argument("-m", "--mru", help="install mru", action='store_true')
 	parser.add_argument("-v", "--vim", help="setup vim", action='store_true')
 	parser.add_argument("-b", "--bash", help="setup bash", action='store_true')
 	parser.add_argument("-g", "--git", help="setup git", action='store_true')
@@ -178,23 +151,16 @@ def main():
 		setup_packages()
 		setup_git()
 		setup_vim()
-		install_mru()
-		install_vim_fugitive()
 
 	if args.all:
 		setup_packages()
 		setup_vim()
-		install_mru()
-		install_vim_fugitive()
-		install_cscope()
 		setup_bash()
 		setup_git()
 		setup_scp()
 		setup_tig()
 		gen_sshkey(force)
 		sys.exit(0)
-	if args.mru:
-		install_mru()
 	if args.vim:
 		setup_vim()
 	if args.git:
