@@ -80,6 +80,12 @@ Plug 'https://github.com/google/vim-searchindex.git'
 Plug 'https://github.com/soccertack/mru.git'
 Plug 'https://github.com/tpope/vim-fugitive.git'
 Plug 'https://github.com/soccertack/cscope.git'
+Plug 'https://github.com/vim-scripts/taglist.vim.git'
 call plug#end()
+
+"Make taglist more responsive.
+set ut=100
+
+map <C-t> :TlistToggle<CR>
 
 " end of my vimrc ---->
