@@ -10,9 +10,11 @@ NFS_DIR=${dir:-$DEFAULT_DIR}
 
 DEFAULT_DIR=/sdc
 read -p "nfs target dir[$DEFAULT_DIR]: " dir
-NFS_TARGET_DIR=${dir:-$DEFAULT_DIR}
+NFS_MOUNT_DIR=${dir:-$DEFAULT_DIR}
+
+mkdir -p $NFS_MOUNT_DIR
 
 sudo apt-get update
 sudo apt-get install nfs-common
-mount $NFS_IP:$NFS_DIR $NFS_TARGET_DIR
+mount $NFS_IP:$NFS_DIR $NFS_MOUNT_DIR
 df -h
