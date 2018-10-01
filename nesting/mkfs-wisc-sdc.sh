@@ -23,6 +23,8 @@ if [[ $? != 0 ]]; then
 	echo "Before change /sdc owner"
 	ls -al /sdc
 	mount /dev/sdc1 /sdc
+	#never tested
+	echo "/dev/sdc1 /sdc ext4 defaults 0 0" >> /etc/fstab
 	chown jintackl:kvmarm-PG0 /sdc
 	echo "After change /sdc owner"
 	ls -al /sdc
