@@ -2,6 +2,7 @@
 
 ETH=`ifconfig | grep "10\.10\." -B1 | head -n 1 | awk '{ print $1 }'`
 
+echo "private network eth: "$ETH
 ./net_forward.sh
 
 ifconfig $ETH > /dev/null 2>&1
