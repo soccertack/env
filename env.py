@@ -60,7 +60,7 @@ def install_tig():
 	cmd += "&&" + "cd .."
 	os.system(cmd)
 
-	os.system("rm -rf tig*")
+	os.system("rm -rf tig-*")
 
 def setup_packages():
 	os.system("sudo apt-get update")
