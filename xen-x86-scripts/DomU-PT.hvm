@@ -36,10 +36,10 @@ cpus = ["2", "3", "4", "5"]
 # Network devices
 # A list of 'vifspec' entries as described in
 # docs/misc/xl-network-configuration.markdown
-#vif = [ 'bridge=xenbr0', 'bridge=xenbr1' ]
+vif = [ 'bridge=xenbr0' ]
 #vif = [ 'bridge=xenbr1', 'bridge=xenbr0' ]
 
-pci=['06:10.0']
+pci=['06:10.1']
 
 # Disk Devices
 # A list of `diskspec' entries as described in
