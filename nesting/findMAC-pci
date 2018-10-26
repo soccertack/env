@@ -1,0 +1,2 @@
+#!/bin/bash
+for i in `ls -d /sys/class/net/eth*`; do B=$(<$i/address);A=$(ls -al $i/device);echo ${A##*../} — $B; done
