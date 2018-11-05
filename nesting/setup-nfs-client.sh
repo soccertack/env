@@ -1,16 +1,17 @@
 #!/bin/bash
 
+# $1: source ip
+# $2: source dir
+# $3: target dir
+
 DEFAULT_IP="10.10.1.1"
-read -p "nfs source ip[$DEFAULT_IP]: " ip
-NFS_IP=${ip:-$DEFAULT_IP}
+NFS_IP=${1:-$DEFAULT_IP}
 
 DEFAULT_DIR=/sdc
-read -p "nfs source dir[$DEFAULT_DIR]: " dir
-NFS_DIR=${dir:-$DEFAULT_DIR}
+NFS_DIR=${2:-$DEFAULT_DIR}
 
 DEFAULT_DIR=/sdc
-read -p "nfs target dir[$DEFAULT_DIR]: " dir
-NFS_MOUNT_DIR=${dir:-$DEFAULT_DIR}
+NFS_MOUNT_DIR=${3:-$DEFAULT_DIR}
 
 mkdir -p $NFS_MOUNT_DIR
 
