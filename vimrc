@@ -88,6 +88,21 @@ set ut=100
 
 map <C-t> :TlistToggle<CR>
 
+function! SetupPython()
+    " Here, you can have the final say on what is set.  So
+    " fixup any settings you don't like.
+    setlocal tabstop=8
+    setlocal shiftwidth=8
+    setlocal softtabstop=0
+    setlocal noexpandtab
+endfunction
+command! -bar SetupPython call SetupPython()
+
+set tabstop=8
+set shiftwidth=8
+set softtabstop=0
+set noexpandtab
+
 "set tabstop=4       " The width of a TAB is set to 4.
 "                    " Still it is a \t. It is just that
 "                    " Vim will interpret it to be having

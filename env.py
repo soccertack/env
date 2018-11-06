@@ -69,12 +69,16 @@ def setup_packages():
 def setup_vim():
 	VIMRC_SRC="vimrc"
 	VIMRC_DEST=HOME+"/.vimrc"
+	FTPLUGIN=HOME+"/.vim/after/ftplugin"
 
 	cmd = 'cp %s %s' % (VIMRC_SRC, VIMRC_DEST)
 	os.system(cmd)
 
 	if USER != "":
 		os.system("chown %s:kvmarm-PG0 %s" % (USER, VIMRC_DEST))
+
+	os.system("mkdir -p %s" % FTPLUGIN)
+	os.system("cp python.vim %s" % FTPLUGIN)
 
 def setup_bash():
 	BASHRC_SRC="bashrc"
