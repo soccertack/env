@@ -4,6 +4,9 @@ map `u :MRU<CR>
 map `r :MRU<CR>
 map `j vipgq:w<CR>
 
+"Switch to the previous buffer
+map `i :b#<CR>
+
 map `h :exe "let m = matchadd('WildMenu','\\%" . line('.') . "l')"<CR>
 map `c :call clearmatches()<CR>
 
