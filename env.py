@@ -71,8 +71,18 @@ def setup_vim():
 	VIMRC_DEST=HOME+"/.vimrc"
 	FTPLUGIN=HOME+"/.vim/after/ftplugin"
 
+        os.system('echo script environment variables test --->')
+	os.system('echo $HOME')
+	os.system('whoami')
+	os.system('pushd ~')
+	os.system('pwd')
+	os.system('popd')
+        os.system('echo done')
+
 	cmd = 'sudo mv %s %s' % ( HOME+"/.vim",  HOME+"/.vim_old")
 	os.system(cmd)
+
+	os.system("ls -al")
 
 	os.system("mkdir -p %s" % HOME+"/.vim")
 
