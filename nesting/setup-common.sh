@@ -1,13 +1,15 @@
 #!/bin/bash
 
+ENV_DIR=/tmp/env
+
 KEY_DIR=/proj/kvmarm-PG0/jintack/keys/
 sudo touch $KEY_DIR/1
 git clone -q https://github.com/soccertack/kvmperf.git /users/jintackl
-pushd /tmp/env
+pushd $ENV_DIR
 sudo touch $KEY_DIR/2
 sudo ./env.py -f -u root -a
 sudo touch $KEY_DIR/3
-sudo ./env.py -f -u jintackl -a
+sudo -i -u jintackl cd $ENV_DIR && $ENV_DIR/env.py -f -a
 sudo touch $KEY_DIR/4
 popd
 
