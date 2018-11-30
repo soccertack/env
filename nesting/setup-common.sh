@@ -9,7 +9,7 @@ pushd $ENV_DIR
 sudo touch $KEY_DIR/2
 sudo ./env.py -f -u root -a
 sudo touch $KEY_DIR/3
-sudo -i -u jintackl cd $ENV_DIR && $ENV_DIR/env.py -f -a
+sudo -u jintackl -i -- sh -c 'cd /tmp/env ; /tmp/env/env.py -f -a'
 sudo touch $KEY_DIR/4
 popd
 
