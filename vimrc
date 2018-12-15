@@ -54,6 +54,7 @@ au VimEnter * call InsertIfEmpty()
 highlight ColorColumn ctermbg=19
 
 au FileType gitcommit set tw=72
+au FileType tex set tw=70
 au FileType c,h,cpp set tw=80
 au FileType c,h,cpp set cc=80
 au FileType patch set cc=80
