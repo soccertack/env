@@ -53,6 +53,9 @@ au VimEnter * call InsertIfEmpty()
 
 highlight ColorColumn ctermbg=19
 
+" Set tex file to letex always, not plaintex
+let g:tex_flavor = "latex"
+
 au FileType gitcommit set tw=72
 au FileType tex set tw=70
 au FileType c,h,cpp set tw=80
