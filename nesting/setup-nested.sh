@@ -14,7 +14,7 @@ if [ -f $BZ_FILE ]; then
 else
         pushd /tmp/env
         sudo ./env.py -f -u root -a
-        sudo ./env.py -f -u jintackl -a
+	sudo -u jintackl -i -- sh -c 'cd /tmp/env ; /tmp/env/env.py -f -a'
         sudo ./nested.sh /root
         popd
 fi
