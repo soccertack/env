@@ -95,16 +95,6 @@ set ut=100
 
 map <C-t> :TlistToggle<CR>
 
-function! SetupPython()
-    " Here, you can have the final say on what is set.  So
-    " fixup any settings you don't like.
-    setlocal tabstop=8
-    setlocal shiftwidth=8
-    setlocal softtabstop=0
-    setlocal noexpandtab
-endfunction
-command! -bar SetupPython call SetupPython()
-
 set tabstop=8
 set shiftwidth=8
 set softtabstop=0
@@ -117,5 +107,7 @@ set noexpandtab
 "set shiftwidth=4    " Indents will have a width of 4.
 "set softtabstop=4   " Sets the number of columns for a TAB.
 "set expandtab       " Expand TABs to spaces.
+
+source ~/.google_python_style.vim
 
 " end of my vimrc ---->

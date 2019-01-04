@@ -70,6 +70,7 @@ def setup_vim():
 	VIMRC_SRC="vimrc"
 	VIMRC_DEST=HOME+"/.vimrc"
 	FTPLUGIN=HOME+"/.vim/after/ftplugin"
+        GOOGLE_PY = 'google_python_style.vim'
 
         os.system('echo script_environment_variables')
 	os.system('echo $HOME')
@@ -96,6 +97,8 @@ def setup_vim():
 
 	os.system("mkdir -p %s" % FTPLUGIN)
 	os.system("cp python.vim %s" % FTPLUGIN)
+
+	os.system("cp %s %s/.%s" % (GOOGLE_PY, HOME, GOOGLE_PY))
 
 def setup_bash():
 	BASHRC_SRC="bashrc"
