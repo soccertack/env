@@ -1,6 +1,7 @@
 #!/bin/bash
 
 NFS_DIR=${1:-/sdc}
+VM_DIR=/vm
 
 DEFAULT_DIR=/sdc
 read -p "nfs source dir[$DEFAULT_DIR]: " dir
@@ -17,5 +18,6 @@ fi
 apt-get update
 apt-get -y install nfs-kernel-server
 echo "$NFS_DIR *(rw,sync,no_root_squash,no_subtree_check)" >> /etc/exports
+echo "$VM_DIR *(rw,sync,no_root_squash,no_subtree_check)" >> /etc/exports
 exportfs -a
 service nfs-kernel-server start
