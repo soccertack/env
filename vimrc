@@ -2,7 +2,8 @@
 syn on
 map `u :MRU<CR>
 map `r :MRU<CR>
-map `j vipgq:w<CR>
+"Make a paragraph align to the line width and save it
+map `j mmvipgq`m:w<CR>
 
 "Switch to the previous buffer
 map `i :b#<CR>
