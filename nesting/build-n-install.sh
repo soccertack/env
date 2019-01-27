@@ -1,20 +1,24 @@
 #!/bin/bash
 
 branch_name=`git symbolic-ref --short HEAD`
-LV_DEFAULT=-`echo $branch_name | cut -d"-" -f2-`
+LV_DEFAULT=`echo $branch_name | cut -d"-" -f2-`
 
 if [ -z "$1" ]; then
 	read -p "LOCALVERSION?[$LV_DEFAULT]:" LV
 	if [ "$LV" == "" ]; then
-		LV=$LV_DEFAULT
+		if [ "$LV_DEFAULT" != "" ]; then
+			LV=-$LV_DEFAULT
+		else
+			LV=""
+		fi
 	fi
 else
 	LV="$1"
 fi
 
-MOD_INSTALL="sudo make modules_install"
-if [ -z "$2" ]; then
-	echo "Install modules and kernel"
+read -p "make modules_instsall??[y/N]:" MOD
+if [ "$MOD" == "y" ]; then
+	MOD_INSTALL="sudo make modules_install"
 else
 	# dummy command
 	MOD_INSTALL="ls"
