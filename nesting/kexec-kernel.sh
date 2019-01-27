@@ -5,6 +5,7 @@ read -p "kernel:[$CURR]" VER
 
 if [ "$VER" = "" ]; then
 	VER="$CURR"
+fi
 
 CMD_LINE=`cat /proc/cmdline`
 
