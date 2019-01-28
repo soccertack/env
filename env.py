@@ -96,7 +96,6 @@ def setup_vim():
 		os.system("chown %s:kvmarm-PG0 %s" % (USER, VIMRC_DEST))
 
 	os.system("mkdir -p %s" % FTPLUGIN)
-	os.system("cp python.vim %s" % FTPLUGIN)
 
 	os.system("cp %s %s/.%s" % (GOOGLE_PY, HOME, GOOGLE_PY))
 
