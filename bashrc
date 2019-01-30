@@ -30,6 +30,7 @@ alias v="cd /srv/vm"
 alias l1="ssh root@10.10.1.100"
 alias l2="ssh root@10.10.1.101"
 alias l3="ssh root@10.10.1.102"
+alias kk="kexec-kernel.sh"
 
 # This is to set the title of the terminal.
 # e.g. $ title ML
