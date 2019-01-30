@@ -23,5 +23,6 @@
 	co = commit -vs
 	coa = commit -vs --amend
 	dc = diff --cached
+	ck = checkout
 [rerere]
 	enabled = true
