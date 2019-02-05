@@ -3,6 +3,13 @@
 branch_name=`git symbolic-ref --short HEAD`
 LV_DEFAULT=`echo $branch_name | cut -d"-" -f2-`
 
+# When using vanilla Linux, the branch name looks like heads/v4.20
+# So, let's dropt "heads" if that's the case
+short=$(echo "${LV_DEFAULT}" | head -c6)
+if [ $short == "heads/" ]; then
+	LV_DEFAULT=`echo $LV_DEFAULT | cut -d"/" -f2`
+fi
+
 if [ -z "$1" ]; then
 	read -p "LOCALVERSION?[$LV_DEFAULT]:" LV
 	if [ "$LV" == "" ]; then
