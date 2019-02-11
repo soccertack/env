@@ -13,7 +13,7 @@ BIN_LIST="build-n-install.sh copy-kernel.sh kexec-maxcpus.sh kexec-kernel.sh"
 
 pushd $SCRIPT_DIR
 for f in $BIN_LIST; do
-	rm /usr/local/bin/$f
+	sudo rm /usr/local/bin/$f
 	sudo ln -s $SCRIPT_DIR/$f /usr/local/bin/$f
 done
 popd
