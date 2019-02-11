@@ -8,7 +8,7 @@ SRC_BZ=/proj/kvmarm-PG0/jintack/nested/v4.15.img.bz2
 SRC_BZ=${2:-$SRC_BZ}
 BZ=`echo ${SRC_BZ##*/}`
 IMG=`echo ${BZ%.*}`
-SCRIPT_DIR=nesting
+SCRIPT_DIR=scripts
 if [[ "$ARCH" == "x86_64" ]]; then
 	TARGET_IMG=guest0.img
 	IMG_DIR=/vm
