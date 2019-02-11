@@ -9,14 +9,14 @@
 	default = simple
 [rebase]
 	autosquash = true
-[notes "rewrite"]
-	rebase = true
-	amend = true
-[notes]
-	rewriteRef = refs/notes/commits
+#[notes "rewrite"]
+#	rebase = true
+#	amend = true
+#[notes]
+#	rewriteRef = refs/notes/commits
 [alias]
 	f = commit --fixup
-	no = notes add
+#	no = notes add
 	cp = cherry-pick
 	cpc = cherry-pick --continue
 	vs = commit -vs
