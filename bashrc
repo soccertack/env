@@ -38,6 +38,8 @@ alias p1="cd /srv/vm/qemu/scripts/qmp/ && sudo ./pin_vcpus.sh ; cd - "
 alias p2="ssh root@10.10.1.100 \"cd vm/qemu/scripts/qmp/ && ./pin_vcpus.sh\""
 alias rr="cd ~/kvmperf/cmdline_tests/ && ./server.py"
 
+alias s="cd /sdc"
+
 # This is to set the title of the terminal.
 # e.g. $ title ML
 function title {
