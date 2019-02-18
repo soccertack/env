@@ -89,7 +89,7 @@ Plug 'https://github.com/soccertack/mru.git'
 Plug 'https://github.com/tpope/vim-fugitive.git'
 Plug 'https://github.com/soccertack/cscope.git'
 Plug 'https://github.com/vim-scripts/taglist.vim.git'
-Plug 'airblade/vim-gitgutter'
+"Plug 'airblade/vim-gitgutter'
 call plug#end()
 
 "Make taglist more responsive.
