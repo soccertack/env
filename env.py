@@ -66,44 +66,45 @@ def setup_packages():
 	os.system("sudo apt-get update")
 	os.system("sudo apt-get -y install vim exuberant-ctags git cscope pastebinit python-pexpect screen expect libncurses5-dev libncursesw5-dev u-boot-tools device-tree-compiler tig htop sysstat flex tmux sysfsutils pbzip2 libelf-dev sipcalc python-numpy tree nfs-common nmap curl")
 
-vim_installed_file = HOME + "/.vim_installed"
 def setup_vim():
-    if os.path.isfile(vim_installed_file):
+    vim_installed_file = HOME + "/.vim_installed"
+    if os.path.exists(vim_installed_file):
         return
 
-	VIMRC_SRC="vimrc"
-	VIMRC_DEST=HOME+"/.vimrc"
-	FTPLUGIN=HOME+"/.vim/after/ftplugin"
-        GOOGLE_PY = 'google_python_style.vim'
+    VIMRC_SRC="vimrc"
+    VIMRC_DEST=HOME+"/.vimrc"
+    FTPLUGIN=HOME+"/.vim/after/ftplugin"
+    GOOGLE_PY = 'google_python_style.vim'
 
-        os.system('echo script_environment_variables')
-	os.system('echo $HOME')
-	os.system('whoami')
-	os.system('cd ~')
-	os.system('pwd')
-	os.system('cd ..')
-        os.system('echo done')
+    os.system('echo script_environment_variables')
+    os.system('echo $HOME')
+    os.system('whoami')
+    os.system('cd ~')
+    os.system('pwd')
+    os.system('cd ..')
+    os.system('echo done')
 
-	os.system('sudo rm -rf ~/.vim_old')
+    os.system('sudo rm -rf ~/.vim_old')
 
-	cmd = 'sudo mv %s %s' % ( HOME+"/.vim",  HOME+"/.vim_old")
-	os.system(cmd)
+    cmd = 'sudo mv %s %s' % ( HOME+"/.vim",  HOME+"/.vim_old")
+    os.system(cmd)
 
-	os.system("ls -al")
+    os.system("ls -al")
 
-	os.system("mkdir -p %s" % HOME+"/.vim")
+    os.system("mkdir -p %s" % HOME+"/.vim")
 
-	cmd = 'cp %s %s' % (VIMRC_SRC, VIMRC_DEST)
-	os.system(cmd)
+    cmd = 'cp %s %s' % (VIMRC_SRC, VIMRC_DEST)
+    os.system(cmd)
 
-	if USER != "":
-		os.system("chown %s:kvmarm-PG0 %s" % (USER, VIMRC_DEST))
+    if USER != "":
+        os.system("chown %s:kvmarm-PG0 %s" % (USER, VIMRC_DEST))
 
-	os.system("mkdir -p %s" % FTPLUGIN)
+    os.system("mkdir -p %s" % FTPLUGIN)
 
-	os.system("cp %s %s/.%s" % (GOOGLE_PY, HOME, GOOGLE_PY))
+    os.system("cp %s %s/.%s" % (GOOGLE_PY, HOME, GOOGLE_PY))
 
-	cmd = "touch %s" % vim_installed_file
+    cmd = "touch %s" % vim_installed_file
+    os.system(cmd)
 
 def setup_bash():
 	BASHRC_SRC="bashrc"
