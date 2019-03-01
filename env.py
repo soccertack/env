@@ -4,7 +4,7 @@ import sys
 import argparse
 import os.path
 
-HOME="~"
+HOME=os.path.expanduser('~')
 USER=""
 
 def setup_home_dir(user):
