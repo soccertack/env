@@ -4,6 +4,7 @@ import sys
 
 KVM_TRACE_PATH="/sys/kernel/debug/tracing/events/kvm"
 cmd=["Quit", "KVM All"]
+options = ['l', 's']
 
 def show_traces():
 	i = 1
@@ -27,14 +28,48 @@ def show_traces():
 		i += 1
 	print "----------------------------------"
 
-while 1:
-	show_traces()
-	trace_num = input("Enter trace number: [0 to quit] ")
+def show_options():
+        print ('l. load config')
+        print ('s. save config')
+
+	print "----------------------------------"
+
+def handle_option(userInput):
+
+    if userInput in options:
+        if userInput == 's':
+            print('Saved')
+        if userInput == 'l':
+            print('Loaded')
+    else:
+        print('Available options:', options)
+
+def handle_trace(trace_num):
+
 	if trace_num == 0:
 		sys.exit(1)
+
 	val = input("Set " + cmd[trace_num] + " to 0 or 1? ")
 	if trace_num == 1:
 		os.system("echo "+str(val)+" > " + KVM_TRACE_PATH+"/enable")
 	else:
 		os.system("echo "+str(val)+" > " + KVM_TRACE_PATH+"/"+cmd[trace_num]+"/enable")
+
+def handle_input(userInput):
+
+    try:
+           val = int(userInput)
+           handle_trace(val)
+    except ValueError:
+           handle_option(userInput)
+
+while 1:
+	show_traces()
+        show_options()
+	userInput = raw_input("Enter trace number or option: [0 to quit] ")
+
+        print(userInput)
+
+        handle_input(userInput)
+
 
