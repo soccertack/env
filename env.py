@@ -66,7 +66,11 @@ def setup_packages():
 	os.system("sudo apt-get update")
 	os.system("sudo apt-get -y install vim exuberant-ctags git cscope pastebinit python-pexpect screen expect libncurses5-dev libncursesw5-dev u-boot-tools device-tree-compiler tig htop sysstat flex tmux sysfsutils pbzip2 libelf-dev sipcalc python-numpy tree nfs-common nmap curl")
 
+vim_installed_file = HOME + "/.vim_installed"
 def setup_vim():
+    if os.path.isfile(vim_installed_file):
+        return
+
 	VIMRC_SRC="vimrc"
 	VIMRC_DEST=HOME+"/.vimrc"
 	FTPLUGIN=HOME+"/.vim/after/ftplugin"
@@ -98,6 +102,8 @@ def setup_vim():
 	os.system("mkdir -p %s" % FTPLUGIN)
 
 	os.system("cp %s %s/.%s" % (GOOGLE_PY, HOME, GOOGLE_PY))
+
+	cmd = "touch %s" % vim_installed_file
 
 def setup_bash():
 	BASHRC_SRC="bashrc"
