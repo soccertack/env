@@ -4,9 +4,10 @@ HOME=${1:-$HOME}
 
 ARCH=`uname -m`
 
-SRC_BZ=/proj/kvmarm-PG0/jintack/nested/v4.15.img.bz2
-SRC_BZ=${2:-$SRC_BZ}
-BZ=`echo ${SRC_BZ##*/}`
+BZ_DIR=/proj/kvmarm-PG0/jintack/nested
+BZ=v4.15.img.bz2
+BZ=${2:-$BZ}
+#BZ=`echo ${SRC_BZ##*/}`
 IMG=`echo ${BZ%.*}`
 SCRIPT_DIR=scripts
 if [[ "$ARCH" == "x86_64" ]]; then
@@ -26,7 +27,7 @@ else
 #		exit
 #	fi
 	echo "Copying ${BZ}..."
-	cp $SRC_BZ $IMG_DIR
+	cp ${BZ_DIR}/$BZ $IMG_DIR
 	echo "Done"
 fi
 
