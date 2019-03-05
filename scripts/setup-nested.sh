@@ -3,6 +3,8 @@
 ARCH=`uname -m`
 K_VER=${1:-4.15}
 
+echo $K_VER
+
 if [[ "$ARCH" == "x86_64" ]]; then
 	BZ_FILE="/vm/v${K_VER}.img.bz2"
 elif [[ "$ARCH" == "aarch64" ]]; then
