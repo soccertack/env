@@ -5,8 +5,9 @@ HOME=${1:-$HOME}
 ARCH=`uname -m`
 
 BZ_DIR=/proj/kvmarm-PG0/jintack/nested
-BZ=v4.15.img.bz2
-BZ=${2:-$BZ}
+VER=4.15
+VER=${2:-$VER}
+BZ=v${VER}.img.gz2
 #BZ=`echo ${SRC_BZ##*/}`
 IMG=`echo ${BZ%.*}`
 SCRIPT_DIR=scripts

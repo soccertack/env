@@ -22,6 +22,6 @@ if [ -f $BZ_FILE ]; then
         echo "Initialization is already done"
 else
         pushd /tmp/env
-        sudo ./nested.sh /root
+        sudo ./nested.sh /root $1
         popd
 fi
