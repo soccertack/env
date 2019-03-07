@@ -4,9 +4,11 @@ HOME=${1:-$HOME}
 
 ARCH=`uname -m`
 
-SRC_BZ=/proj/kvmarm-PG0/jintack/nested/v4.15.img.bz2
-SRC_BZ=${2:-$SRC_BZ}
-BZ=`echo ${SRC_BZ##*/}`
+BZ_DIR=/proj/kvmarm-PG0/jintack/nested
+VER=4.15
+VER=${2:-$VER}
+BZ=v${VER}.img.bz2
+#BZ=`echo ${SRC_BZ##*/}`
 IMG=`echo ${BZ%.*}`
 SCRIPT_DIR=scripts
 if [[ "$ARCH" == "x86_64" ]]; then
@@ -26,7 +28,7 @@ else
 #		exit
 #	fi
 	echo "Copying ${BZ}..."
-	cp $SRC_BZ $IMG_DIR
+	cp ${BZ_DIR}/$BZ $IMG_DIR
 	echo "Done"
 fi
 
@@ -73,7 +75,7 @@ pushd $SCRIPT_DIR
 HOME_LIST="run.sh trap_count.sh pin_vcpus_all.sh"
 cp $HOME_LIST $HOME
 
-BIN_LIST="ts tc micro-cycles.py kvm_trace.sh consume_mem.sh copy-ssh-key.sh copy-ssh-key-arm.sh"
+BIN_LIST="ts tc micro-cycles.py kvm_trace consume_mem.sh copy-ssh-key.sh copy-ssh-key-arm.sh"
 BIN=/usr/local/bin
 cp $BIN_LIST $BIN
 popd
