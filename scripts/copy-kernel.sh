@@ -1,4 +1,26 @@
-#!/bin/sh
+#!/bin/bash
+
+get_ip()
+{
+	echo "$1"
+	NODE=`echo $1 | cut -d. -f1`
+	EXP=`echo $1 | cut -d. -f2`
+
+	if [ "$NODE" == "k" ]; then
+		NODE=kvm-node
+	elif [ "$NODE" == "d" ]; then
+		NODE=kvm-dest
+	elif [ "$NODE" == "c" ]; then
+		NODE=client-node
+	elif [ "$NODE" == "s" ]; then
+		NODE=server
+	else
+		echo "usage: s <node-name>.<exp-name>"
+		exit 1
+	fi
+
+	TARGET_IP=$NODE.$EXP.kvmarm-pg0.wisc.cloudlab.us
+}
 
 if [ -z "$1" ]; then
 	echo "Target machine IP?"
@@ -6,6 +28,14 @@ if [ -z "$1" ]; then
 else
 	TARGET_IP="$1"
 fi
+
+if expr "$TARGET_IP" : '[0-9][0-9]*\.[0-9][0-9]*\.[0-9][0-9]*\.[0-9][0-9]*$' >/dev/null; then
+	echo "success"
+else
+	get_ip $TARGET_IP
+	echo "after conversion: $TARGET_IP"
+fi
+exit
 
 RELEASE_FILE="include/config/kernel.release"
 
