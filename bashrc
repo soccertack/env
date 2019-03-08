@@ -41,6 +41,9 @@ alias rr="cd ~/kvmperf/cmdline_tests/ && ./server.py"
 
 alias s="cd /sdc;ls"
 
+alias to="echo 1 >/sys/kernel/debug/kvm/timer_opt"
+alias io="echo 1 >/sys/kernel/debug/kvm/ipi_opt"
+
 # This is to set the title of the terminal.
 # e.g. $ title ML
 function title {
