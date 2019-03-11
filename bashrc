@@ -37,6 +37,7 @@ alias kk="kexec-kernel.sh"
 alias ipi="cd ~/kvmperf/cmdline_tests/ && ./l2-micro-ipi.py"
 alias p1="cd /srv/vm/qemu/scripts/qmp/ && sudo ./pin_vcpus.sh ; cd - "
 alias p2="ssh root@10.10.1.100 \"cd vm/qemu/scripts/qmp/ && ./pin_vcpus.sh\""
+alias p3="ssh root@10.10.1.101 \"cd vm/qemu/scripts/qmp/ && ./pin_vcpus.sh\""
 alias rr="cd ~/kvmperf/cmdline_tests/ && ./server.py"
 
 alias s="cd /sdc;ls"
