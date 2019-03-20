@@ -114,9 +114,9 @@ set noexpandtab
 source ~/.google_python_style.vim
 
 " This enables to jump between matching keywords like #ifdef
-set nocompatible
-filetype plugin on
-runtime macros/matchit.vim
+"set nocompatible
+"filetype plugin on
+"runtime macros/matchit.vim
 
 
 " end of my vimrc ---->
