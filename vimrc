@@ -119,4 +119,5 @@ source ~/.google_python_style.vim
 "runtime macros/matchit.vim
 
 
+nnoremap * *<c-o>
 " end of my vimrc ---->
