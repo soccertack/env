@@ -4,6 +4,7 @@ map `u :MRU<CR>
 map `r :MRU<CR>
 "Make a paragraph align to the line width and save it
 map `j mmvipgq`m:w<CR>
+map `k f=w*<C-]>
 
 "Switch to the previous buffer
 map `i :b#<CR>
