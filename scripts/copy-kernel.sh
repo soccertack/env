@@ -40,6 +40,8 @@ RELEASE_FILE="include/config/kernel.release"
 
 if [ -f $RELEASE_FILE ]; then
 	KERNEL_VER=`cat $RELEASE_FILE`
+elif [ ! -z  $2 ]; then
+	KERNEL_VER=$2
 else
 	DEFAULT_KERNEL=`uname -r`
 	read -p "Kernel version[$DEFAULT_KERNEL]: " ver
