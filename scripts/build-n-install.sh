@@ -23,9 +23,11 @@ fi
 read -p "make modules_instsall??[y/N]:" MOD
 if [ "$MOD" == "y" ]; then
 	MOD_INSTALL="sudo make modules_install"
+	BZ_IMAGE=""
 else
 	# dummy command
 	MOD_INSTALL="ls"
+	BZ_IMAGE="bzImage"
 fi
 
-time make -j 40 LOCALVERSION=$LV && $MOD_INSTALL && sudo make install
+time make -j 40 LOCALVERSION=$LV $BZ_IMAGE && $MOD_INSTALL && sudo make install
