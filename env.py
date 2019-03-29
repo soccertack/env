@@ -106,6 +106,14 @@ def setup_vim():
     cmd = "touch %s" % vim_installed_file
     os.system(cmd)
 
+def setup_alias():
+        dest = HOME + "/.myalias"
+	cmd = 'cp %s %s' % ("alias", dest)
+	os.system(cmd)
+
+	if USER != "":
+		os.system("chown %s:kvmarm-PG0 %s" % (USER, dest))
+
 def setup_bash():
 	BASHRC_SRC="bashrc"
 	BASHRC_DEST=HOME+"/.bashrc"
@@ -115,6 +123,8 @@ def setup_bash():
 
 	cmd = 'cp %s %s' % (BASHRC_SRC, MY_BASHRC)
 	os.system(cmd)
+
+        setup_alias()
 
 	cmd = 'source ' + MY_BASHRC
 	cmd = "echo '%s' >> %s" % (cmd, BASHRC_DEST)
@@ -162,6 +172,7 @@ def main():
 	parser.add_argument("-u", "--user", help="setup user")
 	parser.add_argument("-v", "--vim", help="setup vim", action='store_true')
 	parser.add_argument("-b", "--bash", help="setup bash", action='store_true')
+	parser.add_argument("-l", "--alias", help="setup alias", action='store_true')
 	parser.add_argument("-g", "--git", help="setup git", action='store_true')
 	parser.add_argument("-p", "--package", help="install packages", action='store_true')
 	parser.add_argument("-k", "--sshkey", help="generate ssh key", action='store_true')
@@ -201,6 +212,8 @@ def main():
 		setup_git()
 	if args.bash:
 		setup_bash()
+	if args.alias:
+		setup_alias()
 	if args.package:
 		setup_packages()
 	if args.sshkey:
