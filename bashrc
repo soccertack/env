@@ -44,6 +44,7 @@ alias s="cd /sdc;ls"
 
 alias to="echo 1 >/sys/kernel/debug/kvm/timer_opt"
 alias io="echo 1 >/sys/kernel/debug/kvm/ipi_opt"
+alias ioff="echo 0 >/sys/kernel/debug/kvm/ipi_opt"
 
 alias ck="copy-kernel.sh"
 alias b="build-n-install.sh"
