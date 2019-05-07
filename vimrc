@@ -120,4 +120,8 @@ source ~/.google_python_style.vim
 
 
 nnoremap * *<c-o>
+
+"Don't set indent for tex files
+au FileType tex setlocal indentexpr=
+
 " end of my vimrc ---->
