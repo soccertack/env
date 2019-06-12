@@ -12,6 +12,7 @@ cd /sdc
 git clone -o jintack git@github.com:soccertack/nested-v2.git vanilla
 cd vanilla
 git remote add linus https://github.com/torvalds/linux.git
+git fetch linus
 
 for branch in $branches; do
 	cd /sdc
