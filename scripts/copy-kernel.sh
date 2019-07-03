@@ -50,6 +50,6 @@ else
 fi
 
 rsync -av /lib/modules/$KERNEL_VER root@$TARGET_IP:/lib/modules/.
-scp /boot/*$KERNEL_VER root@$TARGET_IP:/boot/.
+rsync -av /boot/*$KERNEL_VER root@$TARGET_IP:/boot/.
 
 echo "Don't forget to update /etc/default/grub to use a new kernel"
