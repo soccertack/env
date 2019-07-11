@@ -32,3 +32,4 @@ alias ck="copy-kernel.sh"
 alias b="build-n-install.sh"
 
 alias ckk="grep \"set default\" /boot/grub/grub.cfg | tail -n 1"
+
