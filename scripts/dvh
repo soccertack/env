@@ -1,0 +1,55 @@
+#!/usr/bin/python
+import os
+import sys
+import pickle
+
+KVM_TRACE_PATH="/sys/kernel/debug/dvh"
+cmd=["Quit"]
+HOME=os.path.expanduser('~')
+filename = HOME+'/.trace'
+
+def show_traces():
+	i = 1
+	print "----------------------------------"
+	for dirname in os.listdir(KVM_TRACE_PATH):
+		f = open(KVM_TRACE_PATH+"/"+dirname, "r")
+		trace_on = f.read()
+		f.close()
+		trace_on = trace_on.rstrip('\r\n')
+		cmd.append(dirname)
+		item = '{:02}'.format(i)+".["+trace_on+"] "+dirname
+
+	        print (item)
+
+		i += 1
+	print "----------------------------------"
+
+def handle_option(userInput):
+        print('Available options: None')
+
+def handle_trace(val):
+
+	if val == 0:
+		sys.exit(1)
+
+	yn = raw_input("Set " + cmd[val] + " to Y or N? ")
+
+	os.system("echo "+ yn + " > " + KVM_TRACE_PATH+"/"+cmd[val])
+
+def handle_input(userInput):
+
+    try:
+           val = int(userInput)
+           handle_trace(val)
+    except ValueError:
+           handle_option(userInput)
+
+while 1:
+	show_traces()
+	userInput = raw_input("Enter trace number: [0 to quit] ")
+
+        print(userInput)
+
+        handle_input(userInput)
+
+
