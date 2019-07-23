@@ -220,6 +220,8 @@ def main():
 		gen_sshkey(force)
 	if args.zsh:
 		install_omz()
+        
+        os.system("sudo chsh -s /usr/bin/zsh")
 
 	sys.exit(0)
 
