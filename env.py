@@ -223,6 +223,7 @@ def main():
         
         os.system("sudo chsh -s /usr/bin/zsh")
         os.system('echo "source /root/.myalias" | sudo tee -a /root/.zshrc')
+        os.system("""echo "TZ='America/Los_Angeles'; export TZ" | sudo tee -a /root/.zshrc""")
 
 	sys.exit(0)
 
