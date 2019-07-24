@@ -222,7 +222,7 @@ def main():
 		install_omz()
         
         os.system("sudo chsh -s /usr/bin/zsh")
-        os.system('echo "source /root/.myalias" >> /root/.zshrc')
+        os.system('echo "source /root/.myalias" | sudo tee -a /root/.zshrc')
 
 	sys.exit(0)
 
