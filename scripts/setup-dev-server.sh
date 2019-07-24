@@ -1,7 +1,7 @@
 #!/bin/sh
 
 read -r -p "Please add ssh key to github and press Enter" response
-branches="v4.18-l3-opt-l0 v4.18-l3-opt-l1-m v4.18-l3-opt-basic"
+branches="v4.18-dvh-L0 v4.18-dvh-full v4.18-dvh-minimal"
 echo "Setting up branches: $branches"
 read -r -p "Quit if you want to. Press enter otherwise" response
 
