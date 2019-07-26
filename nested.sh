@@ -63,6 +63,14 @@ fi
 
 cat $HOME/.ssh/id_rsa.pub | sudo tee -a /mnt_l1/root/.ssh/authorized_keys
 cat $HOME/.ssh/id_rsa.pub | sudo tee -a /mnt_l2/root/.ssh/authorized_keys
+
+BIN=/usr/local/bin
+pushd $SCRIPT_DIR
+BIN_LIST="kvm_trace dvh"
+cp $BIN_LIST /mnt_l1/$BIN
+cp $BIN_LIST /mnt_l2/$BIN
+popd
+
 if [[ $L3_IMG == 1 ]]; then
 	cat $HOME/.ssh/id_rsa.pub | sudo tee -a /mnt_l3/root/.ssh/authorized_keys
 	sudo umount /mnt_l3
@@ -75,7 +83,6 @@ pushd $SCRIPT_DIR
 HOME_LIST="run.sh trap_count.sh pin_vcpus_all.sh"
 cp $HOME_LIST $HOME
 
-BIN_LIST="ts tc micro-cycles.py kvm_trace consume_mem.sh copy-ssh-key.sh copy-ssh-key-arm.sh"
-BIN=/usr/local/bin
+BIN_LIST="ts tc micro-cycles.py kvm_trace consume_mem.sh copy-ssh-key.sh copy-ssh-key-arm.sh dvh"
 cp $BIN_LIST $BIN
 popd
