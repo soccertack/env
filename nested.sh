@@ -88,12 +88,15 @@ cat $HOME/.ssh/id_rsa.pub | sudo tee -a /mnt_l2/root/.ssh/authorized_keys
 
 cp zshrc /mnt_l1/root/.zshrc
 cp alias /mnt_l1/root/.myalias
+echo "alias h="halt -p"" > /mnt_l1/root/.myalias
 cp zshrc /mnt_l2/root/.zshrc
 cp alias /mnt_l2/root/.myalias
+echo "alias h="halt -p"" > /mnt_l2/root/.myalias
 if [[ $L3_IMG == 1 ]]; then
 	cat $HOME/.ssh/id_rsa.pub | sudo tee -a /mnt_l3/root/.ssh/authorized_keys
 	cp zshrc /mnt_l3/root/.zshrc
 	cp alias /mnt_l3/root/.myalias
+	echo "alias h="halt -p"" > /mnt_l3/root/.myalias
 	sudo umount /mnt_l3
 fi
 
