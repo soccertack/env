@@ -111,7 +111,7 @@ BIN_LIST="ts tc micro-cycles.py kvm_trace consume_mem.sh copy-ssh-key.sh copy-ss
 cp $BIN_LIST $BIN
 popd
 
-pushd /vm
+pushd /srv/vm
 git pull
 popd
 cp zshrc /root/.zshrc
