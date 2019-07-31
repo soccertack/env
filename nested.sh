@@ -87,10 +87,13 @@ cat $HOME/.ssh/id_rsa.pub | sudo tee -a /mnt_l1/root/.ssh/authorized_keys
 cat $HOME/.ssh/id_rsa.pub | sudo tee -a /mnt_l2/root/.ssh/authorized_keys
 
 cp zshrc /mnt_l1/root/.zshrc
+cp alias /mnt_l1/root/.myalias
 cp zshrc /mnt_l2/root/.zshrc
+cp alias /mnt_l2/root/.myalias
 if [[ $L3_IMG == 1 ]]; then
 	cat $HOME/.ssh/id_rsa.pub | sudo tee -a /mnt_l3/root/.ssh/authorized_keys
 	cp zshrc /mnt_l3/root/.zshrc
+	cp alias /mnt_l3/root/.myalias
 	sudo umount /mnt_l3
 fi
 
@@ -104,3 +107,9 @@ cp $HOME_LIST $HOME
 BIN_LIST="ts tc micro-cycles.py kvm_trace consume_mem.sh copy-ssh-key.sh copy-ssh-key-arm.sh dvh"
 cp $BIN_LIST $BIN
 popd
+
+pushd /vm
+git pull
+popd
+cp zshrc /root/.zshrc
+cp alias /root/.myalias
