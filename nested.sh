@@ -11,6 +11,7 @@ BZ=v${VER}.img.bz2
 #BZ=`echo ${SRC_BZ##*/}`
 IMG=`echo ${BZ%.*}`
 SCRIPT_DIR=scripts
+NEED_VM_SETUP=0
 if [[ "$ARCH" == "x86_64" ]]; then
 	TARGET_IMG=guest0.img
 	IMG_DIR=/vm
@@ -39,11 +40,17 @@ else
 	pbzip2 -kd $BZ
 	mv $IMG $TARGET_IMG
 	popd
+	NEED_VM_SETUP=1
 fi
 
 echo "Trying to sync"
 time sync
 echo "Sync done"
+
+if [ "$NEED_VM_SETUP" == 0 ]; then
+	echo "Does't need VM setup"
+	exit
+fi
 
 L3_IMG=0
 mkdir -p /mnt_l1
