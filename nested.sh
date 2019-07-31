@@ -61,9 +61,6 @@ elif [[ "$ARCH" == "x86_64" ]]; then
 	fi
 fi
 
-cat $HOME/.ssh/id_rsa.pub | sudo tee -a /mnt_l1/root/.ssh/authorized_keys
-cat $HOME/.ssh/id_rsa.pub | sudo tee -a /mnt_l2/root/.ssh/authorized_keys
-
 BIN=/usr/local/bin
 pushd $SCRIPT_DIR
 BIN_LIST="kvm_trace dvh"
@@ -71,8 +68,22 @@ cp $BIN_LIST /mnt_l1/$BIN
 cp $BIN_LIST /mnt_l2/$BIN
 popd
 
+pushd /mnt_l1/root/vm
+git pull
+popd
+
+pushd /mnt_l2/root/vm
+git pull
+popd
+
+cat $HOME/.ssh/id_rsa.pub | sudo tee -a /mnt_l1/root/.ssh/authorized_keys
+cat $HOME/.ssh/id_rsa.pub | sudo tee -a /mnt_l2/root/.ssh/authorized_keys
+
+cp zshrc /mnt_l1/root/.zshrc
+cp zshrc /mnt_l2/root/.zshrc
 if [[ $L3_IMG == 1 ]]; then
 	cat $HOME/.ssh/id_rsa.pub | sudo tee -a /mnt_l3/root/.ssh/authorized_keys
+	cp zshrc /mnt_l3/root/.zshrc
 	sudo umount /mnt_l3
 fi
 
