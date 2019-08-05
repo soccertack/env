@@ -8,7 +8,6 @@ read -r -p "Quit if you want to. Press enter otherwise" response
 cd /tmp/env/scripts
 ./mkfs-wisc-sdc.sh
 
-mkdir -p /sdc
 cd /sdc
 git clone -o jintack git@github.com:soccertack/nested-v2.git vanilla
 cd vanilla
