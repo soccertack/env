@@ -221,7 +221,9 @@ def main():
 	if args.zsh:
 		install_omz()
         
+        print ("before copying zshrc")
         os.system("sudo cp zshrc /root/.zshrc")
+        print ("after copying zshrc")
 
 	sys.exit(0)
 
