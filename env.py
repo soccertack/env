@@ -133,6 +133,12 @@ def setup_bash():
 	if USER != "":
 		os.system("chown %s:kvmarm-PG0 %s" % (USER, MY_BASHRC))
 
+def setup_zshrc():
+        print ("before copying zshrc")
+        os.system("sudo cp zshrc /root/.zshrc")
+        print ("after copying zshrc")
+
+
 def setup_tig():
 	install_tig()
 	TIGRC_SRC="tigrc"
@@ -205,6 +211,7 @@ def main():
 		setup_scp()
 		setup_tig()
 		gen_sshkey(force)
+                setup_zshrc()
 		sys.exit(0)
 	if args.vim:
 		setup_vim()
@@ -220,9 +227,8 @@ def main():
 		gen_sshkey(force)
 	if args.zsh:
 		install_omz()
+                setup_zshrc()
         
-        os.system("sudo cp zshrc /root/.zshrc")
-
 	sys.exit(0)
 
 if __name__ == '__main__':
