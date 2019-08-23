@@ -19,3 +19,12 @@ done
 popd
 
 cat $SCRIPT_DIR/keys | sudo tee /root/.ssh/authorized_keys -a
+
+HOSTN=`hostname | cut -d . -f1`
+if [ "$HOSTN" == "client-node" ]; then
+	EXP_NAME=`uname -a | awk '{print $2}' | cut -d. -f2`
+
+	KEY_DIR=/proj/kvmarm-PG0/jintack/keys/
+	mkdir $KEY_DIR/$EXP_NAME/
+	cp /root/.ssh/id_rsa.pub $KEY_DIR/$EXP_NAME/client-key
+fi
