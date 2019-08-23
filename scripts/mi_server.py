@@ -86,8 +86,8 @@ def handle_recv(conn, data):
 		time.sleep(10)
 		
 		service = raw_input("Enter any service you want to start in the nVM: ") 
-
-		os.system("ssh root@10.10.1.101 service %s start" % service)
+                if service != "":
+		    os.system("ssh root@10.10.1.101 service %s start" % service)
 
 		raw_input("Enter when you are ready to do migration") 
 
