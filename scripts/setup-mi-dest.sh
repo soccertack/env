@@ -3,7 +3,7 @@
 ./setup-nfs-client.sh
 
 pushd /srv/vm
-./remove-nested-py
+./remove-nested.py
 popd
 
 ./update-img-dest.sh
