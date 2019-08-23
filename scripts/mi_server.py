@@ -18,6 +18,7 @@ IDX_IP_ADDR = 1
 SC_CONNECTED = 1
 SC_WAIT_FOR_BOOT = 2
 SC_NVM_READY = 3
+SC_NVM_TERMINATED = 4
 
 #Server status
 S_WAIT_FOR_BOOT = 1
@@ -110,6 +111,10 @@ def handle_recv(conn, data):
         if server_status== S_WFT:
                 if data == MSG_TERMINATED:
 			server_status = S_MIGRAION_END
+                        # We need to check if both clients disconnect, but
+                        # let's just give enough time for that, and terminate
+                        # server
+                        time.sleep(5)
 			
 
 def boot_nvm(conn):
