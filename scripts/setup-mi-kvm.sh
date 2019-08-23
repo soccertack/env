@@ -3,7 +3,7 @@
 ./setup-nfs-client.sh
 
 pushd /srv/vm
-./remove-nested-py
+./remove-nested.py
 popd
 
 # Add client key to the image to be copied first
