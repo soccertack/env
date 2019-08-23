@@ -44,12 +44,12 @@ def get_src_conn():
 			return conn
 	return
 
-def check_all_ready():
+def check_all_conn(conn_status):
 	src_ready = False
 	dest_ready = False
 	# Check if all connections are ready
 	for conn in clients:
-		if is_status(conn, SC_NVM_READY):
+		if is_status(conn, conn_status):
 			if get_ip(conn)  == "10.10.1.2":
 				src_ready = True
 			if get_ip(conn)  == "10.10.1.3":
@@ -80,7 +80,7 @@ def handle_recv(conn, data):
 			set_status(conn, SC_NVM_READY)
 
 	# Server state
-	if (server_status == S_WAIT_FOR_BOOT) and check_all_ready():
+	if (server_status == S_WAIT_FOR_BOOT) and check_all_conn(SC_NVM_READY):
 		ping_l2()
 		print ("Ping was successful. Wait for 10 sec")
 		time.sleep(10)
