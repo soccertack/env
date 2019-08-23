@@ -1,6 +1,6 @@
 #!/bin/bash
 
-./setup-nfs-server.sh
+./setup-nfs-client.sh
 
 pushd /srv/vm
 ./remove-nested-py
