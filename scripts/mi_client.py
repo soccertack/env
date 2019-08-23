@@ -8,7 +8,7 @@ import socket
 from datetime import datetime
 from sk_common import *
 from mi_common import *
-import mi_api
+import vm_api
 
 #Client status
 C_NULL = 0
@@ -41,15 +41,15 @@ def handle_recv(c, buf):
 	print buf + " is received"
 	if status == C_WAIT_FOR_BOOT_CMD:
 		if buf == MSG_BOOT:
-			mi_api.init()
-			mi_api.boot_vms()
+			vm_api.init()
+			vm_api.boot_vms()
 			c.send(MSG_BOOT_COMPLETED)
 			status = C_BOOT_COMPLETED
 	elif status == C_BOOT_COMPLETED:
 		if buf == MSG_MIGRATE:
 			print "start migration"
-			child = mi_api.get_child()
-			mi = mi_api.get_mi_level()
+			child = vm_api.get_child()
+			mi = vm_api.get_mi_level()
 #			child.sendline('migrate_set_speed 4095m')
 #			child.expect('\(qemu\)')
 			if mi == 'l2':
@@ -75,7 +75,7 @@ def handle_recv(c, buf):
 			status = C_MIGRATION_COMPLETED
 
 	if buf == MSG_TERMINATE:
-		mi_api.terminate_vms()
+		vm_api.terminate_vms()
 		c.send(MSG_TERMINATED)
 		status = C_TERMINATED
 
