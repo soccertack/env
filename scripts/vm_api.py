@@ -66,7 +66,7 @@ def handle_mi_options(vm_level, lx_cmd):
 		# BTW, this is the only place to use mi_role
 		if params.mi_role == "src":
 			lx_cmd += mi_src
-		else:
+                elif params.mi_role == "dest":
 			lx_cmd += mi_dest
 
 	return lx_cmd
@@ -80,7 +80,8 @@ def handle_pi_options(vm_level, lx_cmd):
 
 def add_special_options(vm_level, lx_cmd):
 	lx_cmd = handle_pi_options(vm_level, lx_cmd)
-	lx_cmd = handle_mi_options(vm_level, lx_cmd)
+        if params.mi != 'no':
+	    lx_cmd = handle_mi_options(vm_level, lx_cmd)
 
 	return lx_cmd
 
@@ -136,6 +137,8 @@ def boot_vms():
 
 #depricated for now
 def halt(level):
+        child = g_child
+
 	if level > 2:
 		os.system('ssh root@10.10.1.102 "halt -p"')
 		child.expect('L2.*$')
