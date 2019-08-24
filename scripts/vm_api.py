@@ -33,6 +33,8 @@ mi_src = " -s"
 mi_dest = " -t"
 LOCAL_SOCKET = 8890
 l1_addr='10.10.1.100'
+PIN = ' -w'
+pin_waiting='waiting for connection.*server'
 hostname=''
 params=None
 g_child=None
@@ -46,10 +48,12 @@ def wait_for_prompt(child):
     child.expect('%s.*#' % hostname)
 
 def pin_vcpus(level):
-	os.system('cd /srv/vm/qemu/scripts/qmp/ && sudo ./pin_vcpus.sh && cd -')
-	if level > 1:
+
+        if level == 1:
+	    os.system('cd /srv/vm/qemu/scripts/qmp/ && sudo ./pin_vcpus.sh && cd -')
+	if level == 2:
 		os.system('ssh root@%s "cd vm/qemu/scripts/qmp/ && ./pin_vcpus.sh"' % l1_addr)
-	if level > 2:
+	if level == 3:
 		os.system('ssh root@10.10.1.101 "cd vm/qemu/scripts/qmp/ && ./pin_vcpus.sh"')
 	print ("vcpu is pinned")
 
@@ -88,6 +92,8 @@ def add_special_options(vm_level, lx_cmd):
 	lx_cmd = handle_pi_options(vm_level, lx_cmd)
         if params.mi != 'no':
 	    lx_cmd = handle_mi_options(vm_level, lx_cmd)
+
+        lx_cmd += PIN
 
 	return lx_cmd
 
@@ -129,6 +135,8 @@ def boot_vms():
 		print (lx_cmd)
 
 		child.sendline(lx_cmd)
+                child.expect(pin_waiting)
+                pin_vcpus(vm_level)
 
 		if mi == "l2" and vm_level == 2:
 			child.expect('\(qemu\)')
@@ -136,10 +144,6 @@ def boot_vms():
 			child.expect('\(qemu\)')
 		else:
 			child.expect('L' + str(vm_level) + '.*$')
-
-	time.sleep(2)
-	pin_vcpus(level)
-	time.sleep(2)
 
 def halt(level):
     child = g_child
