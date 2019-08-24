@@ -10,14 +10,6 @@ import argparse
 import os.path
 import pickle
 
-class DVH:
-    VP = 0
-    Vtimer = 1
-    VIPI = 2
-    Vidle = 3
-    Vseg = 4
-    VMax = 5
-
 class Params:
 	def __init__(self):
 		self.level = 0
@@ -25,7 +17,12 @@ class Params:
 		self.posted = False
 		mi = None
 		mi_role = None
-                self.dvh = ['N'] * DVH.VMax
+                self.dvh =  {
+                            'virtual_ipi': 'n',
+                            'virtual_timer': 'n',
+                            'virtual_idle': 'n',
+                            'virtual_seg': 'n',
+                            }
 
 	def __str__(self):
 		return str(self.__class__) + ": " + str(self.__dict__)
@@ -238,6 +235,17 @@ def save_params(new_params):
     with open(EXP_PARAMS_PKL, 'wb') as output:
         pickle.dump(new_params, output)
 
+def set_dvh(new_params):
+
+    dvh = raw_input("DVH [y/N]?: ") or 'n'
+
+    if dvh == 'n':
+        return
+
+    for f in new_params.dvh:
+        enable = raw_input("DVH %s [y/N]?: " % f) or 'n'
+        new_params.dvh[f] = enable
+
 def set_params():
     global params
 
@@ -257,6 +265,7 @@ def set_params():
         new_params.iovirt = set_iovirt()
         new_params.posted = set_device_pi(new_params.iovirt)
         new_params.mi, new_params.mi_role = set_migration()
+        set_dvh(new_params)
 
         save_params(new_params)
 
