@@ -191,6 +191,49 @@ def str_to_bool(s):
 		raise ValueError
 
 EXP_PARAMS_PKL="./.exp_params.pkl"
+def set_level():
+
+    level  = int(raw_input("Enter virtualization level (from 1 to 3) [2]: ") or "2")
+    if level < 1 or level > 3:
+        print ("We only support L1, L2 or L3")
+        sys.exit(0)
+    return level
+
+def set_iovirt():
+    # iovirt: pv, pt(pass-through), or vp(virtual-passthough)
+    iovirt = raw_input("Enter I/O virtualization model (pv, pt, or vp) [%s]: " % io_default) or io_default
+    if iovirt not in ["pv", "pt", "vp"]:
+        print ("Enter pv, pt, or vp")
+        sys.exit(0)
+    return iovirt
+
+def set_device_pi(iovirt):
+
+    posted = False
+    if iovirt == "vp":
+        posted = raw_input("Enable posted-interrupts in vIOMMU? [no]: ") or "no"
+        if posted == "no":
+            posted = False
+        else:
+            posted = True
+
+    return posted
+
+def set_migration():
+
+    mi_role = ""
+    mi = raw_input("Migration? (no, l1, or l2) [%s]: " % mi_default) or mi_default
+    if mi not in ["no", "l1", "l2"]:
+        print ("Enter no or l1 or l2")
+        sys.exit(0)
+    elif mi in ["l1", "l2"]:
+        if hostname == "kvm-dest":
+            mi_role = 'dest'
+        else:
+            mi_role = 'src'
+
+    return mi, mi_role
+
 def set_params():
 	global params
 
@@ -206,44 +249,13 @@ def set_params():
 	if not exist or reuse_param != 'y':
 		new_params = Params()
 
-		level  = int(raw_input("Enter virtualization level [2]: ") or "2")
-		if level < 1:
-			print ("We don't (need to) support L0")
-			sys.exit(0)
-		if level > 3:
-			print ("Are you sure to run virt level %d?" % level)
-			sleep(5)
-		new_params.level = level
+		new_params.level = set_level()
 
-# iovirt: pv, pt(pass-through), or vp(virtual-passthough)
-		iovirt = raw_input("Enter I/O virtualization level [%s]: " % io_default) or io_default
-		if iovirt not in ["pv", "pt", "vp"]:
-			print ("Enter pv, pt, or vp")
-			sys.exit(0)
-		new_params.iovirt = iovirt
+		new_params.iovirt = set_iovirt()
 
-		posted = False
-		if iovirt == "vp":
-			posted = raw_input("Enable posted-interrupts in vIOMMU? [no]: ") or "no"
-			if posted == "no":
-				posted = False
-			else:
-				posted = True
-		new_params.posted = posted
+                new_params.posted = set_device_pi(new_params.iovirt)
 
-
-		mi_role = ""
-		mi = raw_input("Migration? [%s]: " % mi_default) or mi_default
-		if mi not in ["no", "l1", "l2"]:
-			print ("Enter no or l1 or l2")
-			sys.exit(0)
-		elif mi in ["l1", "l2"]:
-			if hostname == "kvm-dest":
-				mi_role = 'dest'
-			else:
-				mi_role = 'src'
-		new_params.mi = mi
-		new_params.mi_role = mi_role
+                new_params.mi, new_params.mi_role = set_migration()
 
 		with open(EXP_PARAMS_PKL, 'wb') as output:
 			pickle.dump(new_params, output)
