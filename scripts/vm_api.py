@@ -10,6 +10,14 @@ import argparse
 import os.path
 import pickle
 
+class DVH:
+    VP = 0
+    Vtimer = 1
+    VIPI = 2
+    Vidle = 3
+    Vseg = 4
+    VMax = 5
+
 class Params:
 	def __init__(self):
 		self.level = 0
@@ -17,6 +25,7 @@ class Params:
 		self.posted = False
 		mi = None
 		mi_role = None
+                self.dvh = ['N'] * DVH.VMax
 
 	def __str__(self):
 		return str(self.__class__) + ": " + str(self.__dict__)
