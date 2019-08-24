@@ -144,20 +144,19 @@ def boot_vms():
 	pin_vcpus(level)
 	time.sleep(2)
 
-#depricated for now
 def halt(level):
-        child = g_child
+    child = g_child
 
-	if level > 2:
-		os.system('ssh root@10.10.1.102 "halt -p"')
-		child.expect('L2.*$')
+    if level > 2:
+        child.sendline('halt -p')
+        child.expect('L2.*$')
 
-	if level > 1:
-		os.system('ssh root@10.10.1.101 "halt -p"')
-		child.expect('L1.*$')
+    if level > 1:
+        child.sendline('halt -p')
+        child.expect('L1.*$')
 
-	os.system('ssh root@%s "halt -p"' % l1_addr)
-	wait_for_prompt(child)
+    child.sendline('halt -p')
+    wait_for_prompt(child)
 
 #depricated for now
 def reboot(params):
