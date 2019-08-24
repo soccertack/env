@@ -234,34 +234,33 @@ def set_migration():
 
     return mi, mi_role
 
+def save_params(new_params):
+    with open(EXP_PARAMS_PKL, 'wb') as output:
+        pickle.dump(new_params, output)
+
 def set_params():
-	global params
+    global params
 
-	exist = os.path.exists(EXP_PARAMS_PKL)
-	reuse_param = 'y'
-	if exist:
-		with open(EXP_PARAMS_PKL, 'rb') as input:
-			params = pickle.load(input)
-			print(params)
+    exist = os.path.exists(EXP_PARAMS_PKL)
+    reuse_param = 'y'
+    if exist:
+        with open(EXP_PARAMS_PKL, 'rb') as input:
+            params = pickle.load(input)
+            print(params)
 
-			reuse_param = raw_input("Want to proceed with the params?[y/n] ") or 'y'
+            reuse_param = raw_input("Want to proceed with the params?[y/n] ") or 'y'
 
-	if not exist or reuse_param != 'y':
-		new_params = Params()
+    if not exist or reuse_param != 'y':
+        new_params = Params()
 
-		new_params.level = set_level()
+        new_params.level = set_level()
+        new_params.iovirt = set_iovirt()
+        new_params.posted = set_device_pi(new_params.iovirt)
+        new_params.mi, new_params.mi_role = set_migration()
 
-		new_params.iovirt = set_iovirt()
+        save_params(new_params)
 
-                new_params.posted = set_device_pi(new_params.iovirt)
-
-                new_params.mi, new_params.mi_role = set_migration()
-
-		with open(EXP_PARAMS_PKL, 'wb') as output:
-			pickle.dump(new_params, output)
-
-		params = new_params
-		return new_params
+        params = new_params
 
 def set_l1_addr():
 	global l1_addr
