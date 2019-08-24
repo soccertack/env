@@ -35,7 +35,10 @@ LOCAL_SOCKET = 8890
 l1_addr='10.10.1.100'
 PIN = ' -w'
 pin_waiting='waiting for connection.*server'
-hostname=''
+hostname = os.popen('hostname | cut -d . -f1').read().strip()
+hostnames = []
+hostnames.append(hostname)
+hostnames += ['L1', 'L2', 'L3']
 params=None
 g_child=None
 
@@ -301,9 +304,7 @@ def get_mi_level():
 	return params.mi
 
 def init():
-	global hostname
 
-	hostname = os.popen('hostname | cut -d . -f1').read().strip()
 	set_params()
 	set_l1_addr()
 
