@@ -44,7 +44,7 @@ g_child=None
 mi_default = "l2"
 io_default = "vp"
 ###############################
-def wait_for_prompt(child):
+def wait_for_prompt(child, hostname):
     child.expect('%s.*#' % hostname)
 
 def pin_vcpus(level):
@@ -157,7 +157,7 @@ def halt(level):
         child.expect('L1.*$')
 
     child.sendline('halt -p')
-    wait_for_prompt(child)
+    wait_for_prompt(child, hostname)
 
 #depricated for now
 def reboot(params):
@@ -174,13 +174,13 @@ def terminate_vms():
 		child.sendline('q')
 		child.expect('L1.*$')
 		child.sendline('h')
-		wait_for_prompt(g_child)
+		wait_for_prompt(g_child, hostname)
 
 	if params.level == 1 and params.mi == 'l1':
 		child.sendline('stop')
 		child.expect('\(qemu\)')
 		child.sendline('q')
-		wait_for_prompt(g_child)
+		wait_for_prompt(g_child, hostname)
 	
 def str_to_bool(s):
 	if s == 'True':
@@ -288,7 +288,7 @@ def create_child():
 	child.timeout=None
 
 	child.sendline('')
-	wait_for_prompt(child)
+	wait_for_prompt(child, hostname)
 
 	g_child = child
 	return child
