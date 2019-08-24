@@ -121,29 +121,29 @@ def get_iovirt_cmd(vm_level, lx_cmd):
 	return lx_cmd
 
 def boot_vms():
-	level = params.level
-	mi = params.mi
-	child = g_child
+    level = params.level
+    mi = params.mi
+    child = g_child
 
-	vm_level = 0
-	while (vm_level < level):
-		vm_level += 1
+    vm_level = 0
+    while (vm_level < level):
+        vm_level += 1
 
-		lx_cmd = get_base_cmd(vm_level)
-		lx_cmd = get_iovirt_cmd(vm_level, lx_cmd)
-		lx_cmd = add_special_options(vm_level, lx_cmd)
-		print (lx_cmd)
+        lx_cmd = get_base_cmd(vm_level)
+        lx_cmd = get_iovirt_cmd(vm_level, lx_cmd)
+        lx_cmd = add_special_options(vm_level, lx_cmd)
+        print (lx_cmd)
 
-		child.sendline(lx_cmd)
-                child.expect(pin_waiting)
-                pin_vcpus(vm_level)
+        child.sendline(lx_cmd)
+        child.expect(pin_waiting)
+        pin_vcpus(vm_level)
 
-		if mi == "l2" and vm_level == 2:
-			child.expect('\(qemu\)')
-		elif mi == "l1" and vm_level == 1:
-			child.expect('\(qemu\)')
-		else:
-			child.expect('L' + str(vm_level) + '.*$')
+        if mi == "l2" and vm_level == 2:
+            child.expect('\(qemu\)')
+        elif mi == "l1" and vm_level == 1:
+            child.expect('\(qemu\)')
+        else:
+            child.expect('L' + str(vm_level) + '.*$')
 
 def halt(level):
     child = g_child
