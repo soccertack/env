@@ -123,6 +123,21 @@ def get_iovirt_cmd(vm_level, lx_cmd):
 
 	return lx_cmd
 
+def configure_dvh(vm_level):
+    child = g_child
+
+    for f in params.dvh:
+        dvh_filename='/sys/kernel/debug/dvh/' + f
+        if not os.path.exists(dvh_filename):
+            if params.dvh[f] == 'y':
+                print ("DVH %s is not supported but we tried to enable it" % f) 
+                sys.exit(0)
+            continue
+        cmd = 'echo %s > %s' % (params.dvh[f], dvh_filename)
+        child.sendline(cmd)
+        # Wait for host prompt
+        wait_for_prompt(child, hostnames[vm_level - 1])
+
 def boot_vms():
     level = params.level
     mi = params.mi
@@ -136,6 +151,8 @@ def boot_vms():
         lx_cmd = get_iovirt_cmd(vm_level, lx_cmd)
         lx_cmd = add_special_options(vm_level, lx_cmd)
         print (lx_cmd)
+
+        configure_dvh(vm_level)
 
         child.sendline(lx_cmd)
         child.expect(pin_waiting)
