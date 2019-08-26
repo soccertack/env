@@ -15,17 +15,28 @@ class Params:
 		self.level = 0
 		self.iovirt = None
 		self.posted = False
-		mi = None
-		mi_role = None
+		self.mi = None
+		self.mi_role = None
                 self.dvh =  {
                             'virtual_ipi': 'n',
                             'virtual_timer': 'n',
                             'virtual_idle': 'n',
                             'virtual_seg': 'n',
                             }
-
+		self.dvh_use = False
+	
 	def __str__(self):
-		return str(self.__class__) + ": " + str(self.__dict__)
+		print ("Level: " + str(self.level))
+		print ("I/O virtualization: " + self.iovirt)
+		if self.iovirt == 'vp':
+			print ("Device PI: " + str(self.posted))
+
+		if self.mi != None and self.mi != 'no':
+			print ("Migration for %s as %s" % (self.mi, self.mi_role))
+
+		if self.dvh_on:
+			for d in self.dvh:
+				print("%s: %s" % (d, self.dvh[d]))
 
 l0_migration_qemu  = ' --qemu /sdc/L0-qemu/'
 l1_migration_qemu = ' --qemu /sdc/L1-qemu/'
@@ -264,8 +275,10 @@ def set_dvh(new_params):
     dvh = raw_input("DVH [y/N]?: ") or 'n'
 
     if dvh == 'n':
+	new_params.dvh_on = False
         return
 
+    new_params.dvh_on = True
     for f in new_params.dvh:
         enable = raw_input("DVH %s [y/N]?: " % f) or 'n'
         new_params.dvh[f] = enable
@@ -278,7 +291,7 @@ def set_params():
     if exist:
         with open(EXP_PARAMS_PKL, 'rb') as input:
             params = pickle.load(input)
-            print(params)
+            params.__str__()
 
             reuse_param = raw_input("Want to proceed with the params?[y/n] ") or 'y'
 
