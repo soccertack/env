@@ -114,9 +114,5 @@ popd
 pushd /srv/vm
 git pull
 popd
-pushd /srv/vm/qemu-pi
-git pull
-make -j 10
-popd
 cp zshrc /root/.zshrc
 cp alias /root/.myalias
