@@ -15,7 +15,8 @@ class Params:
 		self.level = 0
 		self.iovirt = None
 		self.posted = False
-		self.mi = None
+		self.mi = False
+		self.mi_level = 0
 		self.mi_role = None
                 self.dvh =  {
                             'virtual_ipi': 'n',
@@ -31,8 +32,8 @@ class Params:
 		if self.iovirt == 'vp':
 			print ("Device PI: " + str(self.posted))
 
-		if self.mi != None and self.mi != 'no':
-			print ("Migration for %s as %s" % (self.mi, self.mi_role))
+                if self.mi:
+                    print ("Migration level: %d as %s" % (self.mi_level, self.mi_role))
 
 		if self.dvh_on:
 			for d in self.dvh:
@@ -79,14 +80,14 @@ cmd_vfio_viommu = './run-guest-vfio-viommu.sh'
 def handle_mi_options(vm_level, lx_cmd):
 
 	# For L2 VP migration, we use special QEMUs at L0 and L1
-	if vm_level == 1 and params.iovirt == 'vp' and params.mi == "l2":
+	if vm_level == 1 and params.iovirt == 'vp' and params.mi_level == 2:
 		lx_cmd += l0_migration_qemu
 	
 	# This can be checking the last level VM for Ln VP migration...
-	if vm_level == 2 and params.iovirt == 'vp' and params.mi == "l2":
+	if vm_level == 2 and params.iovirt == 'vp' and params.mi_level == 2:
 		lx_cmd += l1_migration_qemu
 
-	if vm_level == 1 and params.mi == "l1":
+	if vm_level == 1 and params.mi_level == 1:
 		# BTW, this is the only place to use mi_role
 		#if params.mi_role == "src":
 		#	lx_cmd += mi_src
@@ -104,7 +105,7 @@ def handle_pi_options(vm_level, lx_cmd):
 
 def add_special_options(vm_level, lx_cmd):
 	lx_cmd = handle_pi_options(vm_level, lx_cmd)
-        if params.mi != 'no':
+        if params.mi:
 	    lx_cmd = handle_mi_options(vm_level, lx_cmd)
 
         lx_cmd += PIN
@@ -151,7 +152,7 @@ def configure_dvh(vm_level):
 
 def boot_vms():
     level = params.level
-    mi = params.mi
+    mi_level = params.mi_level
     child = g_child
 
     vm_level = 0
@@ -169,9 +170,9 @@ def boot_vms():
         child.expect(pin_waiting)
         pin_vcpus(vm_level)
 
-        if mi == "l2" and vm_level == 2:
+        if mi_level == 2 and vm_level == 2:
             child.expect('\(qemu\)')
-        elif mi == "l1" and vm_level == 1:
+        elif mi_level == 1 and vm_level == 1:
             child.expect('\(qemu\)')
 
             #Here , we eventually check if this is the destination AND if the current level is the migration level
@@ -204,7 +205,7 @@ def terminate_vms():
 	print ("Terminate VM.")
 
 	child = g_child
-	if params.level == 2 and params.mi == 'l2':
+	if params.level == 2 and params.mi_level == 2:
 		child.sendline('stop')
 		child.expect('\(qemu\)')
 		child.sendline('q')
@@ -212,7 +213,7 @@ def terminate_vms():
 		child.sendline('h')
 		wait_for_prompt(g_child, hostname)
 
-	if params.level == 1 and params.mi == 'l1':
+	if params.level == 1 and params.mi_level == 1:
 		child.sendline('stop')
 		child.expect('\(qemu\)')
 		child.sendline('q')
@@ -264,20 +265,22 @@ def get_boolean_input(statement):
         except KeyError:
             print "Invalid input please enter y, Y, n, or N"
 
-def set_migration():
+def set_migration(new_params):
 
-    mi_role = ""
-    mi = raw_input("Migration? (no, l1, or l2) [%s]: " % mi_default) or mi_default
-    if mi not in ["no", "l1", "l2"]:
-        print ("Enter no or l1 or l2")
+    new_params.mi = get_boolean_input("Migration [y/N]?: ")
+
+    if not new_params.mi:
+        return
+
+    new_params.mi_level = int(raw_input("Migration level (from 1 to 3) [2]: ") or "2")
+    if new_params.level < 1 or new_params.level > 3:
+        print ("We only support L1, L2 or L3")
         sys.exit(0)
-    elif mi in ["l1", "l2"]:
-        if hostname == "kvm-dest":
-            mi_role = 'dest'
-        else:
-            mi_role = 'src'
 
-    return mi, mi_role
+    if hostname == "kvm-dest":
+        new_params.mi_role = 'dest'
+    else:
+        new_params.mi_role = 'src'
 
 def save_params(new_params):
     with open(EXP_PARAMS_PKL, 'wb') as output:
@@ -314,7 +317,7 @@ def set_params():
         new_params.level = set_level()
         new_params.iovirt = set_iovirt()
         new_params.posted = set_device_pi(new_params.iovirt)
-        new_params.mi, new_params.mi_role = set_migration()
+        set_migration(new_params)
         set_dvh(new_params)
 
         save_params(new_params)
@@ -344,7 +347,7 @@ def get_child():
 	return g_child
 
 def get_mi_level():
-	return params.mi
+	return params.mi_level
 
 def init():
 

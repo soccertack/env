@@ -49,15 +49,15 @@ def handle_recv(c, buf):
 		if buf == MSG_MIGRATE:
 			print "start migration"
 			child = vm_api.get_child()
-			mi = vm_api.get_mi_level()
+			mi_level = vm_api.get_mi_level()
 #			child.sendline('migrate_set_speed 4095m')
 #			child.expect('\(qemu\)')
-			if mi == 'l2':
+			if mi_level  == 2:
 				child.sendline('migrate -d tcp:10.10.1.110:5555')
-			elif mi == 'l1':
+			elif mi_level  == 1:
 				child.sendline('migrate -d tcp:10.10.1.3:5555')
 			else:
-				print("Error: mi is " + mi)
+				print("Error: mi level is " + mi_level)
 				sys.exit(1)
 			child.expect('\(qemu\)')
 
