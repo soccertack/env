@@ -173,11 +173,10 @@ def boot_vms():
         if mi_level == 2 and vm_level == 2:
             child.expect('\(qemu\)')
         elif mi_level == 1 and vm_level == 1:
-            child.expect('\(qemu\)')
-
             #Here , we eventually check if this is the destination AND if the current level is the migration level
             # If so, we are done
             if params.mi_role == 'dest':
+                child.expect('\(qemu\)')
                 break
         else:
             child.expect('L' + str(vm_level) + '.*$')
