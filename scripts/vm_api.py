@@ -170,15 +170,8 @@ def boot_vms():
         child.expect(pin_waiting)
         pin_vcpus(vm_level)
 
-        if mi_level == 2 and vm_level == 2:
+        if mi_level == vm_level and params.mi_role == 'dest' :
             child.expect('\(qemu\)')
-        elif mi_level == 1 and vm_level == 1:
-            #Here , we eventually check if this is the destination AND if the current level is the migration level
-            # If so, we are done
-            if params.mi_role == 'dest':
-                child.expect('\(qemu\)')
-                break
-            child.expect('L' + str(vm_level) + '.*$')
         else:
             child.expect('L' + str(vm_level) + '.*$')
 
