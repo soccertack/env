@@ -89,8 +89,8 @@ def handle_mi_options(vm_level, lx_cmd):
 
 	if vm_level == 1 and params.mi_level == 1:
 		# BTW, this is the only place to use mi_role
-		#if params.mi_role == "src":
-		#	lx_cmd += mi_src
+		if params.mi_role == "src":
+			lx_cmd += mi_src
                 if params.mi_role == "dest":
 			lx_cmd += mi_dest
 
