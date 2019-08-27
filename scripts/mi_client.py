@@ -18,6 +18,7 @@ C_MIGRATION_COMPLETED = 3
 C_TERMINATED = 4
 
 status = C_NULL
+monitor_child = None
 
 def connect_to_server():
 	print("Trying to connect to the server")
@@ -47,6 +48,7 @@ def handle_recv(c, buf):
 			status = C_BOOT_COMPLETED
 	elif status == C_BOOT_COMPLETED:
 		if buf == MSG_MIGRATE:
+			global monitor_child
 			print "start migration"
 			child = vm_api.get_child()
 			mi_level = vm_api.get_mi_level()
@@ -87,7 +89,10 @@ def handle_recv(c, buf):
 			status = C_MIGRATION_COMPLETED
 
 	if buf == MSG_TERMINATE:
-		vm_api.terminate_vms()
+		if monitor_child:
+			vm_api.terminate_vms(monitor_child)
+                else:
+			vm_api.terminate_vms()
 		c.send(MSG_TERMINATED)
 		status = C_TERMINATED
 

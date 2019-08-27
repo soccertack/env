@@ -194,10 +194,9 @@ def reboot(params):
 	halt(params.level)
 	boot_nvm(params)
 
-def terminate_vms():
+def terminate_vms(child = g_child):
 	print ("Terminate VM.")
 
-	child = g_child
 	if params.level == 2 and params.mi_level == 2:
 		child.sendline('stop')
 		child.expect('\(qemu\)')
