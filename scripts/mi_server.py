@@ -10,6 +10,8 @@ import socket
 from sk_common import *
 from mi_common import *
 
+level = 0
+vm_addr = ['10.10.1.1', '10.10.1.100', '10.10.1.101', '10.10.1.102']
 #Connection status fields
 IDX_STATUS = 0
 IDX_IP_ADDR = 1
@@ -62,10 +64,9 @@ def terminate_all():
 	for conn in clients:
 		conn.send(MSG_TERMINATE)
 
-def ping_l2():
-
+def ping():
 	while True:
-		if (os.system("ping -c 1 10.10.1.101") == 0):
+		if (os.system("ping -c 1 " + vm_addr[level]) == 0):
 			break;
 		print ("ping was not successfull. Retry after one sec")
 		time.sleep(1)
@@ -82,13 +83,13 @@ def handle_recv(conn, data):
 
 	# Server state
 	if (server_status == S_WAIT_FOR_BOOT) and check_all_conn(SC_NVM_READY):
-		ping_l2()
+		ping()
 		print ("Ping was successful. Wait for 10 sec")
 		time.sleep(10)
 		
 		service = raw_input("Enter any service you want to start in the nVM: ") 
                 if service != "":
-		    os.system("ssh root@10.10.1.101 service %s start" % service)
+		    os.system("ssh root@%s service %s start" % (vm_addr[level], service))
 
 		raw_input("Enter when you are ready to do migration") 
 
@@ -100,7 +101,7 @@ def handle_recv(conn, data):
 	if server_status == S_MIGRAION_START:
 		if data == MSG_MIGRATE_COMPLETED:
 			time.sleep(2)
-			ping_l2()
+			ping()
 			print ("Ping was successful after migration")
 
 			print("migration is completed")
@@ -137,6 +138,8 @@ print ("Done.")
 print ("Try to listen...")
 s.listen(2) # become a server socket.
 print ("Done.")
+
+level = int(raw_input("Enter the virtualization level: "))
 
 conn_status = {}
 inputs = []
