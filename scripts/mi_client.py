@@ -59,7 +59,7 @@ def handle_recv(c, buf):
                         
                         if mi_level == 2:
 		    	    monitor_child.sendline('ssh root@10.10.1.100')
-                            wait_for_prompt(monitor_child, hostnames[1])
+                            vm_api.wait_for_prompt(monitor_child, vm_api.hostnames[1])
 
 			monitor_child.sendline('telnet 127.0.0.1 4444')
 			monitor_child.expect('\(qemu\)')
