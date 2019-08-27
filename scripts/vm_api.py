@@ -87,7 +87,7 @@ def handle_mi_options(vm_level, lx_cmd):
 	if vm_level == 2 and params.iovirt == 'vp' and params.mi_level == 2:
 		lx_cmd += l1_migration_qemu
 
-	if vm_level == 1 and params.mi_level == 1:
+        if vm_level == params.mi_level:
 		# BTW, this is the only place to use mi_role
 		if params.mi_role == "src":
 			lx_cmd += mi_src
