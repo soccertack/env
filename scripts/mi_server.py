@@ -104,6 +104,7 @@ def handle_recv(conn, data):
 			print ("Ping was successful after migration")
 
 			print("migration is completed")
+		        raw_input("Enter when you are ready to terminate VMs") 
 			print("send messages to terminate VMs")
 			terminate_all()
 			server_status = S_WFT
