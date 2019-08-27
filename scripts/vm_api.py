@@ -256,6 +256,14 @@ def set_device_pi(iovirt):
 
     return posted
 
+def get_boolean_input(statement):
+
+    while True:
+        try:
+            return {'y':True, 'n':False, '':False}[raw_input(statement).lower()]
+        except KeyError:
+            print "Invalid input please enter y, Y, n, or N"
+
 def set_migration():
 
     mi_role = ""
