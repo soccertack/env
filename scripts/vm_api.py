@@ -178,6 +178,7 @@ def boot_vms():
             if params.mi_role == 'dest':
                 child.expect('\(qemu\)')
                 break
+            child.expect('L' + str(vm_level) + '.*$')
         else:
             child.expect('L' + str(vm_level) + '.*$')
 
