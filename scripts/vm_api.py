@@ -41,6 +41,7 @@ class Params:
 
 l0_migration_qemu  = ' --qemu /sdc/L0-qemu/'
 l1_migration_qemu = ' --qemu /sdc/L1-qemu/'
+qemu_nested_cap = ' --qemu /srv/vm/qemu-nested-cap'
 mi_src = " -s"
 mi_dest = " -t"
 LOCAL_SOCKET = 8890
@@ -94,6 +95,8 @@ def handle_mi_options(vm_level, lx_cmd):
                 if params.mi_role == "dest":
 			lx_cmd += mi_dest
 
+        if vm_level == 1 and params.mi_level = 2:
+            lx_cmd += qemu_nested_cap
 	return lx_cmd
 
 def handle_pi_options(vm_level, lx_cmd):
