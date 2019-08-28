@@ -95,7 +95,7 @@ def handle_mi_options(vm_level, lx_cmd):
                 if params.mi_role == "dest":
 			lx_cmd += mi_dest
 
-        if vm_level == 1 and params.mi_level = 2:
+        if vm_level == 1 and params.mi_level == 2:
             lx_cmd += qemu_nested_cap
 	return lx_cmd
 
