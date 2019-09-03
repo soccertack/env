@@ -139,7 +139,7 @@ print ("Try to listen...")
 s.listen(2) # become a server socket.
 print ("Done.")
 
-level = int(raw_input("Enter the virtualization level: "))
+level = int(raw_input("Enter the top virtualization level(just for ping): "))
 
 conn_status = {}
 inputs = []
