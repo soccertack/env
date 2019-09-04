@@ -99,6 +99,7 @@ def handle_recv(c, buf):
 def main():
 	global status
 	
+        os.system("./setup-nfs-client.sh")
 	clientsocket = connect_to_server()
 	status = C_WAIT_FOR_BOOT_CMD
 
