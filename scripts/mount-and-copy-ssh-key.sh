@@ -6,11 +6,9 @@
 ARCH=`uname -m`
 
 if [[ "$ARCH" == "x86_64" ]]; then
-	TARGET_IMG=guest0.img
-	IMG_DIR=/vm
+	TARGET_IMG=/vm/guest0.img
 else
-	TARGET_IMG=linaro-trusty.img
-	IMG_DIR=/vmdata
+	TARGET_IMG=/vmdata/linaro-trusty.img
 fi
 
 L2_IMG=0
@@ -19,13 +17,13 @@ mkdir -p /mnt_l1
 mkdir -p /mnt_l2
 mkdir -p /mnt_l3
 if [[ "$ARCH" == "aarch64" ]]; then
-	sudo mount -o loop $IMG_DIR/$TARGET_IMG /mnt_l1
+	sudo mount -o loop $TARGET_IMG /mnt_l1
 	if [[ -f /mnt_l1/root/vm/l2.img ]]; then
 		sudo mount -o loop /mnt_l1/root/vm/l2.img /mnt_l2
 		L2_IMG=1
 	fi
 elif [[ "$ARCH" == "x86_64" ]]; then
-	mount -o loop,offset=1048576 $IMG_DIR/$TARGET_IMG /mnt_l1
+	mount -o loop,offset=1048576 $TARGET_IMG /mnt_l1
 
 	if [[ -f /mnt_l1/vm/guest0.img ]]; then
 		mount -o loop,offset=1048576 /mnt_l1/vm/guest0.img /mnt_l2
