@@ -31,5 +31,5 @@ else
 	exit
 fi
 
-rm /vm_nfs/guest0.img
+rm -f /vm_nfs/guest0.img
 ln -s $IMG /vm_nfs/guest0.img
