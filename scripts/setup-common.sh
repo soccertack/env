@@ -9,7 +9,7 @@ popd
 
 SCRIPT_DIR=$ENV_DIR/scripts
 USR_BIN=/usr/local/bin
-BIN_LIST="build-n-install.sh copy-kernel.sh kexec-maxcpus.sh kexec-kernel.sh"
+BIN_LIST="build-n-install.sh copy-kernel.sh kexec-maxcpus.sh kexec-kernel.sh pin_vcpus.sh qmp-cpus qmp.py"
 
 pushd $SCRIPT_DIR
 for f in $BIN_LIST; do

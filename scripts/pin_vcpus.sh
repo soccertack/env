@@ -12,7 +12,7 @@ NCORES=`getconf _NPROCESSORS_ONLN`
 # Get number of virtual cores
 VCORES=`./qmp-cpus -s /var/run/qmp | wc -l`
 
-if [[ $NCORES < $VCORES ]]; then
+if [[ "$NCORES" -lt "$VCORES" ]]; then
     echo "Unsupported configuration, more virtual CPUs ($VCORES) than physical ($NCORES)" >&2
     exit 1
 fi
