@@ -11,6 +11,8 @@ else
 	TARGET_IMG=/vmdata/linaro-trusty.img
 fi
 
+TARGET_IMG=${1:-$TARGET_IMG}
+
 L2_IMG=0
 L3_IMG=0
 mkdir -p /mnt_l1
