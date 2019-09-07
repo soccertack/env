@@ -66,7 +66,7 @@ def wait_for_prompt(child, hostname):
 def pin_vcpus(level):
 
         if level == 1:
-	    os.system('cd /srv/vm/qemu/scripts/qmp/ && sudo ./pin_vcpus.sh && cd -')
+	    os.system('cd /usr/local/bin/ && sudo ./pin_vcpus.sh && cd -')
 	if level == 2:
 		os.system('ssh root@%s "cd vm/qemu/scripts/qmp/ && ./pin_vcpus.sh"' % l1_addr)
 	if level == 3:
