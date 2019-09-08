@@ -112,11 +112,15 @@ def handle_recv(conn, data):
 
         if server_status== S_WFT:
                 if data == MSG_TERMINATED:
-			server_status = S_MIGRAION_END
-                        # We need to check if both clients disconnect, but
-                        # let's just give enough time for that, and terminate
-                        # server
-                        time.sleep(5)
+
+			del conn_status[conn]
+			inputs.remove(conn)
+			clients.remove(conn)
+			conn.close()
+                        print ("terminated", conn)
+                        if not len(clients):
+                            print ("all terminated")
+                            server_status = S_MIGRAION_END
 			
 
 def boot_nvm(conn):
