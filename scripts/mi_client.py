@@ -42,7 +42,7 @@ def handle_recv(c, buf):
 	print buf + " is received"
 	if status == C_WAIT_FOR_BOOT_CMD:
 		if buf == MSG_BOOT:
-			vm_api.init()
+			vm_api.init(reuse_param)
 			vm_api.boot_vms()
 			c.send(MSG_BOOT_COMPLETED)
 			status = C_BOOT_COMPLETED
@@ -99,6 +99,7 @@ def handle_recv(c, buf):
 		c.send(MSG_TERMINATED)
 		status = C_TERMINATED
 
+reuse_param = False
 def main():
 	global status
 	
@@ -116,6 +117,7 @@ def main():
 			handle_recv(clientsocket, buf)
 			if status == C_TERMINATED:
                                 if rerun:
+                                    reuse_param = True
                                     time.sleep(5)
                                     print("Reconnect server")
                                     clientsocket = connect_to_server()

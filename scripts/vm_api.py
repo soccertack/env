@@ -303,7 +303,7 @@ def set_dvh(new_params):
         enable = raw_input("DVH %s [y/N]?: " % f) or 'n'
         new_params.dvh[f] = enable
 
-def set_params():
+def set_params(reuse_force):
     global params
 
     exist = os.path.exists(EXP_PARAMS_PKL)
@@ -313,7 +313,8 @@ def set_params():
             params = pickle.load(input)
             params.__str__()
 
-            reuse_param = raw_input("Want to proceed with the params?[y/n] ") or 'y'
+	    if not reuse_force:
+           	 reuse_param = raw_input("Want to proceed with the params?[y/n] ") or 'y'
 
     if not exist or reuse_param != 'y':
         new_params = Params()
@@ -356,9 +357,9 @@ def get_mi_level():
 def get_mi_fast():
 	return params.mi_fast
 
-def init():
+def init(reuse_param):
 
-	set_params()
+	set_params(reuse_param)
 	set_l1_addr()
 
 	child = create_child()
