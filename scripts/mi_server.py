@@ -74,6 +74,9 @@ def ping():
 
 def handle_recv(conn, data):
 	global server_status
+        global inputs
+        global clients
+        
 	print (data + " is received")
 
 	# Per connection status
@@ -176,7 +179,7 @@ while inputs:
 			if data:
 				handle_recv(item, data)
 				if server_status == S_MIGRAION_END:
-					sys.exit(0)
+                                    server_status = S_WAIT_FOR_BOOT
 			else:
 				print(conn_status[item][IDX_IP_ADDR])
 				print ('Connection closed')
