@@ -94,6 +94,19 @@ def handle_recv(c, buf):
 
                 # This is only on the destination
 		if buf == MSG_MIGRATE_CHECK:
+
+			dest_child = pexpect.spawn('bash')
+			dest_child.logfile_read=sys.stdout
+			dest_child.timeout=None
+                        
+			dest_child.sendline('telnet 127.0.0.1 4445')
+                        dest_child.sendline('')
+    			dest_child.expect('L.*#')
+                        dest_child.sendline('ls')
+    			dest_child.expect('L.*#')
+                        dest_child.sendline('ls -al')
+    			dest_child.expect('L.*#')
+
 			c.send(MSG_MIGRATE_CHECKED)
 			status = C_MIGRATION_COMPLETED
 
