@@ -102,6 +102,7 @@ def handle_recv(c, buf):
 def main():
 	global status
 	
+        rerun = vm_api.get_boolean_input("Want to re-do migration automatically?[y/n]")
         os.system("./setup-nfs-client.sh")
 	clientsocket = connect_to_server()
 	status = C_WAIT_FOR_BOOT_CMD
@@ -114,7 +115,13 @@ def main():
 		else:
 			handle_recv(clientsocket, buf)
 			if status == C_TERMINATED:
-				break;
+                                if rerun:
+                                    time.sleep(5)
+                                    print("Reconnect server")
+                                    clientsocket = connect_to_server()
+                                    status = C_WAIT_FOR_BOOT_CMD
+                                else:
+                                    break
 
 if __name__ == '__main__':
 	main()
