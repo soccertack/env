@@ -104,11 +104,12 @@ def handle_recv(conn, data):
 		print ("Ping was successful. Wait for 10 sec")
 		time.sleep(10)
 		
-		service = raw_input("Enter any service you want to start in the nVM: ") 
-                if service != "":
-		    os.system("ssh root@%s service %s start" % (vm_addr[level], service))
+                if interactive:
+                    service = raw_input("Enter any service you want to start in the nVM: ") 
+                    if service != "":
+                        os.system("ssh root@%s service %s start" % (vm_addr[level], service))
 
-		raw_input("Enter when you are ready to do migration") 
+                    raw_input("Enter when you are ready to do migration") 
 
 		src_conn = get_src_conn()
 		src_conn.send(MSG_MIGRATE)
@@ -122,7 +123,8 @@ def handle_recv(conn, data):
 			print ("Ping was successful after migration")
 
 			print("migration is completed")
-		        raw_input("Enter when you are ready to terminate VMs") 
+                        if interactive:
+		            raw_input("Enter when you are ready to terminate VMs") 
 			print("send messages to terminate VMs")
 			terminate_all()
 			server_status = S_WFT
@@ -161,6 +163,11 @@ s.listen(2) # become a server socket.
 print ("Done.")
 
 level = int(raw_input("Enter the top virtualization level(just for ping): "))
+interactive = raw_input("Need interactive migration? [y/N]")
+if interactive == 'y':
+    interactive = True
+else:
+    interactive = False
 
 init()
 
