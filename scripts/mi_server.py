@@ -28,6 +28,7 @@ S_NVM_READY = 2
 S_MIGRAION_START = 3
 S_MIGRAION_END = 4
 S_WFT = 5 # Wait for termination
+S_MIGRAION_CHECK = 6
 
 def set_status(conn, st):
 	conn_status[conn][IDX_STATUS] = st
@@ -44,6 +45,13 @@ def get_src_conn():
 
 	for conn in clients:
 		if get_ip(conn)  == "10.10.1.2":
+			return conn
+	return
+
+def get_dst_conn():
+
+	for conn in clients:
+		if get_ip(conn)  == "10.10.1.3":
 			return conn
 	return
 
@@ -117,7 +125,14 @@ def handle_recv(conn, data):
 		server_status = S_MIGRAION_START
 
 	if server_status == S_MIGRAION_START:
+		# Migration on the source is complete. Check on the destination
 		if data == MSG_MIGRATE_COMPLETED:
+			server_status = S_MIGRAION_CHECK
+			dst_conn = get_dst_conn()
+			dst_conn.send(MSG_MIGRATE_CHECK)
+
+	if server_status == S_MIGRAION_CHECK:
+		if data == MSG_MIGRATE_CHECKED:
 			time.sleep(2)
 			ping()
 			print ("Ping was successful after migration")

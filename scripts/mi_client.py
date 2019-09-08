@@ -92,6 +92,11 @@ def handle_recv(c, buf):
 			c.send(MSG_MIGRATE_COMPLETED)
 			status = C_MIGRATION_COMPLETED
 
+                # This is only on the destination
+		if buf == MSG_MIGRATE_CHECK:
+			c.send(MSG_MIGRATE_CHECKED)
+			status = C_MIGRATION_COMPLETED
+
 	if buf == MSG_TERMINATE:
 		if monitor_child:
 			vm_api.terminate_vms(monitor_child)
