@@ -29,13 +29,14 @@ class Params:
 		self.dvh_use = False
 	
 	def __str__(self):
+		print ("SMP: " + str(self.smp))
 		print ("Level: " + str(self.level))
 		print ("I/O virtualization: " + self.iovirt)
 		if self.iovirt == 'vp':
 			print ("Device PI: " + str(self.posted))
 
                 if self.mi:
-                    print ("Migration level: %d as %s" % (self.mi_level, self.mi_role))
+                    print ("Migration level: %d as %s. Fast: %s" % (self.mi_level, self.mi_role, str(self.mi_fast)))
 
 		if self.dvh_on:
 			for d in self.dvh:
