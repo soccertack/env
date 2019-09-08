@@ -19,6 +19,7 @@ class Params:
 		self.mi_level = 0
 		self.mi_role = None
 		self.mi_fast = False
+                self.smp = True
                 self.dvh =  {
                             'virtual_ipi': 'n',
                             'virtual_timer': 'n',
@@ -160,12 +161,19 @@ def boot_vms():
     child = g_child
 
     vm_level = 0
+
+    mem = 3
+    if not params.smp:
     while (vm_level < level):
         vm_level += 1
 
         lx_cmd = get_base_cmd(vm_level)
         lx_cmd = get_iovirt_cmd(vm_level, lx_cmd)
         lx_cmd = add_special_options(vm_level, lx_cmd)
+	if not params.smp:
+		lx_cmd += ' -c 1 '
+		lx_cmd += ' -m %d ' % mem
+		mem -= 1
         print (lx_cmd)
 
         configure_dvh(vm_level)
@@ -266,6 +274,9 @@ def get_boolean_input(statement):
         except KeyError:
             print "Invalid input please enter y, Y, n, or N"
 
+def set_smp():
+    new_params.smp = get_boolean_input("SMP [y/n]?: ")
+
 def set_migration(new_params):
 
     new_params.mi = get_boolean_input("Migration [y/N]?: ")
@@ -319,6 +330,7 @@ def set_params(reuse_force):
     if not exist or reuse_param != 'y':
         new_params = Params()
 
+        new_params.smp = set_smp()
         new_params.level = set_level()
         new_params.iovirt = set_iovirt()
         new_params.posted = set_device_pi(new_params.iovirt)
