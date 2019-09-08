@@ -42,6 +42,7 @@ def handle_recv(c, buf):
 	print buf + " is received"
 	if status == C_WAIT_FOR_BOOT_CMD:
 		if buf == MSG_BOOT:
+			print ("reuse param: ", reuse_param)
 			vm_api.init(reuse_param)
 			vm_api.boot_vms()
 			c.send(MSG_BOOT_COMPLETED)
@@ -102,6 +103,7 @@ def handle_recv(c, buf):
 reuse_param = False
 def main():
 	global status
+        global reuse_param
 	
         rerun = vm_api.get_boolean_input("Want to re-do migration automatically?[y/n]")
         os.system("./setup-nfs-client.sh")
