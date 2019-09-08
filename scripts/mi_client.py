@@ -82,9 +82,8 @@ def handle_recv(c, buf):
 				if "Migration status: completed" in child.before:
 					break;
 
+			time.sleep(3)
 			print "migration completed"
-			print "Wait for 15 more seconds"
-			time.sleep(15)
 			c.send(MSG_MIGRATE_COMPLETED)
 			status = C_MIGRATION_COMPLETED
 
