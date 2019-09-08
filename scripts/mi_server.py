@@ -100,9 +100,9 @@ def handle_recv(conn, data):
 
 	# Server state
 	if (server_status == S_WAIT_FOR_BOOT) and check_all_conn(SC_NVM_READY):
+		time.sleep(3)
 		ping()
-		print ("Ping was successful. Wait for 10 sec")
-		time.sleep(10)
+		print ("Ping was successful.")
 		
                 if interactive:
                     service = raw_input("Enter any service you want to start in the nVM: ") 
