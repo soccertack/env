@@ -18,6 +18,7 @@ class Params:
 		self.mi = False
 		self.mi_level = 0
 		self.mi_role = None
+		self.mi_fast = False
                 self.dvh =  {
                             'virtual_ipi': 'n',
                             'virtual_timer': 'n',
@@ -277,6 +278,9 @@ def set_migration(new_params):
         print ("We only support L1, L2 or L3")
         sys.exit(0)
 
+    if hostname == "kvm-node":
+        new_params.mi_fast = get_boolean_input("Fast migration speed [y/N]?: ")
+
     if hostname == "kvm-dest":
         new_params.mi_role = 'dest'
     else:
@@ -348,6 +352,9 @@ def get_child():
 
 def get_mi_level():
 	return params.mi_level
+
+def get_mi_fast():
+	return params.mi_fast
 
 def init():
 

@@ -67,8 +67,9 @@ def handle_recv(c, buf):
 			child = monitor_child
 
                         #Set migration speed to max for testing
-			child.sendline('migrate_set_speed 4095m')
-			child.expect('\(qemu\)')
+                        if vm_api.get_mi_fast():
+                            child.sendline('migrate_set_speed 4095m')
+                            child.expect('\(qemu\)')
 			if mi_level  == 2:
 				child.sendline('migrate -d tcp:10.10.1.110:5555')
 			elif mi_level  == 1:
