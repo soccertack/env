@@ -163,7 +163,6 @@ def boot_vms():
     vm_level = 0
 
     mem = 3
-    if not params.smp:
     while (vm_level < level):
         vm_level += 1
 
@@ -275,7 +274,7 @@ def get_boolean_input(statement):
             print "Invalid input please enter y, Y, n, or N"
 
 def set_smp():
-    new_params.smp = get_boolean_input("SMP [y/n]?: ")
+    return get_boolean_input("SMP [y/n]?: ")
 
 def set_migration(new_params):
 
