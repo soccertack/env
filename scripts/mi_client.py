@@ -52,8 +52,6 @@ def handle_recv(c, buf):
 			print "start migration"
 			child = vm_api.get_child()
 			mi_level = vm_api.get_mi_level()
-#			child.sendline('migrate_set_speed 4095m')
-#			child.expect('\(qemu\)')
 
 			monitor_child = pexpect.spawn('bash')
 			monitor_child.logfile_read=sys.stdout
@@ -65,7 +63,12 @@ def handle_recv(c, buf):
 
 			monitor_child.sendline('telnet 127.0.0.1 4444')
 			monitor_child.expect('\(qemu\)')
+
 			child = monitor_child
+
+                        #Set migration speed to max for testing
+			child.sendline('migrate_set_speed 4095m')
+			child.expect('\(qemu\)')
 			if mi_level  == 2:
 				child.sendline('migrate -d tcp:10.10.1.110:5555')
 			elif mi_level  == 1:
