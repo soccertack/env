@@ -71,6 +71,20 @@ def ping():
 		print ("ping was not successfull. Retry after one sec")
 		time.sleep(1)
 
+def init():
+    global conn_status
+    global outputs
+    global clients
+    global inputs
+    global s
+    global server_status
+
+    conn_status = {}
+    outputs = []
+    clients = []
+    inputs = []
+    inputs.append(s)
+    server_status = S_WAIT_FOR_BOOT
 
 def handle_recv(conn, data):
 	global server_status
@@ -148,14 +162,7 @@ print ("Done.")
 
 level = int(raw_input("Enter the top virtualization level(just for ping): "))
 
-conn_status = {}
-inputs = []
-outputs = []
-clients = []
-inputs.append(s)
-
-global server_status
-server_status = S_WAIT_FOR_BOOT
+init()
 
 while inputs:
 	readable, writable, exceptional = select.select(inputs, outputs, inputs)
@@ -179,7 +186,7 @@ while inputs:
 			if data:
 				handle_recv(item, data)
 				if server_status == S_MIGRAION_END:
-                                    server_status = S_WAIT_FOR_BOOT
+                                    init()
 			else:
 				print(conn_status[item][IDX_IP_ADDR])
 				print ('Connection closed')
