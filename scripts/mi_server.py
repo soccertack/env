@@ -186,6 +186,7 @@ else:
 
 init()
 
+iter_cnt = 0
 while inputs:
 	readable, writable, exceptional = select.select(inputs, outputs, inputs)
 
@@ -208,6 +209,8 @@ while inputs:
 			if data:
 				handle_recv(item, data)
 				if server_status == S_MIGRAION_END:
+                                    iter_cnt += 1
+                                    print ("%dth iterations" % iter_cnt)
                                     init()
 			else:
 				print(conn_status[item][IDX_IP_ADDR])
