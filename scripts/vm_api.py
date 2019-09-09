@@ -20,6 +20,7 @@ class Params:
 		self.mi_role = None
 		self.mi_fast = False
                 self.smp = True
+                self.small_memory = False
                 self.dvh =  {
                             'virtual_ipi': 'n',
                             'virtual_timer': 'n',
@@ -30,6 +31,7 @@ class Params:
 	
 	def __str__(self):
 		print ("SMP: " + str(self.smp))
+		print ("Small memory: " + str(self.small_memory))
 		print ("Level: " + str(self.level))
 		print ("I/O virtualization: " + self.iovirt)
 		if self.iovirt == 'vp':
@@ -172,6 +174,7 @@ def boot_vms():
         lx_cmd = add_special_options(vm_level, lx_cmd)
 	if not params.smp:
 		lx_cmd += ' -c 1 '
+	if params.small_memory:
 		lx_cmd += ' -m %d ' % mem
 		mem -= 1
         print (lx_cmd)
@@ -277,6 +280,9 @@ def get_boolean_input(statement):
 def set_smp():
     return get_boolean_input("SMP [y/n]?: ")
 
+def set_smallmemory():
+    return get_boolean_input("Small memory[y/n]?: ")
+
 def set_migration(new_params):
 
     new_params.mi = get_boolean_input("Migration [y/N]?: ")
@@ -331,6 +337,7 @@ def set_params(reuse_force):
         new_params = Params()
 
         new_params.smp = set_smp()
+        new_params.small_memory = set_smallmemory()
         new_params.level = set_level()
         new_params.iovirt = set_iovirt()
         new_params.posted = set_device_pi(new_params.iovirt)
