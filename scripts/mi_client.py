@@ -19,6 +19,7 @@ C_TERMINATED = 4
 
 status = C_NULL
 monitor_child = None
+dest_child = None
 
 def connect_to_server():
 	print("Trying to connect to the server")
@@ -38,6 +39,7 @@ def connect_to_server():
 
 def handle_recv(c, buf):
 	global status
+	global dest_child
 
 	print buf + " is received"
 	if status == C_WAIT_FOR_BOOT_CMD:
@@ -112,9 +114,11 @@ def handle_recv(c, buf):
 
 	if buf == MSG_TERMINATE:
 		if monitor_child:
-			vm_api.terminate_vms(monitor_child)
+			vm_api.terminate_vms(True, monitor_child)
+		elif dest_child:
+			vm_api.terminate_vms(False, dest_child)
                 else:
-			vm_api.terminate_vms()
+			vm_api.terminate_vms(True)
 		c.send(MSG_TERMINATED)
 		status = C_TERMINATED
 

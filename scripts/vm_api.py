@@ -210,7 +210,7 @@ def reboot(params):
 	halt(params.level)
 	boot_nvm(params)
 
-def terminate_vms(child = None):
+def terminate_vms(qemu_monitor, child = None):
 	global g_child
 	print ("Terminate VM.")
 
@@ -230,6 +230,12 @@ def terminate_vms(child = None):
 		child.expect('\(qemu\)')
 		child.sendline('q')
 		wait_for_prompt(g_child, hostname)
+
+        # This is when a child is having VM console
+        if not qemu_monitor:
+            for i in reversed(range(params.level)):
+                child.sendline('halt -p')
+                wait_for_prompt(child, hostnames[i])
 	
 def str_to_bool(s):
 	if s == 'True':
