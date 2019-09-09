@@ -25,7 +25,7 @@ class Params:
                             'virtual_ipi': 'n',
                             'virtual_timer': 'n',
                             'virtual_idle': 'n',
-                            'virtual_seg': 'n',
+                            'fs_base': 'n',
                             }
 		self.dvh_use = False
 	
