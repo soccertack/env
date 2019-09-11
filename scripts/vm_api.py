@@ -12,8 +12,8 @@ import pickle
 
 class Params:
 	def __init__(self):
-		self.level = 0
-		self.iovirt = None
+		self.level = 2
+		self.iovirt = 'pv'
 		self.posted = False
 		self.mi = False
 		self.mi_level = 0
@@ -246,7 +246,7 @@ def str_to_bool(s):
 		print (s)
 		raise ValueError
 
-EXP_PARAMS_PKL="~/.exp_params.pkl"
+EXP_PARAMS_PKL="/root/.exp_params.pkl"
 def set_level():
 
     level  = int(raw_input("Enter virtualization level (from 1 to 3) [2]: ") or "2")
@@ -283,6 +283,22 @@ def get_boolean_input(statement):
         except KeyError:
             print "Invalid input please enter y, Y, n, or N"
 
+def get_yn_input(statement):
+
+    while True:
+        try:
+            return {'y':'y', 'n':'n'}[raw_input(statement).lower()]
+        except KeyError:
+            print "Invalid input please enter y, Y, n, or N"
+
+def get_int_input(statement):
+
+    while True:
+        try:
+            return int(raw_input(statement))
+        except ValueError:
+            print "Invalid input. Please enter integer"
+
 def set_smp():
     return get_boolean_input("SMP [y/n]?: ")
 
@@ -310,7 +326,7 @@ def set_migration(new_params):
         new_params.mi_role = 'src'
 
 def save_params(new_params):
-    with open(EXP_PARAMS_PKL, 'wb') as output:
+    with open(EXP_PARAMS_PKL, 'wb+') as output:
         pickle.dump(new_params, output)
 
 def set_dvh(new_params):
@@ -326,6 +342,60 @@ def set_dvh(new_params):
         enable = raw_input("DVH %s [y/N]?: " % f) or 'n'
         new_params.dvh[f] = enable
 
+SMP = 1
+SmallMemory = 2
+LEVEL = 3
+IO = 4
+PI = 5
+DVH_TIMER = 6
+DVH_IPI = 7
+DVH_IDLE = 8
+FS_BASE = 9
+
+def print_params():
+    print("%d. [%s] SMP" % (SMP, str(params.smp)))
+    print("%d. [%s] SmallMemory" % (SmallMemory, str(params.small_memory)))
+    print("%d. [%s] Virtualization Level" % (LEVEL, params.level))
+    print("%d. [%s] I/O virtualization model (pv, pt, or vp)" % (IO, params.iovirt))
+    if params.iovirt == 'vp':
+        print("%d. [%s] Device PI" % (PI, str(params.posted)))
+
+    print("%d. [%s] Virtual timer" % (DVH_TIMER, str(params.dvh['virtual_timer'])))
+    print("%d. [%s] Virtual ipi" % (DVH_IPI, str(params.dvh['virtual_ipi'])))
+    print("%d. [%s] Virtual idle" % (DVH_IDLE, str(params.dvh['virtual_idle'])))
+    print("%d. [%s] FS_BASE fix" % (FS_BASE, str(params.dvh['fs_base'])))
+
+def update_params():
+    global params
+
+    num = int(raw_input("Enter number to update configuration. Enter 0 to finish: "))
+
+    if num == 0:
+        return False
+    if num == SMP:
+        params.smp = get_boolean_input("y/n: ")
+    if num == SmallMemory:
+        params.small_memory = get_boolean_input("y/n: ")
+    if num == LEVEL:
+        params.level = get_int_input("Input 1, 2, or 3 ")
+    if num == IO:
+        params.iovirt = raw_input("pv, pt, or vp: ")
+        if params.iovirt == 'vp':
+            params.posted = get_boolean_input("y/n: ")
+    if num == PI:
+        params.posted = get_boolean_input("y/n: ")
+
+    if num == DVH_TIMER:
+        params.dvh['virtual_timer'] = get_yn_input("y/n: ")
+    if num == DVH_IPI:
+        params.dvh['virtual_ipi'] = get_yn_input("y/n: ")
+    if num == DVH_IDLE:
+        params.dvh['virtual_idle'] = get_yn_input("y/n: ")
+    if num == FS_BASE:
+        params.dvh['fs_base'] = get_yn_input("y/n: ")
+
+    return True 
+
 def set_params(reuse_force):
     global params
 
@@ -340,19 +410,18 @@ def set_params(reuse_force):
            	 reuse_param = raw_input("Want to proceed with the params?[y/n] ") or 'y'
 
     if not exist or reuse_param != 'y':
-        new_params = Params()
 
-        new_params.smp = set_smp()
-        new_params.small_memory = set_smallmemory()
-        new_params.level = set_level()
-        new_params.iovirt = set_iovirt()
-        new_params.posted = set_device_pi(new_params.iovirt)
-        set_migration(new_params)
-        set_dvh(new_params)
+        if not params:
+            params = Params()
 
-        save_params(new_params)
+        update = True
+        while update:
+            print_params()
+            update = update_params()
+            new_params = Params()
 
-        params = new_params
+        save_params(params)
+
 
 def set_l1_addr():
 	global l1_addr
