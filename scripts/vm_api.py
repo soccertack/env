@@ -40,9 +40,8 @@ class Params:
                 if self.mi:
                     print ("Migration level: %d as %s. Fast: %s" % (self.mi_level, self.mi_role, str(self.mi_fast)))
 
-		if self.dvh_on:
-			for d in self.dvh:
-				print("%s: %s" % (d, self.dvh[d]))
+                for d in self.dvh:
+                    print("%s: %s" % (d, self.dvh[d]))
 
 l0_migration_qemu  = ' --qemu /sdc/L0-qemu/'
 l1_migration_qemu = ' --qemu /sdc/L1-qemu/'
