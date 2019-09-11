@@ -246,7 +246,7 @@ def str_to_bool(s):
 		print (s)
 		raise ValueError
 
-EXP_PARAMS_PKL="./.exp_params.pkl"
+EXP_PARAMS_PKL="~/.exp_params.pkl"
 def set_level():
 
     level  = int(raw_input("Enter virtualization level (from 1 to 3) [2]: ") or "2")
