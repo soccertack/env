@@ -43,9 +43,6 @@ class Params:
                 for d in self.dvh:
                     print("%s: %s" % (d, self.dvh[d]))
 
-l0_migration_qemu  = ' --qemu /sdc/L0-qemu/'
-l1_migration_qemu = ' --qemu /sdc/L1-qemu/'
-qemu_nested_cap = ' --qemu /srv/vm/qemu-nested-cap'
 mi_src = " -s"
 mi_dest = " -t"
 LOCAL_SOCKET = 8890
@@ -83,16 +80,6 @@ cmd_viommu = './run-guest-viommu.sh'
 cmd_vfio_viommu = './run-guest-vfio-viommu.sh'
 
 def handle_mi_options(vm_level, lx_cmd):
-
-	# For L2 VP migration, we use special QEMUs at L0 and L1
-	if vm_level == 1 and  params.mi_level == 2:
-            if not (params.iovirt == 'vp'):
-                lx_cmd += qemu_nested_cap
-	
-	## This can be checking the last level VM for Ln VP migration...
-	#if vm_level == 2 and params.iovirt == 'vp' and params.mi_level == 2:
-	#	lx_cmd += l1_migration_qemu
-
         if vm_level == params.mi_level:
 		# BTW, this is the only place to use mi_role
 		if params.mi_role == "src":
