@@ -202,22 +202,22 @@ def terminate_vms(qemu_monitor, child = None):
 	if not child:
 		child = g_child
 
-	if params.level == 2 and params.mi_level == 2:
-		child.sendline('stop')
-		child.expect('\(qemu\)')
-		child.sendline('q')
-		child.expect('L1.*$')
-		child.sendline('h')
-		wait_for_prompt(g_child, hostname)
+	if qemu_monitor:
+		if params.level == 2 and params.mi_level == 2:
+			child.sendline('stop')
+			child.expect('\(qemu\)')
+			child.sendline('q')
+			child.expect('L1.*$')
+			child.sendline('h')
+			wait_for_prompt(g_child, hostname)
 
-	if params.level == 1 and params.mi_level == 1:
-		child.sendline('stop')
-		child.expect('\(qemu\)')
-		child.sendline('q')
-		wait_for_prompt(g_child, hostname)
+		if params.level == 1 and params.mi_level == 1:
+			child.sendline('stop')
+			child.expect('\(qemu\)')
+			child.sendline('q')
+			wait_for_prompt(g_child, hostname)
 
-        # This is when a child is having VM console
-        if not qemu_monitor:
+	else:
             for i in reversed(range(params.level)):
                 child.sendline('halt -p')
                 wait_for_prompt(child, hostnames[i])
