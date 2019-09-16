@@ -350,6 +350,9 @@ DVH_TIMER = 6
 DVH_IPI = 7
 DVH_IDLE = 8
 FS_BASE = 9
+MIGRAION = 10
+MI_LEVEL = 11
+MI_SPEED = 12
 
 def print_params():
     print("%d. [%s] SMP" % (SMP, str(params.smp)))
@@ -363,6 +366,12 @@ def print_params():
     print("%d. [%s] Virtual ipi" % (DVH_IPI, str(params.dvh['virtual_ipi'])))
     print("%d. [%s] Virtual idle" % (DVH_IDLE, str(params.dvh['virtual_idle'])))
     print("%d. [%s] FS_BASE fix" % (FS_BASE, str(params.dvh['fs_base'])))
+
+    print("%d. [%s] Migration" % (MIGRAION, str(params.mi)))
+    if params.mi:
+        print("%d. [%s] Migration level" % (MI_LEVEL, str(params.mi_level)))
+        if hostname == "kvm-node":
+            print("%d. [%s] Fast migration" % (MI_SPEED, str(params.mi_fast)))
 
 def update_params():
     global params
@@ -392,6 +401,26 @@ def update_params():
         params.dvh['virtual_idle'] = get_yn_input("y/n: ")
     if num == FS_BASE:
         params.dvh['fs_base'] = get_yn_input("y/n: ")
+
+    if num == MIGRAION:
+        params.mi = get_boolean_input("y/n: ")
+        if params.mi:
+            params.mi_level = get_int_input("Input 1, 2, or 3: ")
+
+            if hostname == "kvm-node":
+                params.mi_fast = get_boolean_input("Fast migration speed [y/N]?: ")
+
+            if hostname == "kvm-dest":
+                params.mi_role = 'dest'
+            else:
+                params.mi_role = 'src'
+
+    if num == MI_LEVEL:
+        params.mi_level = get_int_input("Input 1, 2, or 3: ")
+
+    if num == MI_SPEED:
+        if hostname == "kvm-node":
+            params.mi_fast = get_boolean_input("Fast migration speed [y/N]?: ")
 
     return True 
 
