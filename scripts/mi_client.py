@@ -97,10 +97,14 @@ def handle_recv(c, buf):
                 # This is only on the destination
 		if buf == MSG_MIGRATE_CHECK:
 
+			mi_level = vm_api.get_mi_level()
 			dest_child = pexpect.spawn('bash')
 			dest_child.logfile_read=sys.stdout
 			dest_child.timeout=None
                         
+                        if mi_level == 2:
+		    	    dest_child.sendline('ssh root@10.10.1.110')
+                            vm_api.wait_for_prompt(dest_child, vm_api.hostnames[1])
 			dest_child.sendline('telnet 127.0.0.1 4445')
                         dest_child.sendline('')
     			dest_child.expect('L.*#')
