@@ -403,12 +403,8 @@ def set_params(reuse_force):
     if exist:
         with open(EXP_PARAMS_PKL, 'rb') as input:
             params = pickle.load(input)
-            params.__str__()
 
-	    if not reuse_force:
-           	 reuse_param = raw_input("Want to proceed with the params?[y/n] ") or 'y'
-
-    if not exist or reuse_param != 'y':
+    if (not exist) or (not reuse_force):
 
         if not params:
             params = Params()
