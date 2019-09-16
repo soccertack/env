@@ -375,7 +375,7 @@ def update_params():
     if num == IO:
         params.iovirt = raw_input("pv, pt, or vp: ")
         if params.iovirt == 'vp':
-            params.posted = get_boolean_input("y/n: ")
+            params.posted = get_boolean_input("Device PI y/n: ")
     if num == PI:
         params.posted = get_boolean_input("y/n: ")
 
@@ -391,7 +391,7 @@ def update_params():
     if num == MIGRAION:
         params.mi = get_boolean_input("y/n: ")
         if params.mi:
-            params.mi_level = get_int_input("Input 1, 2, or 3: ")
+            params.mi_level = get_int_input("Migration level: Input 1, 2, or 3: ")
 
             if hostname == "kvm-node":
                 params.mi_fast = get_boolean_input("Fast migration speed [y/N]?: ")
