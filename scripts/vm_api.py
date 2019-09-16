@@ -85,12 +85,13 @@ cmd_vfio_viommu = './run-guest-vfio-viommu.sh'
 def handle_mi_options(vm_level, lx_cmd):
 
 	# For L2 VP migration, we use special QEMUs at L0 and L1
-	if vm_level == 1 and params.iovirt == 'vp' and params.mi_level == 2:
-		lx_cmd += l0_migration_qemu
+	if vm_level == 1 and  params.mi_level == 2:
+            if not (params.iovirt == 'vp'):
+                lx_cmd += qemu_nested_cap
 	
-	# This can be checking the last level VM for Ln VP migration...
-	if vm_level == 2 and params.iovirt == 'vp' and params.mi_level == 2:
-		lx_cmd += l1_migration_qemu
+	## This can be checking the last level VM for Ln VP migration...
+	#if vm_level == 2 and params.iovirt == 'vp' and params.mi_level == 2:
+	#	lx_cmd += l1_migration_qemu
 
         if vm_level == params.mi_level:
 		# BTW, this is the only place to use mi_role
@@ -99,8 +100,6 @@ def handle_mi_options(vm_level, lx_cmd):
                 if params.mi_role == "dest":
 			lx_cmd += mi_dest
 
-        if vm_level == 1 and params.mi_level == 2:
-            lx_cmd += qemu_nested_cap
 	return lx_cmd
 
 def handle_pi_options(vm_level, lx_cmd):
