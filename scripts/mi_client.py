@@ -78,7 +78,7 @@ def handle_recv(c, buf):
 			elif mi_level  == 1:
 				child.sendline('migrate -d tcp:10.10.1.3:5555')
 			else:
-				print("Error: mi level is " + mi_level)
+				print("Error: mi level is " + int(mi_level))
 				sys.exit(1)
 			child.expect('\(qemu\)')
 
