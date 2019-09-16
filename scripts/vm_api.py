@@ -362,7 +362,7 @@ def print_params():
 def update_params():
     global params
 
-    num = int(raw_input("Enter number to update configuration. Enter 0 to finish: "))
+    num = int(raw_input("Enter number to update configuration. Enter 0 to finish: ") or "0")
 
     if num == 0:
         return False
