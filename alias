@@ -34,5 +34,5 @@ alias ck="copy-kernel.sh"
 alias b="build-n-install.sh"
 
 alias ckk="grep \"set default\" /boot/grub/grub.cfg | tail -n 1"
-alias tig="tig v4.18^..HEAD"
+alias tigl="tig v4.18^..HEAD"
 alias tigq="tig v3.1.0^..HEAD"
