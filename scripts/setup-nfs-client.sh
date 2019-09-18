@@ -12,6 +12,11 @@ NFS_VM_MOUNT_DIR=/vm_nfs
 
 mkdir -p $NFS_VM_MOUNT_DIR
 
+df | grep -q $NFS_VM_MOUNT_DIR
+if [ $? == 0 ]; then
+	exit
+fi
+
 dpkg -l | grep -q nfs-common
 if [ $? != 0 ]; then
 	sudo apt-get update
