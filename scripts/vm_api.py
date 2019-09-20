@@ -132,6 +132,10 @@ def configure_dvh(vm_level):
     child = g_child
 
     for f in params.dvh:
+	# We never set virtual idle for L1
+	if vm_level == 1 and f == 'virtual_idle':
+		continue;
+
         dvh_filename='/sys/kernel/debug/dvh/' + f
         if not os.path.exists(dvh_filename):
             if params.dvh[f] == 'y':
