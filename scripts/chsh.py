@@ -16,8 +16,8 @@ child = pexpect.spawn('bash')
 child.logfile_read=sys.stdout
 child.timeout=None
 
-child.sendline('chsh')
+child.sendline('sudo chsh')
 child.expect('Login Shell.*:')
 
 child.sendline('/usr/bin/zsh')
-child.expect('%s.*#' % hostname)
+child.expect('%s.*' % hostname)
