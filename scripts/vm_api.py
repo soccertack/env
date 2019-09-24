@@ -96,6 +96,16 @@ def handle_pi_options(vm_level, lx_cmd):
 
 	return lx_cmd
 
+def add_dvh_options(vm_level, lx_cmd):
+    # WIP: we are supporting QEMU DVH support for L1 for now
+    if vm_level != 1:
+        return lx_cmd
+
+    if params.dvh['virtual_timer'] == 'y':
+        lx_cmd += ' -p -dvh-vtimer'
+
+    return lx_cmd
+
 def add_special_options(vm_level, lx_cmd):
 	lx_cmd = handle_pi_options(vm_level, lx_cmd)
         if params.mi:
@@ -136,6 +146,10 @@ def configure_dvh(vm_level):
 	if vm_level == 1 and f == 'virtual_idle':
 		continue;
 
+        # WIP: We don't use cmd line option for vtimer for L1
+	if vm_level == 1 and f == 'virtual_timer':
+		continue;
+
         dvh_filename='/sys/kernel/debug/dvh/' + f
         if not os.path.exists(dvh_filename):
             if params.dvh[f] == 'y':
@@ -161,6 +175,7 @@ def boot_vms():
         lx_cmd = get_base_cmd(vm_level)
         lx_cmd = get_iovirt_cmd(vm_level, lx_cmd)
         lx_cmd = add_special_options(vm_level, lx_cmd)
+        lx_cmd = add_dvh_options(vm_level, lx_cmd)
 	if not params.smp:
 		lx_cmd += ' -c 1 '
 	if params.small_memory:
