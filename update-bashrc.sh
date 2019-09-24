@@ -1,13 +1,15 @@
 #!/bin/bash
 
-firstLine=`head -n 1 /root/.bashrc`
 
-if [ "$firstLine" == "/usr/bin/zsh" ]; then
-	echo "Already updated - zsh"
-else
-	sed -i '1 i\exit' /root/.bashrc
-	sed -i '1 i\/usr/bin/zsh' /root/.bashrc
-fi
+# When using this trick, scp/rsync didn't work. So, let's not do that now
+#firstLine=`head -n 1 /root/.bashrc`
+#
+#if [ "$firstLine" == "/usr/bin/zsh" ]; then
+#	echo "Already updated - zsh"
+#else
+#	sed -i '1 i\exit' /root/.bashrc
+#	sed -i '1 i\/usr/bin/zsh' /root/.bashrc
+#fi
 
 lastLine=`tail -n 1 /root/.bashrc`
 
