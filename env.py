@@ -119,16 +119,12 @@ def setup_bash():
 	BASHRC_DEST=HOME+"/.bashrc"
 	MY_BASHRC=HOME+"/.mybashrc"
 
-	os.system('pwd')
-
 	cmd = 'cp %s %s' % (BASHRC_SRC, MY_BASHRC)
 	os.system(cmd)
 
         setup_alias()
 
-	cmd = 'source ' + MY_BASHRC
-	cmd = "echo '%s' >> %s" % (cmd, BASHRC_DEST)
-	os.system(cmd)
+	os.system("./update-bashrc.sh")
 
 	if USER != "":
 		os.system("chown %s:kvmarm-PG0 %s" % (USER, MY_BASHRC))
