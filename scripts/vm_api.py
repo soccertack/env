@@ -151,11 +151,6 @@ def configure_dvh(vm_level):
 		continue;
 
         dvh_filename='/sys/kernel/debug/dvh/' + f
-        if not os.path.exists(dvh_filename):
-            if params.dvh[f] == 'y':
-                print ("DVH %s is not supported but we tried to enable it" % f) 
-                sys.exit(0)
-            continue
         cmd = 'echo %s > %s' % (params.dvh[f], dvh_filename)
         child.sendline(cmd)
         # Wait for host prompt
