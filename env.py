@@ -130,6 +130,7 @@ def setup_bash():
 		os.system("chown %s:kvmarm-PG0 %s" % (USER, MY_BASHRC))
 
 def setup_zshrc():
+        os.system("./scripts/chsh.py")
         print ("before copying zshrc")
         os.system("sudo cp zshrc /root/.zshrc")
         print ("after copying zshrc")
