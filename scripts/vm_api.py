@@ -156,15 +156,11 @@ def get_iovirt_cmd(vm_level, lx_cmd):
 def configure_dvh(vm_level):
     child = g_child
 
+    # We configure DVH using QEMU cmd line in L0
+    if vm_level == 1:
+        return
+
     for f in params.dvh:
-	# We never set virtual idle for L1
-	if vm_level == 1 and f == 'virtual_idle':
-		continue;
-
-        # WIP: We don't use cmd line option for vtimer for L1
-	if vm_level == 1 and f == 'virtual_timer':
-		continue;
-
         dvh_filename='/sys/kernel/debug/dvh/' + f
         cmd = 'echo %s > %s' % (params.dvh[f], dvh_filename)
         child.sendline(cmd)
