@@ -101,8 +101,18 @@ def add_dvh_options(vm_level, lx_cmd):
     if vm_level != 1:
         return lx_cmd
 
+    dvh_options = ""
+
     if params.dvh['virtual_timer'] == 'y':
-        lx_cmd += ' -p -dvh-vtimer'
+        if dvh_options:
+            dvh_options += ","
+        dvh_options += 'vtimer=on'
+        dvh_enabled = True
+
+    if dvh_options:
+        dvh_options = " -p \"-dvh " + dvh_options + "\""
+
+    lx_cmd += dvh_options
 
     return lx_cmd
 
