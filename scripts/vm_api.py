@@ -10,6 +10,7 @@ import argparse
 import os.path
 import pickle
 
+QEMU_options = {'virtual_timer': 'vtimer', 'virtual_ipi': 'vipi', 'virtual_idle': 'vidle', 'fs_base': 'seg'}
 class Params:
 	def __init__(self):
 		self.level = 2
@@ -103,11 +104,15 @@ def add_dvh_options(vm_level, lx_cmd):
 
     dvh_options = ""
 
-    if params.dvh['virtual_timer'] == 'y':
-        if dvh_options:
-            dvh_options += ","
-        dvh_options += 'vtimer=on'
-        dvh_enabled = True
+    for f in params.dvh:
+	# We never set virtual idle for L1
+	if vm_level == 1 and f == 'virtual_idle':
+		continue;
+        if params.dvh[f] == 'y':
+            if dvh_options:
+                dvh_options += ","
+            dvh_options += QEMU_options[f]+'=on'
+            dvh_enabled = True
 
     if dvh_options:
         dvh_options = " -p \"-dvh " + dvh_options + "\""
