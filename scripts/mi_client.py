@@ -146,7 +146,7 @@ def main():
 			if status == C_TERMINATED:
                                 if rerun:
                                     reuse_param = True
-                                    time.sleep(5)
+                                    time.sleep(15)
                                     print("Reconnect server")
                                     clientsocket = connect_to_server()
                                     status = C_WAIT_FOR_BOOT_CMD
