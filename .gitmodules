@@ -1,0 +1,3 @@
+[submodule "scripts/kvmperf"]
+	path = scripts/kvmperf
+	url = https://github.com/soccertack/kvmperf.git
