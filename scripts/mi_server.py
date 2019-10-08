@@ -9,6 +9,8 @@ import time
 import socket
 from sk_common import *
 from mi_common import *
+import vm_api
+import common
 
 level = 0
 vm_addr = ['10.10.1.1', '10.10.1.100', '10.10.1.101', '10.10.1.102']
@@ -29,6 +31,14 @@ S_MIGRAION_START = 3
 S_MIGRAION_END = 4
 S_WFT = 5 # Wait for termination
 S_MIGRAION_CHECK = 6
+
+workloads = {
+            'netperf-rr' : 'Socket Size',
+            'netperf-stream' : 'Socket Size',
+            'netperf-maerts' : 'Socket Size',
+            'memcached' : 'Connections per thread',
+            'apache' : 'Server Software'
+            }
 
 def set_status(conn, st):
 	conn_status[conn][IDX_STATUS] = st
@@ -118,6 +128,9 @@ def handle_recv(conn, data):
                         os.system("ssh root@%s service %s start" % (vm_addr[level], service))
 
                     raw_input("Enter when you are ready to do migration") 
+                elif autoMeasurement:
+                    mc.sendline('./run_all.sh L%s %s' % (str(level), curr_workload[0]))
+                    mc.expect(curr_workload[1])
 
 		src_conn = get_src_conn()
 		src_conn.send(MSG_MIGRATE)
@@ -140,6 +153,9 @@ def handle_recv(conn, data):
 			print("migration is completed")
                         if interactive:
 		            raw_input("Enter when you are ready to terminate VMs") 
+                        elif autoMeasurement:
+                            mc.send(chr(3))
+                            vm_api.wait_for_prompt(mc, hostname)
 			print("send messages to terminate VMs")
 			terminate_all()
 			server_status = S_WFT
@@ -177,16 +193,44 @@ print ("Try to listen...")
 s.listen(2) # become a server socket.
 print ("Done.")
 
-level = int(raw_input("Enter the top virtualization level(just for ping): "))
-interactive = raw_input("Need interactive migration? [y/N]")
-if interactive == 'y':
-    interactive = True
-else:
+level = int(raw_input("Enter the top virtualization level(default: 2): ") or '2')
+
+while True:
+    string = "Running options: [I]nteractive(default), [M]easure, or [R]epeat: "
+
+    option = raw_input(string)
+
     interactive = False
+    autoMeasurement = False
+    if option == 'R' or option == 'r':
+        break
+    if option == 'I' or option == 'i' or option == '':
+        interactive = True
+        break
+    if option == 'M' or option == 'm':
+        autoMeasurement = True
+        break
+    print ('Invalid input')
+
+if autoMeasurement:
+    hostname = common.get_hostname()
+
+    #mc: measurement child
+    mc = pexpect.spawn('bash')
+    mc.logfile_read=sys.stdout
+    mc.timeout=None
+    vm_api.wait_for_prompt(mc, hostname)
+
+    mc.sendline('cd kvmperf/cmdline_tests')
+    vm_api.wait_for_prompt(mc, hostname)
 
 init()
 
 iter_cnt = 0
+m_cnt = 0
+wi = workloads.iteritems()
+curr_workload = wi.next()
+
 while inputs:
 	readable, writable, exceptional = select.select(inputs, outputs, inputs)
 
@@ -211,6 +255,13 @@ while inputs:
 				if server_status == S_MIGRAION_END:
                                     iter_cnt += 1
                                     print ("%dth iterations" % iter_cnt)
+                                    m_cnt += 1
+                                    if m_cnt == 2:
+                                        m_cnt = 0
+                                        try:
+                                            curr_workload = wi.next()
+                                        except StopIteration:
+                                            sys.exit(0)
                                     init()
 			else:
 				print(conn_status[item][IDX_IP_ADDR])
