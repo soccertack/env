@@ -38,6 +38,7 @@ workloads = {
             'netperf-maerts' : 'Socket Size',
             'memcached' : 'Connections per thread',
             'apache' : 'Server Software'
+            'mysql': 'Threads started!'
             }
 
 def set_status(conn, st):
@@ -131,6 +132,8 @@ def handle_recv(conn, data):
                 elif autoMeasurement:
                     mc.sendline('./run_all.sh L%s %s' % (str(level), curr_workload[0]))
                     mc.expect(curr_workload[1])
+                    if curr_workload[0] == 'mysql':
+                        time.sleep(10)
 
 		src_conn = get_src_conn()
 		src_conn.send(MSG_MIGRATE)
