@@ -25,14 +25,11 @@ def connect_to_server():
 	print("Trying to connect to the server")
 	clientsocket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
 
-	while True:
-		try:
-			clientsocket.connect(('10.10.1.1', PORT))
-			break;
-		except:
-			print ('connect error. Try again')
-			time.sleep(1)
-
+	try:
+		clientsocket.connect(('10.10.1.1', PORT))
+	except:
+		print ('Not conncted.')
+                return None
 
 	print("Connected")
 	return clientsocket
@@ -134,6 +131,8 @@ def main():
         rerun = vm_api.get_boolean_input("Want to re-do migration automatically?[y/n]")
         os.system("./setup-nfs-client.sh")
 	clientsocket = connect_to_server()
+        if not clientsocket:
+            sys.exit(0)
 	status = C_WAIT_FOR_BOOT_CMD
 
 	while True:
@@ -149,6 +148,8 @@ def main():
                                     time.sleep(15)
                                     print("Reconnect server")
                                     clientsocket = connect_to_server()
+                                    if not clientsocket:
+                                        break
                                     status = C_WAIT_FOR_BOOT_CMD
                                 else:
                                     break
