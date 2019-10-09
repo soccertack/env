@@ -137,6 +137,8 @@ def handle_recv(conn, data):
 
                     raw_input("Enter when you are ready to do migration") 
                 elif autoMeasurement:
+                    src_conn = get_src_conn()
+                    src_conn.send(curr_workload[0])
                     mc.sendline('./run_all.sh L%s %s' % (str(level), curr_workload[0]))
                     mc.expect(curr_workload[1])
                     if curr_workload[0] == 'mysql':
