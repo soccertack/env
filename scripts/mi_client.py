@@ -110,18 +110,24 @@ def handle_recv(c, buf):
             dest_child = pexpect.spawn('bash')
             dest_child.logfile_read=sys.stdout
             dest_child.timeout=None
+            vm_api.wait_for_prompt(dest_child, vm_api.hostnames[0])
 
             if mi_level == 2:
                 dest_child.sendline('ssh root@10.10.1.110')
                 vm_api.wait_for_prompt(dest_child, vm_api.hostnames[1])
 
             dest_child.sendline('telnet 127.0.0.1 4445')
-            dest_child.sendline('')
-            dest_child.expect('L.*#')
+            dest_child.expect('Escape character is')
+
+            # Simple tests
+            dest_child.sendline()
+            vm_api.wait_for_prompt(dest_child, 'L')
             dest_child.sendline('ls')
-            dest_child.expect('L.*#')
+            vm_api.wait_for_prompt(dest_child, 'L')
+            dest_child.sendline('ls')
+            vm_api.wait_for_prompt(dest_child, 'L')
             dest_child.sendline('ls -al')
-            dest_child.expect('L.*#')
+            vm_api.wait_for_prompt(dest_child, 'L')
 
             c.send(MSG_MIGRATE_CHECKED)
             status = C_MIGRATION_COMPLETED
