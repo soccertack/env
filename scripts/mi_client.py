@@ -9,6 +9,7 @@ from datetime import datetime
 from sk_common import *
 from mi_common import *
 import vm_api
+import re
 
 #Client status
 C_NULL = 0
@@ -33,6 +34,16 @@ def connect_to_server():
 
 	print("Connected")
 	return clientsocket
+
+migration_ret = []
+def get_migration_info(migration_output):
+    keywords = ['total time', 'downtime', 'setup', 'transferred ram', 'throughput',
+                'remaining ram', 'total ram', 'duplicate', 'skipped', 'normal',
+                'normal bytes', 'dirty sync count', 'multifd bytes']
+    for line in migration_output.split('\n'):
+        match = re.match(r"([a-z ]+):[ ,]*([0-9]+)[ ,]*([a-z]*)", line, re.I)
+        if match:
+            migration_ret.append(match.groups())
 
 def handle_recv(c, buf):
 	global status
@@ -84,6 +95,7 @@ def handle_recv(c, buf):
 				child.sendline('info migrate')
 				child.expect('\(qemu\)')
 				if "Migration status: completed" in child.before:
+                                        get_migration_info(child.before)
 					break;
 
 			time.sleep(3)
