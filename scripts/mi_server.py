@@ -33,11 +33,11 @@ S_WFT = 5 # Wait for termination
 S_MIGRAION_CHECK = 6
 
 workloads = {
-            'netperf-rr' : 'Socket Size',
-            'netperf-stream' : 'Socket Size',
-            'netperf-maerts' : 'Socket Size',
+            'netperf-rr' : 'MIGRATED TCP',
+            'netperf-stream' : 'MIGRATED TCP',
+            'netperf-maerts' : 'MIGRATED TCP',
             'memcached' : 'Connections per thread',
-            'apache' : 'Server Software'
+            'apache' : 'Server Software',
             'mysql': 'Threads started!'
             }
 
