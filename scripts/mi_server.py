@@ -25,6 +25,7 @@ SC_NVM_READY = 3
 SC_NVM_TERMINATED = 4
 
 #Server status
+S_WAIT_FOR_CONNECTION = 0
 S_WAIT_FOR_BOOT = 1
 S_NVM_READY = 2
 S_MIGRAION_START = 3
@@ -103,19 +104,25 @@ def init():
     clients = []
     inputs = []
     inputs.append(s)
-    server_status = S_WAIT_FOR_BOOT
+    server_status = S_WAIT_FOR_CONNECTION
 
 def handle_recv(conn, data):
 	global server_status
         global inputs
         global clients
         
-	print (data + " is received")
+        if data:
+	    print (data + " is received")
 
 	# Per connection status
 	if is_status(conn, SC_WAIT_FOR_BOOT):
 		if data == MSG_BOOT_COMPLETED:
 			set_status(conn, SC_NVM_READY)
+
+	if (server_status == S_WAIT_FOR_CONNECTION) and check_all_conn(SC_CONNECTED):
+	    for conn in clients:
+	        boot_nvm(conn)
+            server_status = S_WAIT_FOR_BOOT
 
 	# Server state
 	if (server_status == S_WAIT_FOR_BOOT) and check_all_conn(SC_NVM_READY):
@@ -249,7 +256,7 @@ while inputs:
 				inputs.append(conn)
 				clients.append(conn)
 				conn_status[conn] = [SC_CONNECTED, addr[0]]
-				boot_nvm(conn)
+				handle_recv(conn, None)
 
 		else:
 			data = item.recv(size)
