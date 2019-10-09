@@ -63,7 +63,7 @@ mi_default = "l2"
 io_default = "vp"
 ###############################
 def wait_for_prompt(child, hostname):
-    child.expect('%s.*#' % hostname)
+    child.expect('%s.*].*#' % hostname)
 
 def pin_vcpus(level):
 
