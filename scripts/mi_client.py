@@ -10,6 +10,8 @@ from sk_common import *
 from mi_common import *
 import vm_api
 import re
+from collections import OrderedDict
+import csv
 
 #Client status
 C_NULL = 0
@@ -35,19 +37,27 @@ def connect_to_server():
     print("Connected")
     return clientsocket
 
-migration_ret = []
+workload = ''
+keywords = ['total time', 'downtime', 'setup', 'transferred ram', 'throughput',
+            'remaining ram', 'total ram', 'duplicate', 'skipped', 'normal',
+            'normal bytes', 'dirty sync count', 'multifd bytes']
+migration_ret = OrderedDict()
+migration_ret['workload'] = ['workload']
+for k in keywords:
+    migration_ret[k] = [k]
+
 def get_migration_info(migration_output):
-    keywords = ['total time', 'downtime', 'setup', 'transferred ram', 'throughput',
-                'remaining ram', 'total ram', 'duplicate', 'skipped', 'normal',
-                'normal bytes', 'dirty sync count', 'multifd bytes']
     for line in migration_output.split('\n'):
-        match = re.match(r"([a-z ]+):[ ,]*([0-9]+)[ ,]*([a-z]*)", line, re.I)
+        match = re.match(r"([a-z ]+):[ ,]*([0-9.]+)[ ,]*([a-z]*)", line, re.I)
         if match:
-            migration_ret.append(match.groups())
+            key = match.groups()[0]
+            if key in migration_ret:
+                migration_ret[key].append(match.groups()[1])
 
 def handle_recv(c, buf):
     global status
     global dest_child
+    global workload
 
     print buf + " is received"
     if status == C_WAIT_FOR_BOOT_CMD:
@@ -56,6 +66,9 @@ def handle_recv(c, buf):
             c.send(MSG_BOOT_COMPLETED)
             status = C_BOOT_COMPLETED
     elif status == C_BOOT_COMPLETED:
+        if buf != MSG_MIGRATE:
+            workload = buf
+
         if buf == MSG_MIGRATE:
             global monitor_child
             print "start migration"
@@ -95,12 +108,18 @@ def handle_recv(c, buf):
                 child.expect('\(qemu\)')
                 if "Migration status: completed" in child.before:
                     get_migration_info(child.before)
+                    migration_ret['workload'].append(workload)
                     break;
 
             time.sleep(3)
             print "migration completed"
             c.send(MSG_MIGRATE_COMPLETED)
             status = C_MIGRATION_COMPLETED
+
+            with open("mig.csv", "w") as outfile:
+                csvwriter = csv.writer(outfile)
+                for key in migration_ret:
+                    csvwriter.writerow(migration_ret[key])
 
             # This is only on the destination
         if buf == MSG_MIGRATE_CHECK:
@@ -144,6 +163,7 @@ reuse_param = False
 def main():
     global status
     global reuse_param
+    global workload
 
     vm_api.init(reuse_param)
 
@@ -153,6 +173,7 @@ def main():
     if not clientsocket:
         sys.exit(0)
     status = C_WAIT_FOR_BOOT_CMD
+    workload = ''
 
     while True:
         buf = clientsocket.recv(size)
@@ -170,6 +191,7 @@ def main():
                     if not clientsocket:
                         break
                     status = C_WAIT_FOR_BOOT_CMD
+                    workload = ''
                 else:
                     break
 
