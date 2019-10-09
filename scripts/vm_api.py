@@ -467,12 +467,12 @@ def create_child():
 	global g_child
 
 	child = pexpect.spawn('bash')
-	child.logfile_read=sys.stdout
 	child.timeout=None
 
 	child.sendline('')
 	wait_for_prompt(child, hostname)
 
+	child.logfile_read=sys.stdout
 	g_child = child
 	return child
 
