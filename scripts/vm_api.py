@@ -65,6 +65,9 @@ io_default = "vp"
 def wait_for_prompt(child, hostname):
     child.expect('%s.*].*#' % hostname)
 
+def wait_for_vm_prompt(child):
+    child.expect('L.*].*#')
+
 def pin_vcpus(level):
 
         if level == 1:
@@ -167,7 +170,7 @@ def configure_dvh(vm_level):
         # Wait for host prompt
         wait_for_prompt(child, hostnames[vm_level - 1])
 
-def boot_vms():
+def boot_vms(bootLevel=0):
     level = params.level
     mi_level = params.mi_level
     child = g_child
@@ -195,11 +198,35 @@ def boot_vms():
         child.expect(pin_waiting)
         pin_vcpus(vm_level)
 
-        if mi_level == vm_level and params.mi_role == 'dest' :
+        if mi_level == vm_level and params.mi and params.mi_role == 'dest' :
             child.expect('\(qemu\)')
             break
         else:
             child.expect('L' + str(vm_level) + '.*$')
+
+        if bootLevel == vm_level:
+            return
+
+REMOVE = 0
+ADD = 1
+def change_grub(option, add):
+    child = g_child
+    cmd = '/root/env/scripts/grub-change.sh ' + option + ' ' + str(add)
+    child.sendline(cmd)
+    wait_for_vm_prompt(child)
+
+def check_vms():
+    child = g_child
+    bootLevel = params.level - 1
+    boot_vms(bootLevel)
+
+    # If this is VP, the a hypervisor needs have iommu
+    if params.iovirt in ['vp', 'pt']:
+        change_grub('intel_iommu=on', ADD)
+    else:
+        change_grub('intel_iommu=on', REMOVE)
+
+    terminate_vms(None, None, bootLevel)
 
 def halt(level):
     child = g_child
@@ -220,12 +247,14 @@ def reboot(params):
 	halt(params.level)
 	boot_nvm(params)
 
-def terminate_vms(qemu_monitor, child = None):
+def terminate_vms(qemu_monitor, child = None, bootLevel=None):
 	global g_child
 	print ("Terminate VM.")
 
 	if not child:
 		child = g_child
+        if not bootLevel:
+                bootLevel = params.level
 
 	if qemu_monitor:
 		if params.level == 2 and params.mi_level == 2:
@@ -243,7 +272,7 @@ def terminate_vms(qemu_monitor, child = None):
 			wait_for_prompt(g_child, hostname)
 
 	else:
-            for i in reversed(range(params.level)):
+            for i in reversed(range(bootLevel)):
                 child.sendline('halt -p')
                 wait_for_prompt(child, hostnames[i])
 	
