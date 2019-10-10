@@ -22,3 +22,4 @@ else
 fi
 
 grep ^$GRUB_HEAD $GRUB_FILE
+update-grub
