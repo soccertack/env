@@ -175,6 +175,9 @@ def main():
     status = C_WAIT_FOR_BOOT_CMD
     workload = ''
 
+    check_vms = vm_api.get_boolean_input("Want to check vm config (i.e. grub)?[y/n]")
+    if check_vms:
+        vm_api.check_vms()
     while True:
         buf = clientsocket.recv(size)
         if not buf:
