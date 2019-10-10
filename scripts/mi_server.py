@@ -11,6 +11,7 @@ from sk_common import *
 from mi_common import *
 import vm_api
 import common
+from collections import OrderedDict
 
 level = 0
 vm_addr = ['10.10.1.1', '10.10.1.100', '10.10.1.101', '10.10.1.102']
@@ -33,15 +34,14 @@ S_MIGRAION_END = 4
 S_WFT = 5 # Wait for termination
 S_MIGRAION_CHECK = 6
 
-workloads = {
-            'netperf-rr' : 'MIGRATED TCP',
-            'netperf-stream' : 'MIGRATED TCP',
-            'netperf-maerts' : 'MIGRATED TCP',
-            'memcached' : 'Connections per thread',
-            'apache' : 'Server Software',
-            'mysql': 'Threads started!',
-            'hackbench': 'Running with'
-            }
+workloads = OrderedDict()
+workloads['netperf-rr'] = 'MIGRATED TCP'
+workloads['netperf-stream'] = 'MIGRATED TCP'
+workloads['netperf-maerts'] = 'MIGRATED TCP'
+workloads['memcached'] = 'Connections per thread'
+workloads['apache'] = 'Server Software'
+workloads['mysql'] = 'Threads started!'
+workloads['hackbench'] = 'Running with'
 
 def set_status(conn, st):
 	conn_status[conn][IDX_STATUS] = st
