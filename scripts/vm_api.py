@@ -195,7 +195,7 @@ def boot_vms(bootLevel=0):
         child.expect(pin_waiting)
         pin_vcpus(vm_level)
 
-        if mi_level == vm_level and params.mi_role == 'dest' :
+        if mi_level == vm_level and params.mi and params.mi_role == 'dest' :
             child.expect('\(qemu\)')
             break
         else:
