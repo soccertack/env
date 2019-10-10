@@ -48,7 +48,7 @@ for k in keywords:
 
 def get_migration_info(migration_output):
     for line in migration_output.split('\n'):
-        match = re.match(r"([a-z ]+):[ ,]*([0-9.]+)[ ,]*([a-z]*)", line, re.I)
+        match = re.match(r"([a-z ]+)[: ,]*([0-9.]+)[ ,]*([a-z]*)", line, re.I)
         if match:
             key = match.groups()[0]
             if key in migration_ret:
