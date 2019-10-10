@@ -35,6 +35,7 @@ S_WFT = 5 # Wait for termination
 S_MIGRAION_CHECK = 6
 
 workloads = OrderedDict()
+workloads['idle'] = 'TARGET IP'
 workloads['netperf-rr'] = 'MIGRATED TCP'
 workloads['netperf-stream'] = 'MIGRATED TCP'
 workloads['netperf-maerts'] = 'MIGRATED TCP'
@@ -142,7 +143,7 @@ def handle_recv(conn, data):
                     src_conn.send(curr_workload[0])
                     mc.sendline('./run_all.sh L%s %s' % (str(level), curr_workload[0]))
                     mc.expect(curr_workload[1])
-                    if curr_workload[0] in ['mysql', 'hackbench']:
+                    if curr_workload[0] in ['mysql', 'hackbench', 'idle']:
                         time.sleep(10)
 
 		src_conn = get_src_conn()
