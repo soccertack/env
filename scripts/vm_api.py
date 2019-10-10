@@ -167,7 +167,7 @@ def configure_dvh(vm_level):
         # Wait for host prompt
         wait_for_prompt(child, hostnames[vm_level - 1])
 
-def boot_vms():
+def boot_vms(bootLevel=0):
     level = params.level
     mi_level = params.mi_level
     child = g_child
@@ -201,6 +201,14 @@ def boot_vms():
         else:
             child.expect('L' + str(vm_level) + '.*$')
 
+        if bootLevel == vm_level:
+            return
+
+def check_vms():
+    bootLevel = params.level - 1
+    boot_vms(bootLevel)
+    terminate_vms(None, None, bootLevel)
+
 def halt(level):
     child = g_child
 
@@ -220,12 +228,14 @@ def reboot(params):
 	halt(params.level)
 	boot_nvm(params)
 
-def terminate_vms(qemu_monitor, child = None):
+def terminate_vms(qemu_monitor, child = None, bootLevel=None):
 	global g_child
 	print ("Terminate VM.")
 
 	if not child:
 		child = g_child
+        if not bootLevel:
+                bootLevel = params.level
 
 	if qemu_monitor:
 		if params.level == 2 and params.mi_level == 2:
@@ -243,7 +253,7 @@ def terminate_vms(qemu_monitor, child = None):
 			wait_for_prompt(g_child, hostname)
 
 	else:
-            for i in reversed(range(params.level)):
+            for i in reversed(range(bootLevel)):
                 child.sendline('halt -p')
                 wait_for_prompt(child, hostnames[i])
 	
