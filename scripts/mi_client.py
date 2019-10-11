@@ -190,9 +190,6 @@ def main():
                     reuse_param = True
                     time.sleep(15)
                     print("Reconnect server")
-                    clientsocket = connect_to_server()
-                    if not clientsocket:
-                        break
                     status = C_WAIT_FOR_BOOT_CMD
                     workload = ''
                 else:
