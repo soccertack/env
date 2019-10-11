@@ -263,13 +263,13 @@ def terminate_vms(qemu_monitor, child = None, bootLevel=None):
 			child.sendline('q')
 			child.expect('L1.*$')
 			child.sendline('h')
-			wait_for_prompt(g_child, hostname)
+			wait_for_prompt(child, hostname)
 
-		if params.level == 1 and params.mi_level == 1:
+		if params.mi_level == 1:
 			child.sendline('stop')
 			child.expect('\(qemu\)')
 			child.sendline('q')
-			wait_for_prompt(g_child, hostname)
+			wait_for_prompt(child, hostname)
 
 	else:
             for i in reversed(range(bootLevel)):
