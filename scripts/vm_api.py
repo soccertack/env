@@ -218,6 +218,9 @@ def change_grub(option, add):
 def check_vms():
     child = g_child
     bootLevel = params.level - 1
+    if bootLevel == 0:
+        return
+
     boot_vms(bootLevel)
 
     # If this is VP, the a hypervisor needs have iommu
