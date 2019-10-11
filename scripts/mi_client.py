@@ -40,7 +40,7 @@ def connect_to_server():
 workload = ''
 keywords = ['total time', 'downtime', 'setup', 'transferred ram', 'throughput',
             'remaining ram', 'total ram', 'duplicate', 'skipped', 'normal',
-            'normal bytes', 'dirty sync count', 'multifd bytes']
+            'normal bytes', 'dirty sync count', 'page size', 'multifd bytes']
 migration_ret = OrderedDict()
 migration_ret['workload'] = ['workload']
 for k in keywords:
