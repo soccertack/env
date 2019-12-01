@@ -15,6 +15,7 @@ class Params:
 	def __init__(self):
 		self.level = 2
 		self.iovirt = 'pv'
+                self.vm_config = 'base' # base, passthrough, DVH-VP, DVH
 		self.posted = False
 		self.mi = False
 		self.mi_level = 0
@@ -277,6 +278,14 @@ def get_boolean_input(statement):
         except KeyError:
             print "Invalid input please enter y, Y, n, or N"
 
+def get_str_input(statement, str_set):
+
+    while True:
+        input_str = raw_input(statement).lower()
+        if input_str in str_set:
+            return input_str
+        print "Invalid input. Please enter one of " + str(str_set) + '.'
+
 def get_yn_input(statement):
 
     while True:
@@ -330,6 +339,7 @@ def set_dvh(new_params):
         enable = raw_input("DVH %s [y/N]?: " % f) or 'n'
         new_params.dvh[f] = enable
 
+VM_CONFIG = 2
 LEVEL = 3
 IO = 4
 PI = 5
@@ -343,6 +353,10 @@ MI_SPEED = 12
 
 def print_params():
     print("%d. [%s] Virtualization Level" % (LEVEL, params.level))
+
+    print("%d. [%s] VM Configuration" %
+            (VM_CONFIG, params.vm_config))
+
     print("%d. [%s] I/O virtualization model (pv, pt, or vp)" % (IO, params.iovirt))
     if params.iovirt == 'vp':
         print("%d. [%s] Device PI" % (PI, str(params.posted)))
@@ -365,6 +379,10 @@ def update_params():
 
     if num == 0:
         return False
+    if num == VM_CONFIG:
+        params.vm_config = get_str_input('base, passthrough, dvh-vp, or dvh: ',
+                                        ['base', 'passthrough', 'dvh-vp', 'dvh'])
+
     if num == LEVEL:
         params.level = get_int_input("Input 1, 2, or 3 ")
     if num == IO:
