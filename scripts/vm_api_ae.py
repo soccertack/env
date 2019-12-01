@@ -315,6 +315,7 @@ MI_LEVEL = 11
 MI_SPEED = 12
 
 def print_params():
+    print('--------- VM configurations -------')
     print("%d. [%s] VM Image path" % (VM_IMAGE, params.vm_image))
 
     print("%d. [%s] VM Configuration" % (VM_CONFIG, params.vm_config))
@@ -359,7 +360,7 @@ def update_params():
                 params.dvh[f] = 'y'
 
     if num == LEVEL:
-        params.level = get_int_input("Input 1, 2, or 3 ")
+        params.level = get_int_input("Input 1, 2, or 3: ")
 
     if num == MIGRAION:
         params.mi = get_boolean_input("y/n: ")
