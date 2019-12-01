@@ -268,33 +268,6 @@ def str_to_bool(s):
 		raise ValueError
 
 EXP_PARAMS_PKL="/root/.exp_params.pkl"
-def set_level():
-
-    level  = int(raw_input("Enter virtualization level (from 1 to 3) [2]: ") or "2")
-    if level < 1 or level > 3:
-        print ("We only support L1, L2 or L3")
-        sys.exit(0)
-    return level
-
-def set_iovirt():
-    # iovirt: pv, pt(pass-through), or vp(virtual-passthough)
-    iovirt = raw_input("Enter I/O virtualization model (pv, pt, or vp) [%s]: " % io_default) or io_default
-    if iovirt not in ["pv", "pt", "vp"]:
-        print ("Enter pv, pt, or vp")
-        sys.exit(0)
-    return iovirt
-
-def set_device_pi(iovirt):
-
-    posted = False
-    if iovirt == "vp":
-        posted = raw_input("Enable posted-interrupts in vIOMMU? [no]: ") or "no"
-        if posted == "no":
-            posted = False
-        else:
-            posted = True
-
-    return posted
 
 def get_boolean_input(statement):
 
