@@ -14,6 +14,7 @@ QEMU_options = {'virtual_timer': 'vtimer', 'virtual_ipi': 'vipi', 'virtual_idle'
 class Params:
 	def __init__(self):
 		self.level = 2
+                self.vm_image = None
 		self.iovirt = 'pv'
                 self.vm_config = 'base' # base, passthrough, DVH-VP, DVH
 		self.posted = False
@@ -306,15 +307,17 @@ def save_params(new_params):
     with open(EXP_PARAMS_PKL, 'wb+') as output:
         pickle.dump(new_params, output)
 
-VM_CONFIG = 1
-LEVEL = 2
+VM_IMAGE = 1
+VM_CONFIG = 2
+LEVEL = 3
 MIGRAION = 10
 MI_LEVEL = 11
 MI_SPEED = 12
 
 def print_params():
-    print("%d. [%s] VM Configuration" %
-            (VM_CONFIG, params.vm_config))
+    print("%d. [%s] VM Image path" % (VM_IMAGE, params.vm_image))
+
+    print("%d. [%s] VM Configuration" % (VM_CONFIG, params.vm_config))
 
     print("%d. [%s] Virtualization Level" % (LEVEL, params.level))
 
@@ -331,7 +334,14 @@ def update_params():
     num = int(raw_input("Enter number to update configuration. Enter 0 to finish: ") or "0")
 
     if num == 0:
+        if not params.vm_image:
+            print ('\nWarning: Please set a path of a VM image\n')
+            return True
         return False
+
+    if num == VM_IMAGE:
+        params.vm_image = raw_input('Path to the VM image: ')
+
     if num == VM_CONFIG:
         params.vm_config = get_str_input('base, passthrough, dvh-vp, or dvh: ',
                                         ['base', 'passthrough', 'dvh-vp', 'dvh'])
