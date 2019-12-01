@@ -302,42 +302,9 @@ def get_int_input(statement):
         except ValueError:
             print "Invalid input. Please enter integer"
 
-def set_migration(new_params):
-
-    new_params.mi = get_boolean_input("Migration [y/N]?: ")
-
-    if not new_params.mi:
-        return
-
-    new_params.mi_level = int(raw_input("Migration level (from 1 to 3) [2]: ") or "2")
-    if new_params.level < 1 or new_params.level > 3:
-        print ("We only support L1, L2 or L3")
-        sys.exit(0)
-
-    if hostname == "kvm-node":
-        new_params.mi_fast = get_boolean_input("Fast migration speed [y/N]?: ")
-
-    if hostname == "kvm-dest":
-        new_params.mi_role = 'dest'
-    else:
-        new_params.mi_role = 'src'
-
 def save_params(new_params):
     with open(EXP_PARAMS_PKL, 'wb+') as output:
         pickle.dump(new_params, output)
-
-def set_dvh(new_params):
-
-    dvh = raw_input("DVH [y/N]?: ") or 'n'
-
-    if dvh == 'n':
-	new_params.dvh_on = False
-        return
-
-    new_params.dvh_on = True
-    for f in new_params.dvh:
-        enable = raw_input("DVH %s [y/N]?: " % f) or 'n'
-        new_params.dvh[f] = enable
 
 VM_CONFIG = 2
 LEVEL = 3
