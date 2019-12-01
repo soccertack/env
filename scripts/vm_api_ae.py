@@ -306,38 +306,24 @@ def save_params(new_params):
     with open(EXP_PARAMS_PKL, 'wb+') as output:
         pickle.dump(new_params, output)
 
-VM_CONFIG = 2
-LEVEL = 3
-IO = 4
-PI = 5
-DVH_TIMER = 6
-DVH_IPI = 7
-DVH_IDLE = 8
-FS_BASE = 9
+VM_CONFIG = 1
+LEVEL = 2
 MIGRAION = 10
 MI_LEVEL = 11
 MI_SPEED = 12
 
 def print_params():
-    print("%d. [%s] Virtualization Level" % (LEVEL, params.level))
-
     print("%d. [%s] VM Configuration" %
             (VM_CONFIG, params.vm_config))
 
-    print("%d. [%s] I/O virtualization model (pv, pt, or vp)" % (IO, params.iovirt))
-    if params.iovirt == 'vp':
-        print("%d. [%s] Device PI" % (PI, str(params.posted)))
+    print("%d. [%s] Virtualization Level" % (LEVEL, params.level))
 
-    print("%d. [%s] Virtual timer" % (DVH_TIMER, str(params.dvh['virtual_timer'])))
-    print("%d. [%s] Virtual ipi" % (DVH_IPI, str(params.dvh['virtual_ipi'])))
-    print("%d. [%s] Virtual idle" % (DVH_IDLE, str(params.dvh['virtual_idle'])))
-    print("%d. [%s] FS_BASE fix" % (FS_BASE, str(params.dvh['fs_base'])))
 
-    print("%d. [%s] Migration" % (MIGRAION, str(params.mi)))
-    if params.mi:
-        print("%d. [%s] Migration level" % (MI_LEVEL, str(params.mi_level)))
-        if hostname == "kvm-node":
-            print("%d. [%s] Fast migration" % (MI_SPEED, str(params.mi_fast)))
+    #print("%d. [%s] Migration" % (MIGRAION, str(params.mi)))
+    #if params.mi:
+    #    print("%d. [%s] Migration level" % (MI_LEVEL, str(params.mi_level)))
+    #    if hostname == "kvm-node":
+    #        print("%d. [%s] Fast migration" % (MI_SPEED, str(params.mi_fast)))
 
 def update_params():
     global params
@@ -350,23 +336,20 @@ def update_params():
         params.vm_config = get_str_input('base, passthrough, dvh-vp, or dvh: ',
                                         ['base', 'passthrough', 'dvh-vp', 'dvh'])
 
+        if params.vm_config == 'base':
+            params.iovirt = 'pv'
+        elif params.vm_config == 'passthrough':
+            params.iovirt = 'pt'
+        elif params.vm_config == 'dvh-vp':
+            params.iovirt = 'vp'
+        elif params.vm_config == 'dvh':
+            params.iovirt = 'vp'
+            params.posted = True
+            for f in params.dvh:
+                params.dvh[f] = 'y'
+
     if num == LEVEL:
         params.level = get_int_input("Input 1, 2, or 3 ")
-    if num == IO:
-        params.iovirt = raw_input("pv, pt, or vp: ")
-        if params.iovirt == 'vp':
-            params.posted = get_boolean_input("Device PI y/n: ")
-    if num == PI:
-        params.posted = get_boolean_input("y/n: ")
-
-    if num == DVH_TIMER:
-        params.dvh['virtual_timer'] = get_yn_input("y/n: ")
-    if num == DVH_IPI:
-        params.dvh['virtual_ipi'] = get_yn_input("y/n: ")
-    if num == DVH_IDLE:
-        params.dvh['virtual_idle'] = get_yn_input("y/n: ")
-    if num == FS_BASE:
-        params.dvh['fs_base'] = get_yn_input("y/n: ")
 
     if num == MIGRAION:
         params.mi = get_boolean_input("y/n: ")
