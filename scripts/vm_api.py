@@ -94,8 +94,7 @@ def handle_mi_options(vm_level, lx_cmd):
 	return lx_cmd
 
 def handle_pi_options(vm_level, lx_cmd):
-	# We could support pt as well.
-	if vm_level == 1 and params.iovirt == 'vp' and params.posted:
+	if vm_level != params.level and params.iovirt == 'vp' and params.posted:
 		lx_cmd += " --pi"
 
 	return lx_cmd
