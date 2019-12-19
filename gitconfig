@@ -24,5 +24,6 @@
 	coa = commit -vs --amend
 	dc = diff --cached
 	ck = checkout
+	g = grep --recurse-submodules -e
 [rerere]
 	enabled = true
