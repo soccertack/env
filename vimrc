@@ -118,6 +118,8 @@ source ~/.google_python_style.vim
 "filetype plugin on
 "runtime macros/matchit.vim
 
+"Ignore files having certain extensions
+set wildignore+=*.aux
 
 nnoremap * *<c-o>
 
