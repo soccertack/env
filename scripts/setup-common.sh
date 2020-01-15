@@ -1,6 +1,5 @@
 #!/bin/bash
 
-exit 0
 ENV_DIR=/tmp/env
 
 pushd $ENV_DIR
