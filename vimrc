@@ -111,8 +111,6 @@ set noexpandtab
 "set softtabstop=4   " Sets the number of columns for a TAB.
 "set expandtab       " Expand TABs to spaces.
 
-source ~/.google_python_style.vim
-
 " This enables to jump between matching keywords like #ifdef
 "set nocompatible
 "filetype plugin on
@@ -125,5 +123,11 @@ nnoremap * *<c-o>
 
 "Don't set indent for tex files
 au FileType tex setlocal indentexpr=
+
+"This is to get the quickfix window for cscope results
+set cscopequickfix=
+
+"Don't move line up or down with right/left keys
+set ww-=h,l
 
 " end of my vimrc ---->
