@@ -130,4 +130,6 @@ set cscopequickfix=
 "Don't move line up or down with right/left keys
 set ww-=h,l
 
+autocmd FileType gitcommit setlocal indentexpr=''
+
 " end of my vimrc ---->
