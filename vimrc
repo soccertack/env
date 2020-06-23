@@ -135,4 +135,8 @@ autocmd FileType gitcommit setlocal indentexpr=''
 
 set background=dark
 colorscheme solarized8
+
+"Go back and forth between new changes
+nnoremap <silent> <cr> :GitGutterNextHunk<cr>
+nnoremap <silent> <backspace> :GitGutterPrevHunk<cr>
 " end of my vimrc ---->
