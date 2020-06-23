@@ -91,6 +91,7 @@ Plug 'https://github.com/tpope/vim-fugitive.git'
 Plug 'https://github.com/soccertack/cscope.git'
 Plug 'https://github.com/vim-scripts/taglist.vim.git'
 Plug 'airblade/vim-gitgutter'
+Plug 'lifepillar/vim-solarized8'
 call plug#end()
 
 "Make taglist more responsive.
@@ -132,4 +133,6 @@ set ww-=h,l
 
 autocmd FileType gitcommit setlocal indentexpr=''
 
+set background=dark
+colorscheme solarized8
 " end of my vimrc ---->
