@@ -122,6 +122,8 @@ set noexpandtab
 set wildignore+=*.aux
 
 nnoremap * *<c-o>
+nnoremap a A
+nnoremap A a
 
 "Don't set indent for tex files
 au FileType tex setlocal indentexpr=
