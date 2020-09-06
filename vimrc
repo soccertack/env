@@ -28,17 +28,18 @@ set nu
 set laststatus=2
 set statusline=%t%h%m%r%=%l/%L\ %P\ \ 
 
+"https://vim.fandom.com/wiki/Restore_cursor_to_file_position_in_previous_editing_session
 function! ResCur()
-	if line("'\"") <= line("$")
-	normal! g`" 
-	return 1
-	endif
-	endfunction
+    if line("'\"") <= line("$")
+        normal! g`"
+        return 1
+    endif
+endfunction
 
-	augroup resCur
-	autocmd!
-autocmd BufWinEnter * call ResCur()
-	augroup END 
+augroup resCur
+    autocmd!
+    autocmd BufWinEnter * if index(['gitcommit'], &ft) < 0 | call ResCur()
+augroup END
 
 "http://vi.stackexchange.com/questions/2545/how-can-i-run-an-autocmd-when-starting-vim-with-no-file-a-non-existing-file-or
 function InsertIfEmpty()
