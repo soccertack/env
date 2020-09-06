@@ -12,7 +12,7 @@ map `h :exe "let m = matchadd('WildMenu','\\%" . line('.') . "l')"<CR>
 map `c :call clearmatches()<CR>
 
 "Always hide line numbers
-map `n :set nonu nornu<CR>
+map `n :set nu! nornu \| :GitGutterToggle<CR>
 "Toggle relative/absolute line numbers
 map `r :set nu rnu!<CR>
 
