@@ -192,6 +192,10 @@ def main():
                     print("Reconnect server")
                     status = C_WAIT_FOR_BOOT_CMD
                     workload = ''
+                    clientsocket = connect_to_server()
+                    if not clientsocket:
+                        print("Failed to reconnect server")
+                        sys.exit(0)
                 else:
                     break
 
