@@ -14,12 +14,14 @@
 read -p "Virtualization level for migration?[1 or 2]: " level
 if [ $level == "1" ]; then
 	IMG="/vm_nfs/guest_l1.img"
+	IMG_NAME="guest_l1.img"
 	if [ ! -f "$IMG" ]; then
 		echo "copying guest image..."
 		cp /vm/guest0.img $IMG
 	fi
 elif [ $level == "2" ]; then
 	IMG="/vm_nfs/guest_l2.img"
+	IMG_NAME="guest_l2.img"
 	if [ ! -f "$IMG" ]; then
 		mount -o loop,offset=1048576 /vm/guest0.img /mnt_l1
 		echo "copying guest image..."
@@ -32,4 +34,6 @@ else
 fi
 
 rm -f /vm_nfs/guest0.img
-ln -s $IMG /vm_nfs/guest0.img
+pushd /vm_nfs
+ln -s $IMG_NAME guest0.img
+popd
