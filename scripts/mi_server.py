@@ -235,7 +235,7 @@ if autoMeasurement:
     mc.timeout=None
     vm_api.wait_for_prompt(mc, hostname)
 
-    mc.sendline('cd kvmperf/cmdline_tests')
+    mc.sendline('cd ~/kvmperf/cmdline_tests')
     vm_api.wait_for_prompt(mc, hostname)
 
 init()
