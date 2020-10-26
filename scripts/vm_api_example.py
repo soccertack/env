@@ -4,7 +4,7 @@ import vm_api
 import time
 
 vm_api.init(False)
-#vm_api.check_vms()
+vm_api.check_vms()
 vm_api.boot_vms()
 child = vm_api.get_child()
 child.interact()

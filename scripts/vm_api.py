@@ -158,9 +158,11 @@ def get_iovirt_cmd(vm_level, lx_cmd):
 def configure_dvh(vm_level):
     child = g_child
 
+    # We configure DVH using QEMU cmd line in L0
+    if vm_level == 1:
+        return
+
     for f in params.dvh:
-	if vm_level == 1 and f == 'virtual_idle':
-		continue;
         dvh_filename='/sys/kernel/debug/dvh/' + f
         cmd = 'echo %s > %s' % (params.dvh[f], dvh_filename)
         child.sendline(cmd)
@@ -181,7 +183,7 @@ def boot_vms(bootLevel=0):
         lx_cmd = get_base_cmd(vm_level)
         lx_cmd = get_iovirt_cmd(vm_level, lx_cmd)
         lx_cmd = add_special_options(vm_level, lx_cmd)
-        #lx_cmd = add_dvh_options(vm_level, lx_cmd)
+        lx_cmd = add_dvh_options(vm_level, lx_cmd)
 	if not params.smp:
 		lx_cmd += ' -c 1 '
 	if params.small_memory:
