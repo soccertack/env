@@ -1,1 +1,2 @@
 set main-view = id:true author:full,width=17 date:custom,format="%Y-%m-%d" line-number:no commit-title:yes,graph=no,refs
+set wrap-lines = true
